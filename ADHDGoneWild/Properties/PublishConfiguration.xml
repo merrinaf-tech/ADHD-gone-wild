@@ -68,6 +68,11 @@ To my girlfriend, and to her ADHD. Between them they shaped this mod far more th
 
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/mod-adhd-gone-wild.1941134/" />
 
+	<!-- Verified to load before being set: a link on a public listing that 404s is worse than no
+	     link. The repository carries the code and the two docs written for readers; the working
+	     diary (ROADMAP, TECHNICAL_FINDINGS) is kept out by .gitignore. -->
+	<ExternalLink Type="github" Url="https://github.com/merrinaf-tech/ADHD-gone-wild" />
+
 	<Tag Value="Code Mod" />
 
 	<ModVersion Value="0.1.0" />
