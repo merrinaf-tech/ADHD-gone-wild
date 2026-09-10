@@ -1,0 +1,89 @@
+<Publish>
+	<!--
+	  WARNING: this file is destructive on publish. PrepareMetadata calls WithForumLinks,
+	  WithExternalLinks, WithDependencies and WithTags UNCONDITIONALLY, so anything not declared
+	  here is sent as an empty set and wiped from the live listing - including values added
+	  through the website. Screenshots are the only exception.
+
+	  That is why there is no empty <ForumLink> or <ExternalLink> below. An element with a blank
+	  Url is not "leave it alone", it is "send a blank", and the two are only the same until
+	  something has been set on the website. Add one here when there is a real address for it.
+
+	  ModId is assigned by Paradox Mods on the first publish and is NOT written back automatically -
+	  it was added here by hand. It must stay: the publisher refuses a new publish when it is set
+	  ("ModId must be not set or be equal to 0"), and without it an update would create a second
+	  listing instead of updating this one.
+
+	  From here on the command is NewVersion (bump ModVersion) or Update (metadata only), never
+	  Publish. And ChangeLog is rewritten each time to cover only that version.
+	-->
+
+	<ModId Value="158680" />
+
+	<DisplayName Value="ADHD gone wild" />
+	<ShortDescription Value="Play however your brain wants. The mod remembers the rest." />
+
+	<LongDescription>
+# ADHD gone wild
+
+Start a highway. Suddenly build a metro station. Abandon it. Decorate a park. Never go back to the
+highway.
+
+None of that is a problem to be fixed. This mod exists so none of it has to be held in your head.
+
+It is not a productivity tool. No tasks, no streaks, no scores, and nothing that counts what you
+did not finish.
+
+## What it does
+
+- **Park an idea** - Ctrl+I, then click anywhere. A ring marks the spot; click the ring later and
+  it opens.
+- **One short list** instead of the same warning on forty buildings. Mute anything you would
+  rather not hear about, and unmute it whenever you like.
+- **A safety net** - one click saves a way back before you try something, one click returns.
+- **Welcome back** - where you were, and what you left there.
+- **A calmer screen** - map icons stop pulsing, and the build toolbar folds away.
+- **It mentions the time** - every couple of hours, the clock and how long you have been playing.
+  It never suggests stopping.
+
+Everything can be switched off on its own. Nothing is written into your save games. English,
+French and Italian.
+
+## Early days
+
+This is a first release and the mod is nowhere near finished. Plenty is still planned, some of
+what is here will change, and a few things are certainly rough.
+
+**Please leave a comment.** What helps, what gets in the way, what you wish it did. And if you
+have ADHD, how any of this actually lands for you - that is worth more to me than a bug report,
+because it is the part I cannot work out on my own.
+
+## Thanks
+
+To my girlfriend, and to her ADHD. Between them they shaped this mod far more than I did.
+	</LongDescription>
+
+	<!-- The prepared artwork, 512x512. Already live since the first publish. -->
+	<Thumbnail Value="Properties/Thumbnail.png" />
+
+	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/mod-adhd-gone-wild.1941134/" />
+
+	<Tag Value="Code Mod" />
+
+	<ModVersion Value="0.1.0" />
+	<GameVersion Value="1.6.*" />
+
+	<!-- This version's changes only. Never an accumulated history. -->
+	<ChangeLog>
+First release.
+
+- Park an idea anywhere on the map and come back to it later, with a marker you can see.
+- Smart alerts: one row per kind of problem instead of one icon per building, with mute and unmute.
+- Creative safety net: a one-click checkpoint, and a one-click way back from it.
+- Welcome back: where you were, and what you left there.
+- Calm UI: notification icons held still, and a build toolbar that folds away.
+- Hyperfocus reminders: the wall clock and how long you have been playing.
+- Colour-blind friendly palette, and every feature switchable on its own.
+- English, French and Italian.
+	</ChangeLog>
+</Publish>

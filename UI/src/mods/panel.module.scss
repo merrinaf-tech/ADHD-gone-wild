@@ -1,0 +1,632 @@
+// Layout only. Every colour that carries meaning comes from theme/tokens.ts through an inline
+// style, so there is exactly one place a status colour is decided.
+
+$ink: rgba(255, 255, 255, 0.92);
+$ink-quiet: rgba(255, 255, 255, 0.55);
+// #223141 is --commonDarkBlue, a real root-level custom property in the game's own stylesheet,
+// defined for exactly this. The previous value here was a neutral rgba(20, 24, 28) picked by eye:
+// dark enough, but missing the blue the vanilla panels actually carry, which is what made these
+// windows read as foreign next to them. Seety reached the same colour independently - keeping the
+// two mods on one surface is the whole reason to write it down rather than guess again.
+//
+// Not read through var(): combining a var() with a separate alpha needs color-mix(), and this
+// renderer's CSS gaps make that too risky to trust without testing in game.
+//
+// 0.98 rather than vanilla's 0.9: these are small windows over a moving map, and at 0.94 the
+// terrain still showed through enough to be reported as too transparent.
+$surface: rgba(34, 49, 65, 0.98);
+$surface-raised: rgba(255, 255, 255, 0.08);
+$hairline: rgba(255, 255, 255, 0.1);
+$radius: 4rem;
+
+// The button sits in the game's top-left row, which is a plain flex container - no
+// `align-items`, so its default of `stretch` applies. The vanilla control beside us is
+// `height: var(--floatingToggleSize); margin-bottom: 6rem`, so the row is 6rem taller than the
+// icons in it. Stretched across that, our own `align-items: center` put our icon 3rem below
+// everyone else's - which is exactly the sag that kept being visible.
+//
+// `align-self: flex-start` opts out of the stretch and lines the top edges up instead.
+.entry {
+  position: relative;
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  flex: 0 0 auto;
+}
+
+// The severity, on the button itself, without widening it: a count inline made the button a
+// different shape from its neighbours, which is what broke the row.
+.brainBadge {
+  position: absolute;
+  top: -2rem;
+  right: -2rem;
+  min-width: 18rem;
+  height: 18rem;
+  padding: 0 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8rem;
+  font-size: 13rem;
+  font-weight: 600;
+  line-height: 1;
+  color: #1b1b1b;
+  pointer-events: none;
+}
+
+// A count of memories, not a backlog. Shown only when there is something to count.
+.count {
+  font-size: 14rem;
+  line-height: 1;
+  color: $ink-quiet;
+  font-variant-numeric: tabular-nums;
+}
+
+.panel {
+  position: absolute;
+  top: 42rem;
+  left: 0;
+  width: 368rem;
+  max-height: 560rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  background: $surface;
+  border-radius: 6rem;
+  overflow: hidden;
+}
+
+// One panel, two sections: what is true about the city, then what the player parked in it.
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 8rem;
+  padding: 10rem 12rem 8rem;
+  border-bottom: 1rem solid $hairline;
+  color: $ink;
+  font-size: 14rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.sectionTitle {
+  flex: 1;
+}
+
+// "1 immediate, 2 important", as small as it can be and still be read.
+.counts {
+  display: flex;
+  align-items: center;
+  gap: 6rem;
+}
+
+.countChip {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.countNumber {
+  font-size: 15rem;
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+// The subject icon on an alert row: the game's own artwork, at the size the game draws it.
+// Vanilla icons carry their own colour, so unlike our drawn glyphs they are never tinted - the
+// status colour lives in the shape beside them and in the row wash.
+.subjectIcon {
+  width: 28rem;
+  height: 28rem;
+  flex: 0 0 auto;
+}
+
+// What the player asked not to hear about. Present, quiet, never a demand - and always a way
+// back in, which is why it is a button rather than a label.
+.mutedNote {
+  width: 100%;
+  padding: 6rem 12rem 8rem;
+  border: none;
+  background: transparent;
+  color: $ink-quiet;
+  font-size: 13rem;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    color: $ink;
+  }
+}
+
+// The actions on a muted row. Hover is fine for tidying a list you are already reading; the only
+// route out of a decision made an hour ago has to be visible without hunting for it.
+// The idea whose ring was just clicked. A wash rather than a border: a border would change the
+// row's height and shove the whole list down at the moment the player is looking for something
+// in it.
+.rowFocused {
+  background: rgba(255, 255, 255, 0.13);
+}
+
+.rowActionsShown {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.list {
+  max-height: 240rem;
+  overflow-y: auto;
+  padding: 3rem 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8rem;
+  padding: 7rem 12rem 7rem 8rem;
+  cursor: pointer;
+  color: $ink;
+
+  &:hover {
+    background: $surface-raised;
+  }
+}
+
+// The severity, at full strength. A washed background cannot carry four levels apart on a dark
+// panel - every tint collapses towards the same brown - but a solid edge can.
+.severityBar {
+  width: 4rem;
+  align-self: stretch;
+  border-radius: 2rem;
+  flex: 0 0 auto;
+}
+
+// The status marker: shape and colour together, never colour on its own.
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16rem;
+  flex: 0 0 auto;
+}
+
+.categoryButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26rem;
+  height: 26rem;
+  flex: 0 0 auto;
+  border: none;
+  border-radius: 3rem;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover {
+    background: $surface-raised;
+  }
+}
+
+.rowText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rowLabel {
+  font-size: 16rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rowWhen {
+  font-size: 14rem;
+  line-height: 1.2;
+  color: $ink-quiet;
+}
+
+.rowActions {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  opacity: 0;
+}
+
+.row:hover .rowActions {
+  opacity: 1;
+}
+
+.textButton {
+  border: none;
+  background: transparent;
+  color: $ink-quiet;
+  font-size: 14rem;
+  padding: 3rem 6rem;
+  border-radius: 3rem;
+  cursor: pointer;
+
+  &:hover {
+    background: $surface-raised;
+    color: $ink;
+  }
+}
+
+// The six subjects, shown only when the player asked to change one.
+.categoryPicker {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem 12rem 8rem 34rem;
+}
+
+.categoryOption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28rem;
+  height: 28rem;
+  border: none;
+  border-radius: 3rem;
+  background: transparent;
+  color: $ink-quiet;
+  cursor: pointer;
+
+  &:hover {
+    background: $surface-raised;
+    color: $ink;
+  }
+}
+
+.categoryOptionActive {
+  background: $surface-raised;
+  color: $ink;
+}
+
+.empty {
+  padding: 18rem 14rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  color: $ink;
+  font-size: 16rem;
+}
+
+.emptyHint {
+  color: $ink-quiet;
+  font-size: 15rem;
+  line-height: 1.35;
+}
+
+.panelFooter {
+  padding: 8rem;
+  border-top: 1rem solid $hairline;
+}
+
+.parkButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6rem;
+  height: 34rem;
+  border: none;
+  border-radius: $radius;
+  background: $surface-raised;
+  color: $ink;
+  font-size: 15rem;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+}
+
+// While the tool is live. One line, bottom centre, out of the way of what is being pointed at.
+.hint {
+  position: absolute;
+  bottom: 90rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8rem;
+  padding: 7rem 12rem;
+  border-radius: $radius;
+  background: $surface;
+  color: $ink;
+  font-size: 14rem;
+  pointer-events: auto;
+}
+
+// The Welcome Back card. Top centre, out of the vanilla button row, gone the moment it is closed.
+.welcomeCard {
+  position: absolute;
+  top: 50rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280rem;
+  display: flex;
+  flex-direction: column;
+  gap: 7rem;
+  padding: 12rem 14rem;
+  border-radius: 6rem;
+  background: $surface;
+  color: $ink;
+  pointer-events: auto;
+}
+
+.welcomeHeader {
+  font-size: 15rem;
+  line-height: 1.3;
+}
+
+.welcomeCity {
+  font-weight: 600;
+}
+
+.welcomeRow {
+  font-size: 14rem;
+  color: $ink-quiet;
+}
+
+.welcomePlaceButton {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 6rem;
+  border: none;
+  background: transparent;
+  color: $ink-quiet;
+  font-size: 14rem;
+  padding: 2rem 0;
+  cursor: pointer;
+
+  &:hover {
+    color: $ink;
+  }
+}
+
+.welcomeActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+// Paint only, never a surface. pointer-events:none keeps this out of the game's hit testing, so
+// the camera still scrolls and zooms while a spot is being chosen - a covering panel would read
+// as "cursor is over UI" and freeze it.
+.parkingTint {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(154, 127, 208, 0.06);
+  pointer-events: none;
+}
+
+// The fold control, floating just above the status strip.
+//
+// It is positioned by hand, on the full-screen anchor, rather than dropped into one of the
+// anchors beside the toolbar - because both of those are *inside* the part that folds. Put there,
+// the control vanished along with everything else and left no way back: the toolbar stayed folded
+// across a restart with nothing on screen to unfold it. A control that can hide itself is not a
+// fold, it is a trapdoor.
+//
+// `--toolbarHeight` is the game's own variable for the status strip (it lives on :root, and is
+// already multiplied by --toolbarScale), so this sits above it whatever UI scale is set.
+//
+// No fallback value in that var(). Coherent Gameface is not a browser: the two-argument form
+// `var(--x, fallback)` appears nowhere in the game's own 460KB of CSS, while `calc(var(--x))`
+// appears 376 times. Using the fallback form crashed the UI renderer outright - a native crash
+// in cohtml Library_ExecuteWork, before the main menu drew.
+.toolbarFold {
+  position: absolute;
+
+  // Left, and 64rem in rather than flush against the edge. The game hangs a vertical column off
+  // each end of the toolbar - `.left-side-menu` and its mirror image on the right - anchored at
+  // the toolbar's top edge and growing upward, 46rem wide starting at 10rem. Both hold a mod
+  // anchor, so both can fill up with other people's buttons. The right one is what this control
+  // was covering; clearing the left one horizontally is the only way not to repeat that.
+  left: 64rem;
+  // Clear of the toolbar in both states, and in the same place in both. The toolbar is two rows
+  // of `--toolbarHeight` - the build tools and the status strip - so clearing twice that height
+  // never covers a vanilla button. Sitting where the build row would be when folded was the
+  // alternative, and it meant the control jumped every time it was used: a fold you have to
+  // re-find is worse than one slightly further from what it folds.
+  bottom: calc(var(--toolbarHeight) * 2 + 10rem);
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+}
+
+// What folding actually removes, beyond what the game already does for us.
+//
+// Vanilla's `onlyStatusVisible` slides away the toolbar's first child - the side menus - and in
+// the newer toolbar that is all it does: the row of build tools lives in the same container as
+// the status strip and stays exactly where it was. It is also the loudest thing on the screen,
+// so leaving it is not folding anything worth folding.
+//
+// There is no prop for it, so the row is reached by name. Only the newer toolbar gets this class:
+// the legacy one keeps its build row inside the side-menu block, where `onlyStatusVisible`
+// already takes care of it.
+//
+// It reaches the row by the readable half of the game's own class name. `top-new_T5w` is the
+// build row; the hash after the underscore is generated per build, so only the prefix is matched
+// - and `[class^=...]` is a form the game uses itself (`[class^=tutorial]`, `[class^=hint]`).
+//
+// This was first written as `> :last-child > :first-child`, reaching the row by position. That
+// crashed Coherent Gameface natively at load, every time, before the main menu drew. Two bare
+// pseudo-classes chained appear zero times in the game's own 460KB of CSS; each one alone appears
+// often. Proven by removing only that rule and having the game start.
+//
+// If a patch renames the row, this stops hiding it and nothing else happens. That is the right
+// way for it to fail.
+.foldedToolbar [class^="top-new"] {
+  display: none;
+}
+
+// The way back, stated plainly. Reassurance, not an errand: nothing here counts or expires loudly.
+.safetyNetHave {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding: 10rem 12rem 12rem;
+}
+
+.safetyNetLine {
+  font-size: 16rem;
+  color: $ink;
+}
+
+.safetyNetActions {
+  display: flex;
+  align-items: center;
+  gap: 8rem;
+  margin-top: 4rem;
+}
+
+.safetyNetHint {
+  margin-top: 6rem;
+  font-size: 14rem;
+  line-height: 1.35;
+  color: $ink-quiet;
+}
+
+// The card that offers to say a little more about the thought that was just parked.
+//
+// Absolutely positioned, like every other card here, and that is not a detail: these live on the
+// game's own full-screen anchor, so anything left in normal flow is laid out *with* the HUD and
+// shoves it out of shape. Missing these rules is what broke the whole screen.
+.justParkedCard {
+  position: absolute;
+  bottom: 90rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 340rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  padding: 12rem 14rem;
+  border-radius: 6rem;
+  background: $surface;
+  color: $ink;
+  pointer-events: auto;
+}
+
+.justParkedHeader {
+  font-size: 15rem;
+  line-height: 1.3;
+}
+
+// Six kinds as two rows of three, not a list: a shape the eye takes in at once, so choosing one
+// is recognition rather than reading. Choosing none is equally fine - the idea is already saved.
+.justParkedKinds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rem;
+}
+
+.justParkedKind {
+  width: 100rem;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  padding: 6rem 2rem;
+  border: none;
+  border-radius: 3rem;
+  background: $surface-raised;
+  color: $ink-quiet;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: $ink;
+  }
+}
+
+.justParkedKindActive {
+  background: rgba(255, 255, 255, 0.14);
+  color: $ink;
+}
+
+.justParkedKindLabel {
+  font-size: 13rem;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.justParkedInput {
+  height: 30rem;
+  padding: 0 8rem;
+  border: 1rem solid $hairline;
+  border-radius: 3rem;
+  background: rgba(0, 0, 0, 0.35);
+  color: $ink;
+  font-size: 15rem;
+}
+
+.justParkedActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+// The Hyperfocus Guardian's card.
+//
+// Bottom left, clear of the toolbar by the same measure as the fold control on the other side, so
+// it never covers a vanilla button and never has to move. Small, quiet, and gone in one click.
+.hyperfocusCard {
+  position: absolute;
+
+  // Stacked above the fold control, and clear of the same vanilla column - see .toolbarFold.
+  // The control is 40rem tall, so this starts above where it ends.
+  left: 64rem;
+  bottom: calc(var(--toolbarHeight) * 2 + 58rem);
+  width: 264rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 12rem 14rem;
+  border-radius: 6rem;
+  background: $surface;
+  color: $ink;
+  pointer-events: auto;
+}
+
+// The one fact the card exists to deliver, at the size that says so.
+.hyperfocusClock {
+  font-size: 30rem;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.hyperfocusElapsed {
+  font-size: 14rem;
+  line-height: 1.3;
+  color: $ink-quiet;
+}
+
+// The word about the body: present, small, and never the first thing read. The clock is the
+// fact; this is a nudge, and it is sized like one.
+.hyperfocusNote {
+  margin-top: 6rem;
+  font-size: 15rem;
+  line-height: 1.35;
+  color: $ink;
+}
+
+.hyperfocusActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4rem;
+  margin-top: 6rem;
+}

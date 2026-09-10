@@ -1,0 +1,122 @@
+/**
+ * Localisation keys, mirroring ADHDGoneWild.Localization.L10n on the C# side.
+ *
+ * Components never contain a sentence. They contain a key and a fallback, and the fallback is
+ * only what appears if the localisation source failed to load at all.
+ */
+
+const P = "ADHDGoneWild.UI.";
+
+export const K = {
+  panelTitle: P + "PanelTitle",
+  toolbarTooltip: P + "ToolbarTooltip",
+
+  parkIdea: P + "ParkIdea",
+  parkingHint: P + "ParkingHint",
+  parkingCancel: P + "ParkingCancel",
+
+  empty: P + "Empty",
+  emptyHint: P + "EmptyHint",
+
+  view: P + "View",
+  forget: P + "Forget",
+  notePlaceholder: P + "NotePlaceholder",
+
+  disabled: P + "Disabled",
+  close: P + "Close",
+  justParkedSaved: P + "JustParkedSaved",
+  toolbarFold: P + "ToolbarFold",
+  toolbarUnfold: P + "ToolbarUnfold",
+
+  safetyNetTitle: P + "SafetyNetTitle",
+  safetyNetCreate: P + "SafetyNetCreate",
+  safetyNetHint: P + "SafetyNetHint",
+  safetyNetHave: P + "SafetyNetHave",
+  safetyNetRestore: P + "SafetyNetRestore",
+  safetyNetKeep: P + "SafetyNetKeep",
+  safetyNetWorking: P + "SafetyNetWorking",
+  safetyNetSaveMarker: P + "SafetyNetSaveMarker",
+
+  hyperfocusHereFor: P + "HyperfocusHereFor",
+  hyperfocusHourOne: P + "HyperfocusHourOne",
+  hyperfocusHoursMany: P + "HyperfocusHoursMany",
+  hyperfocusMinutesMany: P + "HyperfocusMinutesMany",
+  hyperfocusThanks: P + "HyperfocusThanks",
+  hyperfocusLater: P + "HyperfocusLater",
+
+  welcomeBackTitle: P + "WelcomeBackTitle",
+  welcomeBackViewPlace: P + "WelcomeBackViewPlace",
+  welcomeBackIdeasOne: P + "WelcomeBackIdeasOne",
+  welcomeBackIdeasMany: P + "WelcomeBackIdeasMany",
+
+  alertsTitle: P + "AlertsTitle",
+  alertsQuiet: P + "AlertsQuiet",
+  alertsQuietHint: P + "AlertsQuietHint",
+  alertsDisabled: P + "AlertsDisabled",
+  alertsMute: P + "AlertsMute",
+  alertsUnmute: P + "AlertsUnmute",
+  alertsMutedCount: P + "AlertsMutedCount",
+  affectedOne: P + "AffectedOne",
+  affectedMany: P + "AffectedMany",
+
+  category: [
+    P + "Category.Idea",
+    P + "Category.Build",
+    P + "Category.Decoration",
+    P + "Category.Transport",
+    P + "Category.Fix",
+    P + "Category.Other",
+  ],
+} as const;
+
+/** Last-resort English, used only when the game has no entry for a key. */
+export const FALLBACK: Record<string, string> = {
+  [K.panelTitle]: "Parked ideas",
+  [K.toolbarTooltip]: "ADHD gone wild",
+  [K.parkIdea]: "Park an idea",
+  [K.parkingHint]: "Click anywhere to leave a thought there.",
+  [K.parkingCancel]: "Never mind",
+  [K.empty]: "Nothing parked here yet.",
+  [K.emptyHint]: "Press the shortcut, click the map. That is the whole thing.",
+  [K.view]: "View",
+  [K.forget]: "Forget",
+  [K.notePlaceholder]: "A word about it, if you want",
+  [K.disabled]: "Brain parking is switched off in the options.",
+  [K.close]: "Close",
+  [K.justParkedSaved]: "Saved. Anything to add?",
+  [K.toolbarFold]: "Fold the toolbar away",
+  [K.toolbarUnfold]: "Bring the toolbar back",
+  [K.safetyNetTitle]: "Safety net",
+  [K.safetyNetCreate]: "Save a way back",
+  [K.safetyNetHint]: "So you can try something and change your mind.",
+  [K.safetyNetHave]: "You can come back to this",
+  [K.safetyNetRestore]: "Go back",
+  [K.safetyNetKeep]: "Keep what I did",
+  [K.safetyNetWorking]: "Working...",
+  [K.safetyNetSaveMarker]: "safety net",
+  [K.hyperfocusHereFor]: "You have been here for",
+  [K.hyperfocusHourOne]: "hour",
+  [K.hyperfocusHoursMany]: "hours",
+  [K.hyperfocusMinutesMany]: "minutes",
+  [K.hyperfocusThanks]: "Thanks",
+  [K.hyperfocusLater]: "Later",
+  [K.welcomeBackTitle]: "Welcome back to",
+  [K.welcomeBackViewPlace]: "You were around here",
+  [K.welcomeBackIdeasOne]: "1 saved idea here",
+  [K.welcomeBackIdeasMany]: "saved ideas here",
+  [K.alertsTitle]: "Right now",
+  [K.alertsQuiet]: "Nothing to report.",
+  [K.alertsQuietHint]: "The city is running as it was.",
+  [K.alertsDisabled]: "Smart alerts are switched off in the options.",
+  [K.alertsMute]: "Mute",
+  [K.alertsUnmute]: "Unmute",
+  [K.alertsMutedCount]: "muted",
+  [K.affectedOne]: "1 building",
+  [K.affectedMany]: "buildings",
+  [K.category[0]]: "Idea",
+  [K.category[1]]: "Build something",
+  [K.category[2]]: "Decoration",
+  [K.category[3]]: "Transport",
+  [K.category[4]]: "Fix or change",
+  [K.category[5]]: "Other",
+};

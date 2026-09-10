@@ -1,0 +1,29 @@
+# Build output
+bin/
+obj/
+UI/dist/
+UI/node_modules/
+
+# Toolchain scratch
+# (was ADHDFriendly/Library - the folder was renamed and this rule never followed it)
+ADHDGoneWild/Library/
+*.user
+*.suo
+.vs/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Source art: the exported PNG is versioned, the layered original is not
+Pic/*.psd
+
+# Working notes, not documentation for players. ROADMAP is dated and written as a diary
+# ("took three goes", "confirmed in game"), and TECHNICAL_FINDINGS records how each fault was
+# actually chased down. Useful here, and the first thing a reviewer would read if the repo were
+# linked from the store listing - which it now is.
+#
+# PRODUCT_PRINCIPLES and ARCHITECTURE stay: the first is the reason the mod is shaped this way and
+# the README links to it, the second is an ordinary engineering overview.
+docs/ROADMAP.md
+docs/TECHNICAL_FINDINGS.md
