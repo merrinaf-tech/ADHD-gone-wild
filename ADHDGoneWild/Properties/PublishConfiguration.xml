@@ -28,15 +28,13 @@
 	<ShortDescription Value="Play however your brain wants. The mod remembers the rest." />
 
 	<!--
-	  The opening is the author's own, written on the website and copied back here verbatim. It
-	  does the job three paragraphs of mine were doing badly: the three "Ever...?" questions let a
-	  reader recognise themselves before any feature is named, and "No productivity hacks. No focus
-	  police." says what the mod refuses to be more sharply than a sentence about tasks and streaks.
-	  Do not smooth it out.
+	  THIS IS THE AUTHOR'S TEXT, down to the last bullet. It was rewritten once into six long
+	  paragraphs with quoted examples - clearer, arguably, and three times the length and no longer
+	  a list. That was not what was asked for. "Some of the bullets are unclear" means make the
+	  bullets clearer, not replace them.
 
-	  Everything under "What it does" leads with the situation, then the mechanic, then a quoted
-	  line of what actually appears on screen. Naming a feature is not describing it: "A safety net"
-	  never told anyone it was a real save.
+	  Keep the shape: an opening that lets a reader recognise themselves, then six short bullets.
+	  Improve a line by editing that line.
 	-->
 	<LongDescription>
 # ADHD Gone Wild — seems about right.
@@ -53,49 +51,12 @@ ADHD Gone Wild clears the noise, remembers the loose ends, and lets your brain w
 
 ## What it does
 
-**Park an idea.** You are drawing a highway and suddenly think of a metro station. Press Ctrl+I,
-click that spot, and the thought is saved there with a ring you can see from the air. One keypress,
-one click. Then it offers - never demands - to say a little more:
-
-&gt; **Saved. Anything to add?** - Idea / Build something / Decoration / Transport / Fix or change
-
-Click the ring any time to open what you left there, retitle it, or forget it. Nothing ever asks
-you to finish it, and nothing anywhere counts what you did not.
-
-**Forty warnings become one line.** When a district loses power, the game puts the same icon over
-every building it touches. This gathers them into one row per problem, worst first, with a count:
-
-&gt; **Part of the city is without electricity** - 23 buildings
-
-Click the row and the camera flies to them one at a time. Mute a kind of warning you have decided
-not to care about, and unmute it whenever you change your mind.
-
-**Keep a way back.** Before you bulldoze half the centre, one click saves a checkpoint. It is a
-real save, kept apart from your own so it never clutters your list - and the panel keeps reminding
-you it is there, because a save you have forgotten gives you no courage:
-
-&gt; **You can come back to this** - 20 minutes ago - [Go back] [Keep what I did]
-
-**Pick up where you left off.** Return to a city after a few days and a card names it, takes the
-camera back to where you were standing, and says what you parked there:
-
-&gt; **Welcome back to Pittston** - You were around here - 2 saved ideas here
-
-**Turn the noise down.** The game's warning icons pulse to pull your eye; this holds them still
-without hiding anything - same place, same size, same meaning, just no movement. And a small button
-folds the entire build toolbar away, leaving only the bar with the clock, the population and the
-money. One click brings it all back.
-
-**Reminds you to drink water - while you are hyperfocusing.** Hyperfocus does not take away your
-discipline. It takes away your sense of time passing. So every couple of hours a small card hands
-that back, with a short word about your body, and then gets out of the way:
-
-&gt; **23:40** - You have been here for 2 hours - *Water. Go on, I'll watch the city.*
-
-That second line rotates: water, food, standing up, your eyes, your shoulders. After midnight it
-stops talking about posture and says *"Go to bed. That road will still be there tomorrow."* It
-never suggests stopping - reading it and carrying on building is a perfectly good outcome. You can
-switch the line off and keep the clock alone.
+* **Park an idea** - Ctrl+I, then click anywhere. A ring marks the spot; click the ring later and it opens.
+* **One short list** instead of the same warning on forty buildings. Mute anything you would rather not hear about, and unmute it whenever you like.
+* **A safety net** - one click saves a way back before you try something, one click returns.
+* **Welcome back** - where you were, and what you left there.
+* **A calmer screen** - map icons stop pulsing, and the build toolbar folds away.
+* **Reminds you to drink water** - while you are hyperfocusing. It never suggests stopping.
 
 Everything can be switched off on its own. Nothing is written into your save games. English,
 French and Italian.
