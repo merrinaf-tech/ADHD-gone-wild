@@ -75,7 +75,18 @@ because it is the part I cannot work out on my own.
 To my girlfriend, and to her ADHD. Between them they shaped this mod far more than I did.
 	</LongDescription>
 
-	<!-- The prepared artwork, 512x512. Already live since the first publish. -->
+	<!--
+	  512x512, and the path is relative to THE DIRECTORY THE PUBLISHER IS RUN FROM - not to this
+	  file, and not to the project. Run from anywhere else and ModPublisher resolves it against the
+	  wrong folder, finds nothing, prints "Prepairing mod thumbnail to upload" exactly as it does on
+	  success, and publishes the mod with no picture. It never says a word about it.
+
+	  So: always publish with the working directory set to ADHDGoneWild, e.g.
+	    cd ADHDGoneWild
+	    ModPublisher.exe Update PropertiesPublishConfiguration.xml -c <deployed mods folder> -v
+
+	  Check the line it prints back - "Thumbnail: <full path>" - and make sure that file exists.
+	-->
 	<Thumbnail Value="Properties/Thumbnail.png" />
 
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/mod-adhd-gone-wild.1941134/" />
