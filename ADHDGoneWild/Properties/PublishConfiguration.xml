@@ -123,23 +123,28 @@ To my girlfriend, and to her ADHD. Between them they shaped this mod far more th
 	     link. The repository carries the code and the two docs written for readers; the working
 	     diary (ROADMAP, TECHNICAL_FINDINGS) is kept out by .gitignore. -->
 	<ExternalLink Type="github" Url="https://github.com/merrinaf-tech/ADHD-gone-wild" />
+	<ExternalLink Type="kofi" Url="https://ko-fi.com/fabiozsche" />
 
 	<Tag Value="Code Mod" />
 
-	<ModVersion Value="0.1.0" />
+	<ModVersion Value="0.1.1" />
 	<GameVersion Value="1.6.*" />
 
 	<!-- This version's changes only. Never an accumulated history. -->
 	<ChangeLog>
-First release.
+Fixes, mostly from what the first players ran into. Thank you for the reports.
 
-- Park an idea anywhere on the map and come back to it later, with a marker you can see.
-- Smart alerts: one row per kind of problem instead of one icon per building, with mute and unmute.
-- Creative safety net: a one-click checkpoint, and a one-click way back from it.
-- Welcome back: where you were, and what you left there.
-- Calm UI: notification icons held still, and a build toolbar that folds away.
-- Hyperfocus reminders: the wall clock and how long you have been playing.
-- Colour-blind friendly palette, and every feature switchable on its own.
-- English, French and Italian.
+- **Fixed: the build toolbar could come back folded after using the safety net**, with the demand
+  bars, zoning, services and bulldozer gone and no obvious way to bring them back. Every city now
+  opens with the toolbar out, and while it is folded the fold button sits tucked against it instead
+  of floating alone over the map.
+- **Fixed: "Keep what I did" was pushed outside the panel**, so there was no way to let a
+  checkpoint go.
+- **Fixed: the mod's own icons drew black** on the dark panel and were nearly invisible. They now
+  take their colour directly instead of inheriting it.
+- **New: you can choose the colour of the mod's panels** - Options, Appearance. Only the shade
+  changes, so they stay dark enough to read wherever you put the slider.
+- Removed the colour-blind palette option and the small shapes beside each row. The palette only
+  ever repainted a 4px bar, and what a row means is in its words, not its colour.
 	</ChangeLog>
 </Publish>

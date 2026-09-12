@@ -34,16 +34,18 @@ export interface StatusToken {
   shape: StatusShape;
 }
 
-export const enum PaletteId {
-  Standard = 0,
-  ColourBlindFriendly = 1,
-}
-
 type StatusTokens = { [K in Status]: StatusToken };
 
 /**
- * The default set. Warm hues climb towards red as a situation gets more immediate; purple is
- * reserved entirely for things the player made, and is never used for a problem.
+ * Warm hues climb towards red as a situation gets more immediate; purple is reserved entirely for
+ * things the player made, and is never used for a problem.
+ *
+ * There used to be a second, Okabe-Ito palette behind an accessibility option. It was removed: the
+ * two sets really were different, but the only coloured surfaces in the panel are a 4rem bar and a
+ * 16rem glyph, so switching between them changed almost nothing anyone could see. The meaning is
+ * carried by the sentence on the row - "Part of the city is without electricity" against
+ * "Electricity demand is close to production" - and always was. Colour is decoration here, which
+ * is why losing the alternative set costs nothing.
  */
 const STANDARD: StatusTokens = {
   [Status.Immediate]: { color: "#ff4d4d", ink: "#ffffff", wash: "rgba(255,77,77,0.15)", shape: "disc" },
@@ -54,27 +56,8 @@ const STANDARD: StatusTokens = {
   [Status.Resolved]: { color: "#4fd18b", ink: "#1b1b1b", wash: "rgba(79,209,139,0.14)", shape: "check" },
 };
 
-/**
- * Okabe-Ito derived. Red and green are the pair that most often collapses, so the severities are
- * carried by blue-to-vermillion instead, and the shapes do more of the work.
- */
-const COLOUR_BLIND_FRIENDLY: StatusTokens = {
-  [Status.Immediate]: { color: "#d55e00", ink: "#ffffff", wash: "rgba(213,94,0,0.16)", shape: "disc" },
-  [Status.Important]: { color: "#e69f00", ink: "#1b1b1b", wash: "rgba(230,159,0,0.14)", shape: "triangle" },
-  [Status.Monitor]: { color: "#f0e442", ink: "#1b1b1b", wash: "rgba(240,228,66,0.12)", shape: "square" },
-  [Status.Muted]: { color: "#999999", ink: "#ffffff", wash: "rgba(153,153,153,0.10)", shape: "bar" },
-  [Status.Personal]: { color: "#cc79a7", ink: "#1b1b1b", wash: "rgba(204,121,167,0.16)", shape: "diamond" },
-  [Status.Resolved]: { color: "#0072b2", ink: "#ffffff", wash: "rgba(0,114,178,0.12)", shape: "check" },
-};
-
-const PALETTES: { [K in PaletteId]: StatusTokens } = {
-  [PaletteId.Standard]: STANDARD,
-  [PaletteId.ColourBlindFriendly]: COLOUR_BLIND_FRIENDLY,
-};
-
-export function statusToken(palette: PaletteId, status: Status): StatusToken {
-  const set = PALETTES[palette] ?? STANDARD;
-  return set[status] ?? set[Status.Muted];
+export function statusToken(status: Status): StatusToken {
+  return STANDARD[status] ?? STANDARD[Status.Muted];
 }
 
 /**

@@ -8,8 +8,8 @@ import {
   setIdeaNote,
 } from "./bindings";
 import { CategoryGlyph } from "theme/glyphs";
-import { usePalette } from "theme/palette";
 import { IDEA_CATEGORIES, Status, ideaColour, statusToken } from "theme/tokens";
+import { useSurface } from "theme/surface";
 import { K } from "theme/l10n";
 import { useText } from "theme/use-text";
 import styles from "../panel.module.scss";
@@ -27,8 +27,8 @@ import styles from "../panel.module.scss";
 export const JustParked = () => {
   const id = useValue(justParked$);
   const ideas = useValue(ideas$);
-  const palette = usePalette();
   const text = useText();
+  const surface = useSurface();
 
   const [title, setTitle] = useState("");
 
@@ -42,7 +42,7 @@ export const JustParked = () => {
     return null;
   }
 
-  const token = statusToken(palette, Status.Personal);
+  const token = statusToken(Status.Personal);
 
   const commit = (value: string) => {
     setIdeaNote(id, value.trim());
@@ -50,7 +50,7 @@ export const JustParked = () => {
   };
 
   return (
-    <div className={styles.justParkedCard}>
+    <div className={styles.justParkedCard} style={{ background: surface }}>
       <div className={styles.justParkedHeader} style={{ color: token.color }}>
         {text(K.justParkedSaved)}
       </div>
@@ -66,10 +66,13 @@ export const JustParked = () => {
                   ? `${styles.justParkedKind} ${styles.justParkedKindActive}`
                   : styles.justParkedKind
               }
-              style={active ? { color: ideaColour(category) } : undefined}
               onClick={() => setIdeaCategory(id, category)}
             >
-              <CategoryGlyph category={category} size={22} />
+              <CategoryGlyph
+                category={category}
+                size={22}
+                color={active ? ideaColour(category) : undefined}
+              />
               <span className={styles.justParkedKindLabel}>{text(K.category[category])}</span>
             </button>
           );

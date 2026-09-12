@@ -3,7 +3,6 @@ import { useValue } from "cs2/api";
 import { useLocalization } from "cs2/l10n";
 import { Alert, alerts$, muteAlert, smartAlertsEnabled$, viewAlert } from "./bindings";
 import { StatusShapeGlyph } from "theme/glyphs";
-import { usePalette } from "theme/palette";
 import { Status, statusToken } from "theme/tokens";
 import { K } from "theme/l10n";
 import { useText } from "theme/use-text";
@@ -22,7 +21,6 @@ import styles from "../panel.module.scss";
 export const AlertsPanel = () => {
   const enabled = useValue(smartAlertsEnabled$);
   const snapshot = useValue(alerts$);
-  const palette = usePalette();
   const text = useText();
   const { translate } = useLocalization();
 
@@ -58,7 +56,7 @@ export const AlertsPanel = () => {
   };
 
   const row = (alert: Alert, muted: boolean) => {
-    const token = statusToken(palette, muted ? Status.Muted : alert.status);
+    const token = statusToken(muted ? Status.Muted : alert.status);
     const affected = affectedOf(alert);
 
     return (
@@ -68,13 +66,9 @@ export const AlertsPanel = () => {
         style={{ background: token.wash }}
         onClick={() => alert.canView && viewAlert(alert.id)}
       >
-        {/* Full-strength colour on the edge; the shape beside it repeats the same fact
-            without relying on colour at all. */}
+        {/* The severity, at full strength, on the edge of the row. It is decoration: what is
+            actually wrong is written in the words beside it. */}
         <span className={styles.severityBar} style={{ background: token.color }} />
-
-        <span className={styles.status} style={{ color: token.color }}>
-          <StatusShapeGlyph shape={token.shape} size={16} />
-        </span>
 
         <AlertIcon src={alert.icon} />
 
@@ -185,7 +179,6 @@ export const AlertCounts = ({
   snapshot: { immediate: number; important: number; monitor: number };
   size?: number;
 }) => {
-  const palette = usePalette();
 
   const chips: { status: Status; count: number }[] = [
     { status: Status.Immediate, count: snapshot.immediate },
@@ -201,10 +194,10 @@ export const AlertCounts = ({
   return (
     <span className={styles.counts}>
       {present.map(({ status, count }) => {
-        const token = statusToken(palette, status);
+        const token = statusToken(status);
         return (
           <span key={status} className={styles.countChip} style={{ color: token.color }}>
-            <StatusShapeGlyph shape={token.shape} size={size} />
+            <StatusShapeGlyph shape={token.shape} size={size} color={token.color} />
             <span className={styles.countNumber}>{count}</span>
           </span>
         );

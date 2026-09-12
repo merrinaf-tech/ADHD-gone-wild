@@ -42,7 +42,6 @@ namespace ADHDGoneWild.Localization
                 { _settings.GetOptionGroupLocaleID(AdhdSettings.MemoryGroup), "Mémoire" },
                 { _settings.GetOptionGroupLocaleID(AdhdSettings.CreativityGroup), "Créativité" },
                 { _settings.GetOptionGroupLocaleID(AdhdSettings.WellbeingGroup), "Bien-être" },
-                { _settings.GetOptionGroupLocaleID(AdhdSettings.AccessibilityGroup), "Accessibilité" },
                 { _settings.GetOptionGroupLocaleID(AdhdSettings.AboutGroup), "À propos" },
 
                 {
@@ -199,22 +198,21 @@ namespace ADHDGoneWild.Localization
                 { _settings.GetEnumValueLocaleID(AdhdSettings.FocusLength.TwoHours), "Toutes les 2 heures" },
                 { _settings.GetEnumValueLocaleID(AdhdSettings.FocusLength.ThreeHours), "Toutes les 3 heures" },
 
+                { _settings.GetOptionGroupLocaleID(AdhdSettings.AppearanceGroup), "Apparence" },
+
                 {
-                    _settings.GetOptionLabelLocaleID(nameof(AdhdSettings.ColourPalette)),
-                    "Palette de couleurs"
+                    _settings.GetOptionLabelLocaleID(nameof(AdhdSettings.InterfaceHue)),
+                    "Couleur des panneaux"
                 },
                 {
-                    _settings.GetOptionDescLocaleID(nameof(AdhdSettings.ColourPalette)),
-                    "Ici la couleur ne porte jamais le sens à elle seule : chaque état a aussi une icône et une forme."
+                    _settings.GetOptionDescLocaleID(nameof(AdhdSettings.InterfaceHue)),
+                    "La couleur des panneaux de ce mod. Seule la teinte change : ils restent assez sombres pour qu'on y lise, où que tu places le curseur. Par défaut, celle des panneaux du jeu."
                 },
 
                 {
                     _settings.GetOptionLabelLocaleID(nameof(AdhdSettings.Version)),
                     "Version"
                 },
-
-                { _settings.GetEnumValueLocaleID(AdhdSettings.Palette.Standard), "Standard" },
-                { _settings.GetEnumValueLocaleID(AdhdSettings.Palette.ColourBlindFriendly), "Adaptée au daltonisme" },
 
                 { _settings.GetEnumValueLocaleID(IdeaCategory.Idea), "Idée" },
                 { _settings.GetEnumValueLocaleID(IdeaCategory.Build), "Construire quelque chose" },

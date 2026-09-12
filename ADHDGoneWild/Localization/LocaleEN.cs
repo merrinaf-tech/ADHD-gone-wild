@@ -35,7 +35,6 @@ namespace ADHDGoneWild.Localization
                 { _settings.GetOptionGroupLocaleID(AdhdSettings.MemoryGroup), "Memory" },
                 { _settings.GetOptionGroupLocaleID(AdhdSettings.CreativityGroup), "Creativity" },
                 { _settings.GetOptionGroupLocaleID(AdhdSettings.WellbeingGroup), "Wellbeing" },
-                { _settings.GetOptionGroupLocaleID(AdhdSettings.AccessibilityGroup), "Accessibility" },
                 { _settings.GetOptionGroupLocaleID(AdhdSettings.AboutGroup), "About" },
 
                 {
@@ -192,22 +191,21 @@ namespace ADHDGoneWild.Localization
                 { _settings.GetEnumValueLocaleID(AdhdSettings.FocusLength.TwoHours), "Every 2 hours" },
                 { _settings.GetEnumValueLocaleID(AdhdSettings.FocusLength.ThreeHours), "Every 3 hours" },
 
+                { _settings.GetOptionGroupLocaleID(AdhdSettings.AppearanceGroup), "Appearance" },
+
                 {
-                    _settings.GetOptionLabelLocaleID(nameof(AdhdSettings.ColourPalette)),
-                    "Colour palette"
+                    _settings.GetOptionLabelLocaleID(nameof(AdhdSettings.InterfaceHue)),
+                    "Panel colour"
                 },
                 {
-                    _settings.GetOptionDescLocaleID(nameof(AdhdSettings.ColourPalette)),
-                    "Colour never carries meaning on its own here - every status also has an icon and a shape."
+                    _settings.GetOptionDescLocaleID(nameof(AdhdSettings.InterfaceHue)),
+                    "The colour of this mod's own panels. Only the shade changes - they stay dark enough to read, wherever you put the slider. The default matches the game's own panels."
                 },
 
                 {
                     _settings.GetOptionLabelLocaleID(nameof(AdhdSettings.Version)),
                     "Version"
                 },
-
-                { _settings.GetEnumValueLocaleID(AdhdSettings.Palette.Standard), "Standard" },
-                { _settings.GetEnumValueLocaleID(AdhdSettings.Palette.ColourBlindFriendly), "Colour-blind friendly" },
 
                 { _settings.GetEnumValueLocaleID(IdeaCategory.Idea), "Idea" },
                 { _settings.GetEnumValueLocaleID(IdeaCategory.Build), "Build something" },

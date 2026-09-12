@@ -5,6 +5,7 @@ import { alerts$ } from "../alerts/bindings";
 import { AlertCounts } from "../alerts/alerts-panel";
 import { PlaceGlyph } from "theme/glyphs";
 import { Status } from "theme/tokens";
+import { useSurface } from "theme/surface";
 import { K } from "theme/l10n";
 import { useText } from "theme/use-text";
 import styles from "../panel.module.scss";
@@ -23,6 +24,7 @@ export const WelcomeBack = () => {
   const info = useValue(welcomeBackInfo$);
   const alerts = useValue(alerts$);
   const text = useText();
+  const surface = useSurface();
 
   if (!visible) {
     return null;
@@ -33,7 +35,7 @@ export const WelcomeBack = () => {
   const showCityState = alerts.peak <= Status.Monitor;
 
   return (
-    <div className={styles.welcomeCard}>
+    <div className={styles.welcomeCard} style={{ background: surface }}>
       <div className={styles.welcomeHeader}>
         <span>
           {text(K.welcomeBackTitle)} <span className={styles.welcomeCity}>{info.cityName}</span>

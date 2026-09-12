@@ -93,7 +93,6 @@ namespace ADHDGoneWild
             updateSystem.UpdateAt<IdeaMarkerSystem>(SystemUpdatePhase.Rendering);
             updateSystem.UpdateAt<AlertsUISystem>(SystemUpdatePhase.UIUpdate);
             updateSystem.UpdateAt<WelcomeBackUISystem>(SystemUpdatePhase.UIUpdate);
-            updateSystem.UpdateAt<ThemeUISystem>(SystemUpdatePhase.UIUpdate);
 
             // Registered so it gets created; it does no per-frame work and wakes on
             // the game's load callbacks and on the option changing.
@@ -101,6 +100,7 @@ namespace ADHDGoneWild
             updateSystem.UpdateAt<CalmToolbarUISystem>(SystemUpdatePhase.UIUpdate);
             updateSystem.UpdateAt<CheckpointSystem>(SystemUpdatePhase.UIUpdate);
             updateSystem.UpdateAt<HyperfocusSystem>(SystemUpdatePhase.UIUpdate);
+            updateSystem.UpdateAt<ThemeUISystem>(SystemUpdatePhase.UIUpdate);
 
             // CityMemorySystem is deliberately not registered in a phase: it has no per-frame
             // work. The systems above create it, and it wakes on the game's own load callbacks.
@@ -198,14 +198,14 @@ namespace ADHDGoneWild
             _checkpoints = system;
         }
 
-        internal static void RegisterHyperfocus(HyperfocusSystem system)
-        {
-            _hyperfocus = system;
-        }
-
         internal static void RegisterTheme(ThemeUISystem system)
         {
             _theme = system;
+        }
+
+        internal static void RegisterHyperfocus(HyperfocusSystem system)
+        {
+            _hyperfocus = system;
         }
 
         internal static void OnBrainParkingSettingsChanged()
@@ -253,6 +253,14 @@ namespace ADHDGoneWild
             }
         }
 
+        internal static void OnInterfaceHueChanged()
+        {
+            if (_theme != null)
+            {
+                _theme.ApplySettings();
+            }
+        }
+
         internal static void OnHyperfocusSettingsChanged()
         {
             if (_hyperfocus != null)
@@ -261,12 +269,5 @@ namespace ADHDGoneWild
             }
         }
 
-        internal static void OnPaletteChanged()
-        {
-            if (_theme != null)
-            {
-                _theme.ApplySettings();
-            }
-        }
     }
 }

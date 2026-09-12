@@ -1,4 +1,5 @@
 using System;
+using ADHDGoneWild.Memory;
 using Colossal.UI.Binding;
 using Game.UI;
 
@@ -22,12 +23,19 @@ namespace ADHDGoneWild.Calm
         private const string Group = "adhd";
         private const string LogPrefix = "[Calm] ";
 
+        private CityMemorySystem _memory;
+
         private ValueBinding<bool> _collapsedBinding;
         private ValueBinding<bool> _buttonVisibleBinding;
 
         protected override void OnCreate()
         {
             base.OnCreate();
+
+            // Every city opens with the toolbar out. See OnCityChanged for why this is worth the
+            // small friction it costs.
+            _memory = World.GetOrCreateSystemManaged<CityMemorySystem>();
+            _memory.CityChanged += OnCityChanged;
 
             _collapsedBinding = new ValueBinding<bool>(Group, "toolbarCollapsed", Collapsed());
             AddBinding(_collapsedBinding);
@@ -39,6 +47,31 @@ namespace ADHDGoneWild.Calm
 
             Mod.RegisterCalmToolbar(this);
             Mod.Log.Info("[UI] Calm toolbar bridge initialised.");
+        }
+
+        /// <summary>
+        /// A city has opened. The toolbar comes out, whatever it was doing before.
+        ///
+        /// This reverses a deliberate earlier decision. The fold used to persist, on the reasoning
+        /// that refolding it every session was exactly the small repeated friction this mod exists
+        /// to remove. A player reported the consequence: they folded the toolbar, used the safety
+        /// net to go back, and the build row - demand bars, zoning, services, bulldozer - came back
+        /// hidden. They could not get it out again and ended up restarting the game.
+        ///
+        /// Whatever kept them from reaching the fold control that time, the shape of the fault is
+        /// the part that matters: a remembered preference had turned into a state they could not
+        /// leave. Convenience that can strand someone is not convenience. Refolding costs one
+        /// click, and is now the only thing at risk when this goes wrong.
+        /// </summary>
+        private void OnCityChanged()
+        {
+            if (!Collapsed())
+            {
+                return;
+            }
+
+            Mod.Log.Info(LogPrefix + "A city opened with the toolbar folded; bringing it back out.");
+            SetCollapsed(false);
         }
 
         /// <summary>Called when the player changes the option, and once at load.</summary>

@@ -32,7 +32,7 @@ export const ToolbarFold = () => {
   }
 
   return (
-    <div className={styles.toolbarFold}>
+    <div className={collapsed ? `${styles.toolbarFold} ${styles.toolbarFoldTucked}` : styles.toolbarFold}>
       <Tooltip tooltip={text(collapsed ? K.toolbarUnfold : K.toolbarFold)}>
         <Button
           variant="floating"

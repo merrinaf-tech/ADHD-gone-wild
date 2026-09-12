@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useValue } from "cs2/api";
 import { cancelParking, parkAt, parking$ } from "./bindings";
 import { CategoryGlyph } from "theme/glyphs";
-import { usePalette } from "theme/palette";
 import { IdeaCategory, Status, statusToken } from "theme/tokens";
+import { useSurface } from "theme/surface";
 import { K } from "theme/l10n";
 import { useText } from "theme/use-text";
 import styles from "../panel.module.scss";
@@ -25,8 +25,8 @@ import styles from "../panel.module.scss";
  */
 export const ParkingHint = () => {
   const parking = useValue(parking$);
-  const palette = usePalette();
   const text = useText();
+  const surface = useSurface();
 
   useEffect(() => {
     if (!parking) {
@@ -63,16 +63,14 @@ export const ParkingHint = () => {
     return null;
   }
 
-  const token = statusToken(palette, Status.Personal);
+  const token = statusToken(Status.Personal);
 
   return (
     <>
       <div className={styles.parkingTint} />
 
-      <div className={styles.hint}>
-        <span style={{ color: token.color, display: "flex" }}>
-          <CategoryGlyph category={IdeaCategory.Idea} size={20} />
-        </span>
+      <div className={styles.hint} style={{ background: surface }}>
+        <CategoryGlyph category={IdeaCategory.Idea} size={20} color={token.color} />
         <span>{text(K.parkingHint)}</span>
         <button
           className={styles.textButton}

@@ -12,8 +12,8 @@ import {
   startParking,
 } from "./brain-parking/bindings";
 import owlIcon from "images/owl.svg";
-import { usePalette } from "theme/palette";
 import { Status, statusToken } from "theme/tokens";
+import { useSurface } from "theme/surface";
 import { K } from "theme/l10n";
 import { useText } from "theme/use-text";
 import styles from "./panel.module.scss";
@@ -32,8 +32,8 @@ export const BrainEntry = () => {
   const parkingEnabled = useValue(brainParkingEnabled$);
   const alertsEnabled = useValue(smartAlertsEnabled$);
   const alerts = useValue(alerts$);
-  const palette = usePalette();
   const text = useText();
+  const surface = useSurface();
 
   const focused = useValue(focusedIdea$);
 
@@ -69,7 +69,7 @@ export const BrainEntry = () => {
   // Only the two levels that mean "something is happening". Monitor is worth a look when the
   // panel is open, not a number on the toolbar.
   const needsAttention = alerts.immediate + alerts.important;
-  const peak = statusToken(palette, alerts.immediate > 0 ? Status.Immediate : Status.Important);
+  const peak = statusToken(alerts.immediate > 0 ? Status.Immediate : Status.Important);
 
   return (
     <div className={styles.entry}>
@@ -103,7 +103,7 @@ export const BrainEntry = () => {
       )}
 
       {open && (
-        <div className={styles.panel}>
+        <div className={styles.panel} style={{ background: surface }}>
           {alertsEnabled && <AlertsPanel />}
 
           <SafetyNet />

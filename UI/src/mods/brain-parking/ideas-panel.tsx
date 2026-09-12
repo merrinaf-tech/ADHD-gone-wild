@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useValue } from "cs2/api";
 import { Idea, forgetIdea, ideas$, jumpToIdea, setIdeaCategory } from "./bindings";
-import { CategoryGlyph, StatusShapeGlyph } from "theme/glyphs";
-import { usePalette } from "theme/palette";
+import { CategoryGlyph } from "theme/glyphs";
 import { IDEA_CATEGORIES, IdeaCategory, Status, ideaColour, statusToken } from "theme/tokens";
 import { K } from "theme/l10n";
 import { timeAgo, useText } from "theme/use-text";
@@ -25,7 +24,6 @@ export const IdeasSection = ({
   focusedId?: string;
 }) => {
   const ideas = useValue(ideas$);
-  const palette = usePalette();
   const text = useText();
 
   // Recomputed on render rather than ticking: nothing here needs to be accurate to the second,
@@ -35,7 +33,7 @@ export const IdeasSection = ({
   const [picking, setPicking] = useState<string | null>(null);
 
   // Ideas are the player's own, so they always carry the personal status - never a severity.
-  const token = statusToken(palette, Status.Personal);
+  const token = statusToken(Status.Personal);
 
   return (
     <>
@@ -57,7 +55,6 @@ export const IdeasSection = ({
               idea={idea}
               now={now}
               colour={ideaColour(idea.category)}
-              shape={token.shape}
               focused={focusedId === idea.id}
               picking={picking === idea.id}
               onTogglePicking={() => setPicking(picking === idea.id ? null : idea.id)}
@@ -69,9 +66,7 @@ export const IdeasSection = ({
 
       <div className={styles.panelFooter}>
         <button className={styles.parkButton} onClick={onPark}>
-          <span style={{ color: token.color, display: "flex" }}>
-            <CategoryGlyph category={IdeaCategory.Idea} size={18} />
-          </span>
+          <CategoryGlyph category={IdeaCategory.Idea} size={18} color={token.color} />
           {text(K.parkIdea)}
         </button>
       </div>
@@ -83,7 +78,6 @@ interface RowProps {
   idea: Idea;
   now: number;
   colour: string;
-  shape: ReturnType<typeof statusToken>["shape"];
   focused: boolean;
   picking: boolean;
   onTogglePicking: () => void;
@@ -94,7 +88,6 @@ const IdeaRow = ({
   idea,
   now,
   colour,
-  shape,
   focused,
   picking,
   onTogglePicking,
@@ -128,10 +121,6 @@ const IdeaRow = ({
       >
         <span className={styles.severityBar} style={{ background: colour }} />
 
-        <span className={styles.status} style={{ color: colour }}>
-          <StatusShapeGlyph shape={shape} size={16} />
-        </span>
-
         <button
           className={styles.categoryButton}
           style={{ color: colour }}
@@ -140,7 +129,7 @@ const IdeaRow = ({
             onTogglePicking();
           }}
         >
-          <CategoryGlyph category={idea.category} size={22} />
+          <CategoryGlyph category={idea.category} size={22} color={colour} />
         </button>
 
         <span className={styles.rowText}>
@@ -180,14 +169,18 @@ const IdeaRow = ({
                   ? `${styles.categoryOption} ${styles.categoryOptionActive}`
                   : styles.categoryOption
               }
-              style={category === idea.category ? { color: colour } : undefined}
+
               onClick={(e) => {
                 e.stopPropagation();
                 setIdeaCategory(idea.id, category);
                 onTogglePicking();
               }}
             >
-              <CategoryGlyph category={category} size={22} />
+              <CategoryGlyph
+                category={category}
+                size={22}
+                color={category === idea.category ? colour : undefined}
+              />
             </button>
           ))}
         </div>

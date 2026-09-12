@@ -182,15 +182,6 @@ $radius: 4rem;
   flex: 0 0 auto;
 }
 
-// The status marker: shape and colour together, never colour on its own.
-.status {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 16rem;
-  flex: 0 0 auto;
-}
-
 .categoryButton {
   display: flex;
   align-items: center;
@@ -272,12 +263,13 @@ $radius: 4rem;
   border: none;
   border-radius: 3rem;
   background: transparent;
-  color: $ink-quiet;
+  // Full strength, not the quiet ink. These are six small glyphs on a dark panel and they are the
+  // only thing distinguishing one choice from the next - dimmed, they read as disabled.
+  color: $ink;
   cursor: pointer;
 
   &:hover {
     background: $surface-raised;
-    color: $ink;
   }
 }
 
@@ -446,6 +438,18 @@ $radius: 4rem;
   pointer-events: auto;
 }
 
+// Folded, the build row is gone and the toolbar is one strip tall - so the control drops with it
+// and stays tucked against the toolbar's top edge.
+//
+// It was fixed in place at first, on the reasoning that a control which moves is a control you
+// have to re-find. Folded, that left it hovering alone over the map with nothing beneath it, and
+// a player who folded the toolbar and looked away read the result as the interface having broken.
+// It only ever moves at the moment you are looking straight at it, which is the moment it costs
+// nothing.
+.toolbarFoldTucked {
+  bottom: calc(var(--toolbarHeight) + 10rem);
+}
+
 // What folding actually removes, beyond what the game already does for us.
 //
 // Vanilla's `onlyStatusVisible` slides away the toolbar's first child - the side menus - and in
@@ -485,11 +489,27 @@ $radius: 4rem;
   color: $ink;
 }
 
+// Two buttons, side by side, and neither may leave the panel.
+//
+// "Go back" is a .parkButton, which is `width: 100%` because everywhere else it is the only thing
+// on its row. Here it pushed "Keep what I did" clean off the right-hand edge of the panel, where
+// it could still be clicked by nobody. The way to stop keeping a checkpoint was, in effect, gone.
 .safetyNetActions {
   display: flex;
   align-items: center;
   gap: 8rem;
   margin-top: 4rem;
+
+  .parkButton {
+    width: auto;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .textButton {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
 }
 
 .safetyNetHint {
@@ -545,12 +565,11 @@ $radius: 4rem;
   border: none;
   border-radius: 3rem;
   background: $surface-raised;
-  color: $ink-quiet;
+  color: $ink;
   cursor: pointer;
 
   &:hover {
     background: rgba(255, 255, 255, 0.12);
-    color: $ink;
   }
 }
 

@@ -1,45 +1,47 @@
-using ADHDGoneWild.Settings;
 using Colossal.UI.Binding;
 using Game.UI;
 
 namespace ADHDGoneWild.UI
 {
     /// <summary>
-    /// The one thing the whole UI shares: which palette it is drawing in.
+    /// The one thing the whole UI shares: the colour of the mod's own panels.
     ///
-    /// The values themselves live on the UI side, in UI/src/theme/tokens.ts. This side only says
-    /// which set to use, because a hex code in C# would be a second place for a colour to live
-    /// and the two would drift.
+    /// It is sent as a finished CSS colour rather than as a hue, so the conversion lives once, in
+    /// <see cref="InterfaceColour"/>, where it can be tested outside the game. The React side only
+    /// has to drop the string into a style attribute.
     /// </summary>
     public partial class ThemeUISystem : UISystemBase
     {
         private const string Group = "adhd";
 
-        private ValueBinding<int> _paletteBinding;
+        private ValueBinding<string> _surfaceBinding;
 
         protected override void OnCreate()
         {
             base.OnCreate();
 
-            _paletteBinding = new ValueBinding<int>(Group, "palette", (int)CurrentPalette());
-            AddBinding(_paletteBinding);
+            _surfaceBinding = new ValueBinding<string>(Group, "surface", CurrentSurface());
+            AddBinding(_surfaceBinding);
 
             Mod.RegisterTheme(this);
             Mod.Log.Info("[UI] Theme bridge initialised.");
         }
 
+        /// <summary>Called when the player drags the hue slider.</summary>
         public void ApplySettings()
         {
-            if (_paletteBinding != null)
+            if (_surfaceBinding != null)
             {
-                _paletteBinding.Update((int)CurrentPalette());
+                _surfaceBinding.Update(CurrentSurface());
             }
         }
 
-        private static AdhdSettings.Palette CurrentPalette()
+        private static string CurrentSurface()
         {
             var settings = Mod.Settings;
-            return settings == null ? AdhdSettings.Palette.Standard : settings.ColourPalette;
+            return InterfaceColour.Surface(settings == null
+                ? InterfaceColour.DefaultHue
+                : settings.InterfaceHue);
         }
     }
 }

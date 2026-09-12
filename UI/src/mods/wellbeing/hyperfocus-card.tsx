@@ -2,6 +2,7 @@ import React from "react";
 import { useValue } from "cs2/api";
 import { dismissHyperfocus, hyperfocus$, snoozeHyperfocus } from "./bindings";
 import { useLocalization } from "cs2/l10n";
+import { useSurface } from "theme/surface";
 import { K } from "theme/l10n";
 import { useText } from "theme/use-text";
 import styles from "../panel.module.scss";
@@ -24,6 +25,7 @@ import styles from "../panel.module.scss";
 export const HyperfocusCard = () => {
   const state = useValue(hyperfocus$);
   const text = useText();
+  const surface = useSurface();
   const { translate } = useLocalization();
 
   if (!state.visible) {
@@ -36,7 +38,7 @@ export const HyperfocusCard = () => {
   const note = state.noteKey ? translate(state.noteKey, null) : null;
 
   return (
-    <div className={styles.hyperfocusCard}>
+    <div className={styles.hyperfocusCard} style={{ background: surface }}>
       {/* The one fact worth being large. */}
       <div className={styles.hyperfocusClock}>{state.clock}</div>
 

@@ -19,8 +19,8 @@ namespace ADHDGoneWild.Settings
     /// them are declared today.
     /// </summary>
     [FileLocation("ModsSettings/ADHDGoneWild/ADHDGoneWild")]
-    [SettingsUIGroupOrder(InformationGroup, MemoryGroup, CreativityGroup, WellbeingGroup, AccessibilityGroup, AboutGroup)]
-    [SettingsUIShowGroupName(InformationGroup, MemoryGroup, CreativityGroup, WellbeingGroup, AccessibilityGroup, AboutGroup)]
+    [SettingsUIGroupOrder(InformationGroup, MemoryGroup, CreativityGroup, WellbeingGroup, AppearanceGroup, AboutGroup)]
+    [SettingsUIShowGroupName(InformationGroup, MemoryGroup, CreativityGroup, WellbeingGroup, AppearanceGroup, AboutGroup)]
     [SettingsUIKeyboardAction(ParkIdeaActionName, ActionType.Button, Usages.kDefaultUsage)]
     public class AdhdSettings : ModSetting
     {
@@ -30,7 +30,7 @@ namespace ADHDGoneWild.Settings
         public const string MemoryGroup = "MemoryGroup";
         public const string CreativityGroup = "CreativityGroup";
         public const string WellbeingGroup = "WellbeingGroup";
-        public const string AccessibilityGroup = "AccessibilityGroup";
+        public const string AppearanceGroup = "AppearanceGroup";
         public const string AboutGroup = "AboutGroup";
 
         /// <summary>The input action behind the parking shortcut. Referenced by the binding below.</summary>
@@ -48,24 +48,13 @@ namespace ADHDGoneWild.Settings
         private bool _creativeSafetyNetEnabled = true;
         private bool _welcomeBackEnabled = true;
         private AwayLength _welcomeBackAfter = AwayLength.ThirtyMinutes;
-        private Palette _palette = Palette.Standard;
         private bool _hyperfocusRemindersEnabled = true;
         private FocusLength _hyperfocusAfter = FocusLength.TwoHours;
         private bool _hyperfocusBodyNotes = true;
+        private int _interfaceHue = UI.InterfaceColour.DefaultHue;
 
         public AdhdSettings(IMod mod) : base(mod)
         {
-        }
-
-        /// <summary>
-        /// Which set of status colours the panel uses. Colour is never the only carrier of
-        /// meaning here - every status also has an icon and a shape - but a palette that works
-        /// for the player is still worth having.
-        /// </summary>
-        public enum Palette
-        {
-            Standard = 0,
-            ColourBlindFriendly = 1
         }
 
         /// <summary>
@@ -160,10 +149,13 @@ namespace ADHDGoneWild.Settings
         }
 
         /// <summary>
-        /// Whether the toolbar is currently folded. Hidden from the options page because it is
-        /// not really a preference - it is the state of a control the player flips in game. It
-        /// lives here so it survives a restart: having to fold it again every session would be
-        /// exactly the small repeated friction this mod exists to remove.
+        /// Whether the toolbar is currently folded. Hidden from the options page because it is not
+        /// really a preference - it is the state of a control the player flips in game.
+        ///
+        /// It used to be kept so the fold survived a restart. It no longer does: every city now
+        /// opens with the toolbar out. A player folded it, used the safety net to go back, and
+        /// could not get the build row out again - a remembered preference had become a state they
+        /// could not leave. See CalmToolbarUISystem.OnCityChanged.
         /// </summary>
         [SettingsUIHidden]
         public bool ToolbarCollapsed
@@ -421,21 +413,29 @@ namespace ADHDGoneWild.Settings
             get { return !_hyperfocusRemindersEnabled; }
         }
 
-        // ---- Accessibility ------------------------------------------------------------------
+        // ---- Appearance ---------------------------------------------------------------------
 
-        [SettingsUISection(MainSection, AccessibilityGroup)]
-        public Palette ColourPalette
+        /// <summary>
+        /// The hue of the mod's own panels. Only the hue: saturation and lightness are fixed, so
+        /// every position on this slider is a dark, muted surface the text still reads against.
+        ///
+        /// A free colour picker would let the player make their own panels unreadable and then
+        /// have no way of seeing what they had done. This gives the choice without the trap.
+        /// </summary>
+        [SettingsUISection(MainSection, AppearanceGroup)]
+        [SettingsUISlider(min = 0f, max = 360f, step = 5f, unit = "integer")]
+        public int InterfaceHue
         {
-            get { return _palette; }
+            get { return _interfaceHue; }
             set
             {
-                if (_palette == value)
+                if (_interfaceHue == value)
                 {
                     return;
                 }
 
-                _palette = value;
-                Mod.OnPaletteChanged();
+                _interfaceHue = value;
+                Mod.OnInterfaceHueChanged();
             }
         }
 
@@ -479,7 +479,7 @@ namespace ADHDGoneWild.Settings
             _creativeSafetyNetEnabled = true;
             _welcomeBackEnabled = true;
             _welcomeBackAfter = AwayLength.ThirtyMinutes;
-            _palette = Palette.Standard;
+            _interfaceHue = UI.InterfaceColour.DefaultHue;
         }
     }
 }
