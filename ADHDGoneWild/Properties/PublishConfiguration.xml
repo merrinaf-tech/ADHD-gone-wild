@@ -120,21 +120,11 @@ And to my girlfriend, and to her ADHD. Between them they shaped this mod far mor
 
 	<Tag Value="Code Mod" />
 
-	<ModVersion Value="0.1.4" />
+	<ModVersion Value="0.1.5" />
 	<GameVersion Value="1.6.*" />
 
 	<!-- This version's changes only. Never an accumulated history. -->
 	<ChangeLog>
-- **You can edit a parked idea now.** Click one in the list and its card opens: rename it, and
-  write as many notes under it as you like. Marcaliseth asked for this - to fix typos - and it
-  turned into the whole card.
-- **Notes are a coloured list.** Every line has a dot, and clicking the dot offers eight colours
-  or none at all. The words themselves stay white: colour is for sorting your own lines at a
-  glance, not for making a list you have to squint at.
-- **Clicking an idea shows it without moving you.** "View" beside it is the one that takes you to
-  the spot, and clicking its ring on the map opens the card too.
-- Fixed: the hint text inside every text box was invisible. It has been since the first release -
-  the box that asks "anything to add?" after you park something looked simply empty.
 - **"Park an idea" has moved under Parked ideas**, where it belongs. It used to sit pinned at the
   very bottom of the panel, under the trail, looking like the button for "Where was I?".
 - The "Right now" rows are smaller, so a busy city fits in one look.
