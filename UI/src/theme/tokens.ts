@@ -120,6 +120,63 @@ export function ideaColour(category: IdeaCategory): string {
   return IDEA_COLOURS[category] ?? IDEA_COLOURS[IdeaCategory.Idea];
 }
 
+/**
+ * A colour for one bullet in an idea's description.
+ *
+ * Mirrors IdeaColour on the C# side - appended to, never renumbered, and the numbers are written
+ * into the stored description. The colour is on the dot and never on the words: a list in eight
+ * colours of prose is harder to read than one that is all white, which is the opposite of what
+ * colour coding is for.
+ */
+export enum IdeaColour {
+  Plain = 0,
+  Purple = 1,
+  Blue = 2,
+  Green = 3,
+  Yellow = 4,
+  Orange = 5,
+  Red = 6,
+  Pink = 7,
+  Grey = 8,
+}
+
+const BULLET_COLOURS: Partial<Record<IdeaColour, string>> = {
+  [IdeaColour.Purple]: "#b98cff",
+  [IdeaColour.Blue]: "#58b6ff",
+  [IdeaColour.Green]: "#6fd47e",
+  [IdeaColour.Yellow]: "#ffd93d",
+  [IdeaColour.Orange]: "#ff9d2e",
+  // Lighter and pinker than the #ff4d4d of an immediate alert, so a red bullet does not read as a
+  // red warning at a glance.
+  [IdeaColour.Red]: "#ff6b6b",
+  [IdeaColour.Pink]: "#ff8ad4",
+  [IdeaColour.Grey]: "#b9c2cc",
+};
+
+/** In the order the swatches appear. Plain comes first, as the way back. */
+export const IDEA_COLOURS_ORDER: IdeaColour[] = [
+  IdeaColour.Plain,
+  IdeaColour.Purple,
+  IdeaColour.Blue,
+  IdeaColour.Green,
+  IdeaColour.Yellow,
+  IdeaColour.Orange,
+  IdeaColour.Red,
+  IdeaColour.Pink,
+  IdeaColour.Grey,
+];
+
+/**
+ * A bullet's colour, or nothing at all.
+ *
+ * `Plain` really is no bullet rather than a faint one. A line without a dot is a line the player
+ * decided needs no marking, and putting a grey dot there anyway would make "unmarked" into its own
+ * ninth colour - one more thing on screen saying nothing, in a mod about having less of those.
+ */
+export function bulletColour(colour: IdeaColour): string {
+  return BULLET_COLOURS[colour] ?? "transparent";
+}
+
 export const IDEA_CATEGORIES: IdeaCategory[] = [
   IdeaCategory.Idea,
   IdeaCategory.Build,

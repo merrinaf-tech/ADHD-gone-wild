@@ -2,6 +2,18 @@ import { bindValue, trigger } from "cs2/api";
 
 const GROUP = "adhd";
 
+/**
+ * Where the card is. Mirrors HyperfocusCorner on the C# side - appended to, never renumbered.
+ *
+ * The C# side decides which one, and rotates so that no two cards in a row land in the same
+ * place. Top-left is absent on purpose: it is where the mod's own panel opens.
+ */
+export enum HyperfocusCorner {
+  BottomLeft = 0,
+  TopRight = 1,
+  BottomRight = 2,
+}
+
 /** Mirrors HyperfocusSystem.Write. Keep the two in step. */
 export interface Hyperfocus {
   visible: boolean;
@@ -11,6 +23,7 @@ export interface Hyperfocus {
   minutes: number;
   /** Localisation key for the word about the body. Empty when the player asked for just the time. */
   noteKey: string;
+  corner: HyperfocusCorner;
 }
 
 export const EMPTY_HYPERFOCUS: Hyperfocus = {
@@ -18,6 +31,7 @@ export const EMPTY_HYPERFOCUS: Hyperfocus = {
   clock: "",
   minutes: 0,
   noteKey: "",
+  corner: HyperfocusCorner.BottomLeft,
 };
 
 export const hyperfocus$ = bindValue<Hyperfocus>(GROUP, "hyperfocus", EMPTY_HYPERFOCUS);

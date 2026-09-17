@@ -87,6 +87,35 @@ namespace ADHDGoneWild.Localization
             Prefix + "BodyNote.LateHour"
         };
 
+        public const string IdeaDescriptionPlaceholder = Prefix + "IdeaDescriptionPlaceholder";
+        public const string HasDescription = Prefix + "HasDescription";
+        public const string IdeaAddNote = Prefix + "IdeaAddNote";
+
+        public const string TrailTitle = Prefix + "TrailTitle";
+        public const string TrailEmpty = Prefix + "TrailEmpty";
+        public const string TrailEmptyHint = Prefix + "TrailEmptyHint";
+        public const string TrailBack = Prefix + "TrailBack";
+
+        /// <summary>
+        /// The activity words, in the order of <see cref="Trail.TrailActivity"/>.
+        ///
+        /// Translators: these describe what the player was doing, and they must stay descriptions.
+        /// Not "unfinished roadworks", not "road project" - just the doing. The mod can see that a
+        /// road tool was in their hand and it cannot see why, so it only says the first part.
+        /// </summary>
+        public static readonly string[] TrailActivity =
+        {
+            Prefix + "Trail.Looking",
+            Prefix + "Trail.Drawing",
+            Prefix + "Trail.Placing",
+            Prefix + "Trail.Zoning",
+            Prefix + "Trail.Demolishing",
+            Prefix + "Trail.Landscaping",
+            Prefix + "Trail.Areas",
+            Prefix + "Trail.Lines",
+            Prefix + "Trail.Upgrading"
+        };
+
         public const string CategoryIdea = Prefix + "Category.Idea";
         public const string CategoryBuild = Prefix + "Category.Build";
         public const string CategoryDecoration = Prefix + "Category.Decoration";

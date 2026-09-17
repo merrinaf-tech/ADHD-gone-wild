@@ -208,3 +208,36 @@ export const PlaceGlyph = ({ size = 16, className, color }: GlyphProps) =>
     </>,
     color
   );
+
+/**
+ * A chevron, for the one control that folds the game's toolbar away.
+ *
+ * Drawn here rather than loaded from `images/chevron-down.svg` for the same reason as everything
+ * else in this file: an SVG handed to the game's own Button is coloured by the game's theme, and
+ * this one no longer sits in a game button.
+ */
+export const ChevronGlyph = ({
+  size = 16,
+  className,
+  color,
+  up = false,
+}: GlyphProps & { up?: boolean }) =>
+  svg(size, className, <path d={up ? "M6 15l6-6 6 6" : "M6 9l6 6 6-6"} />, color);
+
+/**
+ * Footsteps, for "where was I?".
+ *
+ * A trail of places somebody walked through, which is exactly what the section is - and
+ * deliberately not a pin, a flag or a checkbox. Those all say "something is marked here"; this
+ * says "you came past".
+ */
+export const TrailGlyph = ({ size = 16, className, color }: GlyphProps) =>
+  svg(
+    size,
+    className,
+    <>
+      <path d="M8 20.5c-1.4 0-2.3-.9-2.3-2.3 0-1.7 1-2.6 1-4.6 0-2.4 0-5.1 1.9-5.1s1.9 2.7 1.9 5.1c0 2 1 2.9 1 4.6 0 1.4-.9 2.3-2.3 2.3z" />
+      <path d="M16 14.5c-1.4 0-2.3-.9-2.3-2.3 0-1.7 1-2.6 1-4.6 0-2.4 0-5.1 1.9-5.1s1.9 2.7 1.9 5.1c0 2 1 2.9 1 4.6 0 1.4-.9 2.3-2.3 2.3z" />
+    </>,
+    color
+  );

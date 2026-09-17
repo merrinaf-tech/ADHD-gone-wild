@@ -59,11 +59,16 @@ export const SafetyNet = () => {
           </div>
         </div>
       ) : (
-        <div className={styles.panelFooter}>
+        /*
+          The sentence first, the button under it, both across the full width. This branch used to
+          borrow the panel's footer class, which is a row: the button ended up as a narrow column
+          with its label broken over two lines and the explanation crushed against its side.
+        */
+        <div className={styles.safetyNetEmpty}>
+          <div className={styles.safetyNetHint}>{text(K.safetyNetHint)}</div>
           <button className={styles.parkButton} onClick={createCheckpoint}>
             {text(K.safetyNetCreate)}
           </button>
-          <div className={styles.safetyNetHint}>{text(K.safetyNetHint)}</div>
         </div>
       )}
     </>

@@ -13,8 +13,13 @@ import { IdeaCategory } from "theme/tokens";
 export interface Idea {
   id: string;
   category: IdeaCategory;
-  /** Optional and usually empty. Not editable in the UI yet - see docs/ROADMAP.md. */
+  /** The one line on the row. Optional: typing is never required to park a thought. */
   note: string;
+  /**
+   * The notes under the idea, read and written in the editor rather than on the row. Usually
+   * empty. One per line, each carrying its bullet's colour - see description.ts for the format.
+   */
+  description: string;
   createdUnixUtc: number;
   x: number;
   z: number;
@@ -25,6 +30,12 @@ const GROUP = "adhd";
 export const ideas$ = bindValue<Idea[]>(GROUP, "ideas", []);
 export const parking$ = bindValue<boolean>(GROUP, "parking", false);
 export const brainParkingEnabled$ = bindValue<boolean>(GROUP, "brainParkingEnabled", true);
+
+/**
+ * Whether a row says how long ago its idea was parked. Off unless the player asked for it - see
+ * AdhdSettings.ShowIdeaAge for why an age is the one thing that can turn a note into a debt.
+ */
+export const showIdeaAge$ = bindValue<boolean>(GROUP, "showIdeaAge", false);
 /** Id of the idea just parked, or empty. Non-empty means the refine card is offered. */
 export const justParked$ = bindValue<string>(GROUP, "justParked", "");
 
@@ -37,6 +48,8 @@ export const jumpToIdea = (id: string) => trigger(GROUP, "jumpToIdea", id);
 export const setIdeaCategory = (id: string, category: IdeaCategory) =>
   trigger(GROUP, "setIdeaCategory", id, category);
 export const setIdeaNote = (id: string, note: string) => trigger(GROUP, "setIdeaNote", id, note);
+export const setIdeaDescription = (id: string, description: string) =>
+  trigger(GROUP, "setIdeaDescription", id, description);
 export const dismissJustParked = () => trigger(GROUP, "dismissJustParked");
 
 /**

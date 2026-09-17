@@ -5,10 +5,10 @@ import { BrainEntry } from "mods/brain-entry";
 import { ParkingHint } from "mods/brain-parking/parking-hint";
 import { JustParked } from "mods/brain-parking/just-parked";
 import { RingClicks } from "mods/brain-parking/ring-clicks";
-import { ToolbarFold } from "mods/calm/toolbar-fold";
 import { toolbarCollapsed$ } from "mods/calm/bindings";
 import { WelcomeBack } from "mods/welcome-back/welcome-back";
 import { HyperfocusCard } from "mods/wellbeing/hyperfocus-card";
+import { GameDismissInput } from "theme/game-dismiss-input";
 import styles from "mods/panel.module.scss";
 
 /**
@@ -83,12 +83,12 @@ function extendSafely(registry: ModuleRegistry, path: string, exportName: string
 }
 
 const register: ModRegistrar = (moduleRegistry) => {
+  moduleRegistry.append("Game", GameDismissInput);
   moduleRegistry.append("GameTopLeft", BrainEntry);
   moduleRegistry.append("Game", ParkingHint);
   moduleRegistry.append("Game", RingClicks);
   moduleRegistry.append("Game", JustParked);
   moduleRegistry.append("Game", WelcomeBack);
-  moduleRegistry.append("Game", ToolbarFold);
   moduleRegistry.append("Game", HyperfocusCard);
 
   extendSafely(moduleRegistry, "game-ui/game/components/toolbar/toolbar.tsx", "Toolbar", foldToolbar);

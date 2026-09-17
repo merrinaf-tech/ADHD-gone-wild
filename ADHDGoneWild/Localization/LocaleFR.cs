@@ -59,7 +59,7 @@ namespace ADHDGoneWild.Localization
                 },
                 {
                     _settings.GetOptionDescLocaleID(nameof(AdhdSettings.ShowToolbarCollapseButton)),
-                    "Un petit bouton à côté de la barre de construction qui la replie et la ramène. Les outils sont toujours à un clic du retour."
+                    "Une ligne dans le panneau de ce mod qui replie la barre de construction et la ramène. Elle y vit plutôt que de flotter sur le jeu, où aucune résolution ni aucun autre mod ne peut la rendre inatteignable."
                 },
 
                 {
@@ -123,6 +123,15 @@ namespace ADHDGoneWild.Localization
                 },
 
                 {
+                    _settings.GetOptionLabelLocaleID(nameof(AdhdSettings.ShowIdeaAge)),
+                    "Afficher quand une idée a été garée"
+                },
+                {
+                    _settings.GetOptionDescLocaleID(nameof(AdhdSettings.ShowIdeaAge)),
+                    "Ajoute « il y a 4 jours » sous chacune. Désactivé par défaut : rien d'une idée garée ne change avec le temps, rien n'expire et rien n'est jamais relancé - et un nombre qui monte est la seule chose capable de faire ressembler une note à quelque chose qui vous attend. Utile tout de même pour distinguer les pensées de cette session de celles d'une ville plus ancienne."
+                },
+
+                {
                     _settings.GetOptionLabelLocaleID(nameof(AdhdSettings.ShowIdeaMarkers)),
                     "Montrer les idées sur la carte"
                 },
@@ -154,6 +163,15 @@ namespace ADHDGoneWild.Localization
                 { _settings.GetEnumValueLocaleID(AdhdSettings.AwayLength.OneHour), "1 heure" },
                 { _settings.GetEnumValueLocaleID(AdhdSettings.AwayLength.ThreeHours), "3 heures" },
                 { _settings.GetEnumValueLocaleID(AdhdSettings.AwayLength.OneDay), "Un jour ou plus" },
+
+                {
+                    _settings.GetOptionLabelLocaleID(nameof(AdhdSettings.AttentionTrailEnabled)),
+                    "J'en étais où ?"
+                },
+                {
+                    _settings.GetOptionDescLocaleID(nameof(AdhdSettings.AttentionTrailEnabled)),
+                    "Une courte trace des endroits où vous avez passé du temps pendant cette session, du plus récent au plus ancien. Ouvrez-en un pour retrouver la vue que vous aviez. Rien n'est enregistré, rien ne survit à la fermeture de la ville, et rien n'y est jamais qualifié d'inachevé."
+                },
 
                 {
                     _settings.GetOptionLabelLocaleID(nameof(AdhdSettings.CreativeSafetyNetEnabled)),
@@ -250,7 +268,7 @@ namespace ADHDGoneWild.Localization
                 { L10n.SafetyNetHint, "Pour tenter quelque chose et pouvoir changer d'avis." },
                 { L10n.SafetyNetHave, "Tu peux revenir à ce point" },
                 { L10n.SafetyNetRestore, "Revenir" },
-                { L10n.SafetyNetKeep, "Je garde ce que j'ai fait" },
+                { L10n.SafetyNetKeep, "Je garde" },
                 { L10n.SafetyNetWorking, "Un instant..." },
                 { L10n.SafetyNetSaveMarker, "filet de sécurité" },
 
@@ -331,6 +349,24 @@ namespace ADHDGoneWild.Localization
                     AlertTitles.KeyFor(AlertSubject.Sewage, Core.Status.Monitor),
                     "Le traitement des eaux usées approche la capacité."
                 },
+
+                { L10n.IdeaDescriptionPlaceholder, "Quelque chose à retenir" },
+                { L10n.HasDescription, "a des notes" },
+                { L10n.IdeaAddNote, "Ajouter une ligne" },
+
+                { L10n.TrailTitle, "J'en étais où ?" },
+                { L10n.TrailEmpty, "Nulle part ailleurs pour l'instant" },
+                { L10n.TrailEmptyHint, "Les lieux que vous quittez apparaissent ici." },
+                { L10n.TrailBack, "Ramène-moi là-bas" },
+                { L10n.TrailActivity[0], "En train de regarder" },
+                { L10n.TrailActivity[1], "Tracé" },
+                { L10n.TrailActivity[2], "Placement" },
+                { L10n.TrailActivity[3], "Zonage" },
+                { L10n.TrailActivity[4], "Démolition" },
+                { L10n.TrailActivity[5], "Terrassement" },
+                { L10n.TrailActivity[6], "Zones" },
+                { L10n.TrailActivity[7], "Lignes de transport" },
+                { L10n.TrailActivity[8], "Amélioration" },
 
                 { L10n.CategoryIdea, "Idée" },
                 { L10n.CategoryBuild, "Construire quelque chose" },

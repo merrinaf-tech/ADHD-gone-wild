@@ -4,6 +4,7 @@ import { cancelParking, parkAt, parking$ } from "./bindings";
 import { CategoryGlyph } from "theme/glyphs";
 import { IdeaCategory, Status, statusToken } from "theme/tokens";
 import { useSurface } from "theme/surface";
+import { DismissPriority, useDismissOnGameClose } from "theme/use-dismiss";
 import { K } from "theme/l10n";
 import { useText } from "theme/use-text";
 import styles from "../panel.module.scss";
@@ -39,8 +40,12 @@ export const ParkingHint = () => {
     // the hint exists rules that out without depending on how fast anything is dispatched.
     let armed = false;
 
-    const onDown = () => {
-      armed = true;
+    const onDown = (e: MouseEvent) => {
+      // A remapped Close may arrive on either non-primary mouse button. Neither of those presses
+      // is the beginning of a click that should place an idea.
+      if (e.button === 0) {
+        armed = true;
+      }
     };
 
     const onClick = (e: MouseEvent) => {
@@ -58,6 +63,9 @@ export const ParkingHint = () => {
       document.removeEventListener("click", onClick);
     };
   }, [parking]);
+
+  // Use the game's own Close action, including the player's mouse rebinding.
+  useDismissOnGameClose(parking, cancelParking, DismissPriority.Parking);
 
   if (!parking) {
     return null;

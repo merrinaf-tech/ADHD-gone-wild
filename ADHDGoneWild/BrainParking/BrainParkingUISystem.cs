@@ -40,6 +40,10 @@ namespace ADHDGoneWild.BrainParking
         /// </summary>
         private ValueBinding<string> _justParkedBinding;
         private ValueBinding<bool> _enabledBinding;
+
+        /// <summary>Whether the panel is allowed to say how old an idea is. Off unless asked for.</summary>
+        private ValueBinding<bool> _showAgeBinding;
+
         private RawValueBinding _ideasBinding;
 
         /// <summary>
@@ -72,6 +76,9 @@ namespace ADHDGoneWild.BrainParking
             _enabledBinding = new ValueBinding<bool>(Group, "brainParkingEnabled", true);
             AddBinding(_enabledBinding);
 
+            _showAgeBinding = new ValueBinding<bool>(Group, "showIdeaAge", false);
+            AddBinding(_showAgeBinding);
+
             _ideasBinding = new RawValueBinding(Group, "ideas", WriteIdeas);
             AddBinding(_ideasBinding);
 
@@ -86,6 +93,7 @@ namespace ADHDGoneWild.BrainParking
             AddBinding(new TriggerBinding<string>(Group, "jumpToIdea", JumpToIdea));
             AddBinding(new TriggerBinding<string, string>(Group, "setIdeaNote", SetIdeaNote));
             AddBinding(new TriggerBinding<string, int>(Group, "setIdeaCategory", SetIdeaCategory));
+            AddBinding(new TriggerBinding<string, string>(Group, "setIdeaDescription", SetIdeaDescription));
             AddBinding(new TriggerBinding<float, float>(Group, "clickWorld", ClickWorld));
             AddBinding(new TriggerBinding(Group, "clearIdeaFocus", ClearIdeaFocus));
 
@@ -108,6 +116,7 @@ namespace ADHDGoneWild.BrainParking
             var on = settings == null || settings.BrainParkingEnabled;
 
             _enabledBinding.Update(on);
+            _showAgeBinding.Update(settings != null && settings.ShowIdeaAge);
             SetActionEnabled(_memory.InGame && on);
 
             if (!on)
@@ -330,6 +339,21 @@ namespace ADHDGoneWild.BrainParking
             }
         }
 
+        private void SetIdeaDescription(string id, string description)
+        {
+            try
+            {
+                if (_memory.Memory.SetDescription(id, description))
+                {
+                    _ideasBinding.Update();
+                }
+            }
+            catch (Exception e)
+            {
+                Mod.Log.Error(e, LogPrefix + "Could not write the description on idea '" + id + "'.");
+            }
+        }
+
         private void SetIdeaCategory(string id, int category)
         {
             try
@@ -404,6 +428,9 @@ namespace ADHDGoneWild.BrainParking
 
                 writer.PropertyName("category");
                 writer.Write((int)idea.Category);
+
+                writer.PropertyName("description");
+                writer.Write(idea.Description ?? string.Empty);
 
                 writer.PropertyName("note");
                 writer.Write(idea.Note);

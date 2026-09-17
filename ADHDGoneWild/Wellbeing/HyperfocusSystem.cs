@@ -50,8 +50,15 @@ namespace ADHDGoneWild.Wellbeing
 
         private int _shownAtMinutes;
 
-        /// <summary>How many cards this run. Only ever used to rotate the note, never reported.</summary>
+        /// <summary>
+        /// How many cards this run. Only ever used to vary the card - which line it carries and
+        /// which corner it appears in - and never reported, never persisted, never used to make
+        /// the card more insistent.
+        /// </summary>
         private int _shownCount;
+
+        /// <summary>Where the current card is. Rotates, so no two in a row land in one place.</summary>
+        private HyperfocusCorner _corner;
 
         /// <summary>The body note on the current card, as a localisation key. Empty when off.</summary>
         private string _noteKey = string.Empty;
@@ -65,7 +72,7 @@ namespace ADHDGoneWild.Wellbeing
             _binding = new RawValueBinding(Group, "hyperfocus", Write);
             AddBinding(_binding);
 
-            _enabledBinding = new ValueBinding<bool>(Group, "hyperfocusEnabled", Enabled());
+            _enabledBinding = new ValueBinding<bool>(Group, "hyperfocusEnabled", FeatureEnabled());
             AddBinding(_enabledBinding);
 
             AddBinding(new TriggerBinding(Group, "dismissHyperfocus", Dismiss));
@@ -81,14 +88,14 @@ namespace ADHDGoneWild.Wellbeing
         /// <summary>Called when the player changes the option.</summary>
         public void ApplySettings()
         {
-            _enabledBinding.Update(Enabled());
+            _enabledBinding.Update(FeatureEnabled());
 
             // Changing the spacing restarts it from now, in both directions - see
             // HyperfocusRule.FromNow. Switching the feature off also takes the card away, rather
             // than leaving one on screen that the option says should not exist.
             _nextDueMinutes = HyperfocusRule.FromNow(_playedMinutes, IntervalMinutes());
 
-            if (!Enabled() && _showing)
+            if (!FeatureEnabled() && _showing)
             {
                 _showing = false;
             }
@@ -124,7 +131,7 @@ namespace ADHDGoneWild.Wellbeing
                 return;
             }
 
-            if (!HyperfocusRule.ShouldShow(Enabled(), _playedMinutes, _nextDueMinutes))
+            if (!HyperfocusRule.ShouldShow(FeatureEnabled(), _playedMinutes, _nextDueMinutes))
             {
                 return;
             }
@@ -149,6 +156,11 @@ namespace ADHDGoneWild.Wellbeing
                 ? L10n.BodyNote[(int)BodyNotes.Pick(_shownCount, now.Hour)]
                 : string.Empty;
 
+            // Chosen before the counter moves on, so the first card of a session is bottom left -
+            // where this card has always been - and each one after it is somewhere the last was
+            // not. See HyperfocusCorners for why it rotates rather than rolling a die.
+            _corner = HyperfocusCorners.For(_shownCount);
+
             _shownCount++;
 
             _binding.Update();
@@ -171,7 +183,7 @@ namespace ADHDGoneWild.Wellbeing
             _binding.Update();
         }
 
-        private static bool Enabled()
+        private static bool FeatureEnabled()
         {
             var settings = Mod.Settings;
             return settings == null || settings.HyperfocusRemindersEnabled;
@@ -204,6 +216,9 @@ namespace ADHDGoneWild.Wellbeing
 
             writer.PropertyName("noteKey");
             writer.Write(_noteKey ?? string.Empty);
+
+            writer.PropertyName("corner");
+            writer.Write((int)_corner);
 
             writer.TypeEnd();
         }

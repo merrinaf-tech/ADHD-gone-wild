@@ -2,6 +2,9 @@
 // style, so there is exactly one place a status colour is decided.
 
 $ink: rgba(255, 255, 255, 0.92);
+// Between the two: for section headers and for a line that explains an action sitting right
+// beside it. $ink-quiet is for what can be ignored entirely - timestamps, counts.
+$ink-soft: rgba(255, 255, 255, 0.72);
 $ink-quiet: rgba(255, 255, 255, 0.55);
 // #223141 is --commonDarkBlue, a real root-level custom property in the game's own stylesheet,
 // defined for exactly this. The previous value here was a neutral rgba(20, 24, 28) picked by eye:
@@ -62,13 +65,16 @@ $radius: 4rem;
   font-variant-numeric: tabular-nums;
 }
 
+// The panel itself never scrolls - it is the frame. `overflow: hidden` is here for the rounded
+// corners, and it used to sit below an `overflow-y: auto` that it silently cancelled: the
+// shorthand resets both axes, so the panel clipped instead of scrolling and a busy city pushed
+// "Park an idea" out of the box entirely, unreachable.
 .panel {
   position: absolute;
   top: 42rem;
   left: 0;
   width: 368rem;
-  max-height: 560rem;
-  overflow-y: auto;
+  max-height: 640rem;
   display: flex;
   flex-direction: column;
   background: $surface;
@@ -76,21 +82,121 @@ $radius: 4rem;
   overflow: hidden;
 }
 
-// One panel, two sections: what is true about the city, then what the player parked in it.
+// The panel's own bar: what this window is, and the way out of it.
+//
+// The game's Close action closes the panel, and that is not enough on its own - nobody discovers a
+// gesture nobody told them about. A player who opens something looks for the way to shut it in
+// the corner they have shut every window in their life, and finding nothing there is a small
+// moment of being stuck. The gesture is the shortcut; this is the answer.
+//
+// Raised slightly out of the surface so it reads as chrome rather than as content, and rounded to
+// match the frame it sits at the top of.
+.panelHeader {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8rem;
+  padding: 6rem 6rem 6rem 12rem;
+  border-radius: 6rem 6rem 0 0;
+  background: $surface-raised;
+}
+
+.panelName {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 14rem;
+  line-height: 1;
+  color: $ink-soft;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// A plain capital X, as text - never an SVG, and never the multiplication sign.
+//
+// Both were tried in Seety and both failed in this renderer: the game's font has no glyph for
+// the multiplication sign, so it came out as an empty rectangle, and the drawn path that replaced
+// it stayed black through two attempts at colouring it. Text renders and `color` applies, which
+// every other word in this file already proves.
+.panelClose {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22rem;
+  height: 22rem;
+  border: none;
+  border-radius: 11rem;
+  background: rgba(255, 255, 255, 0.16);
+  color: $ink;
+  font-size: 15rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+
+  // Red rather than a brighter grey. This one closes something, and hover is the last moment to
+  // say so.
+  &:hover {
+    background: rgb(214, 78, 68);
+  }
+
+  &:active {
+    background: rgb(255, 118, 105);
+  }
+}
+
+// Everything that can grow. `min-height: 0` is what actually lets it shrink and scroll - without
+// it a flex child refuses to go below its content size and overflows the frame instead.
+.panelBody {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+// One panel, three sections: what is true about the city, the way back, and what the player
+// parked in it.
+//
+// The hairline sits on TOP of each header rather than under it, because its job is to divide one
+// section from the one before - underlining the title instead left the sections running into each
+// other, which is what made the panel read as one undifferentiated list. `:first-child` drops it
+// at the top of the list, where there is nothing to divide from: a class-qualified `:first-child`
+// is a shape the game's own stylesheet uses in dozens of places, unlike the chained bare
+// pseudo-classes that once crashed the renderer.
+//
+// Every section is a fragment, so its header really is a direct child of `.panelBody` - whichever
+// section happens to be first with the current settings is the one that loses the line.
 .sectionHeader {
   display: flex;
   align-items: center;
   gap: 8rem;
-  padding: 10rem 12rem 8rem;
-  border-bottom: 1rem solid $hairline;
-  color: $ink;
+  padding: 14rem 12rem 8rem;
+  border-top: 1rem solid $hairline;
+  // Not $ink-quiet: a header is small and uppercase already, and at 0.55 alpha this mod had
+  // exactly the legibility complaint once before. Softer than the content, still readable.
+  color: $ink-soft;
   font-size: 14rem;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
+}
+
+.sectionHeader:first-child {
+  border-top: none;
+  padding-top: 10rem;
 }
 
 .sectionTitle {
   flex: 1;
+}
+
+// The box a section's own action sits in, between its heading and its content.
+//
+// Same left and right padding as a row, so the button lines up with the words under it, and more
+// air below than above: it belongs to the heading it follows, not to the list it precedes.
+.sectionAction {
+  padding: 2rem 12rem 8rem;
 }
 
 // "1 immediate, 2 important", as small as it can be and still be read.
@@ -160,16 +266,44 @@ $radius: 4rem;
   padding: 3rem 0;
 }
 
+// The three things on a row - the severity edge, the subject icon and the words - each need air
+// around them. At 8rem they touched often enough that the bar read as part of the icon and the
+// icon as part of the first word, which is the opposite of what a colour on the edge is for.
 .row {
   display: flex;
   align-items: center;
-  gap: 8rem;
-  padding: 7rem 12rem 7rem 8rem;
+  gap: 11rem;
+  padding: 8rem 12rem 8rem 10rem;
   cursor: pointer;
   color: $ink;
 
   &:hover {
     background: $surface-raised;
+  }
+}
+
+// "Right now" runs longer than any other section here - a busy city can state eight true things
+// at once - and unlike an idea, none of these rows is something the player wrote. They are read in
+// one sweep rather than one at a time, so they are packed tighter than the rest of the panel:
+// shorter rows, a smaller icon, a step down in type.
+//
+// Only the alerts, deliberately. A parked idea is a sentence somebody typed and gets the room to
+// be read; shrinking `.row` itself would have taken that away too.
+.alertRow {
+  gap: 9rem;
+  padding: 4rem 12rem 4rem 10rem;
+
+  .subjectIcon {
+    width: 22rem;
+    height: 22rem;
+  }
+
+  .rowLabel {
+    font-size: 15rem;
+  }
+
+  .rowWhen {
+    font-size: 13rem;
   }
 }
 
@@ -180,6 +314,9 @@ $radius: 4rem;
   align-self: stretch;
   border-radius: 2rem;
   flex: 0 0 auto;
+  // A little more than the row's gap: this is an edge marking the whole row, not the first item
+  // in a list of three.
+  margin-right: 2rem;
 }
 
 .categoryButton {
@@ -293,11 +430,26 @@ $radius: 4rem;
   line-height: 1.35;
 }
 
+// Pinned below the scrolling body, never part of it.
+//
+// It held two actions once, stacked, and "Park an idea" was the loud one. Pinning kept that button
+// reachable however busy the city got, but it also parked it under the trail, where it looked like
+// the button for "Where was I?". It now sits under its own heading, in the ideas section.
+//
+// What is left is the fold, which belongs to no section and is wanted perhaps twice a session.
+// A fixed place at the bottom of the panel is the right home for exactly that kind of control.
 .panelFooter {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
   padding: 8rem;
   border-top: 1rem solid $hairline;
 }
 
+// The action a section is for: "Park an idea" under the ideas heading, "Save a way back" under the
+// safety net's. Full width and centred, one to a row - it is the thing the player came to do, so
+// nothing shares its line and nothing else in the panel is shaped like it.
 .parkButton {
   width: 100%;
   display: flex;
@@ -315,6 +467,304 @@ $radius: 4rem;
   &:hover {
     background: rgba(255, 255, 255, 0.12);
   }
+}
+
+// The toolbar fold, as a row rather than a floating chevron.
+//
+// Same geometry as .parkButton so the two line up exactly, and no background so that the eye can
+// tell in one pass which of them is the thing this panel is for. The label is spelled out - inside
+// a panel a bare chevron says nothing, and this is a control a player meets perhaps twice a
+// session.
+//
+// Left-aligned, with the chevron first: it is a setting being toggled, not a button being aimed
+// at, and centring it would make it look like a second primary action.
+.foldButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8rem;
+  height: 30rem;
+  padding: 0 8rem;
+  border: none;
+  border-radius: $radius;
+  background: transparent;
+  color: $ink-soft;
+  font-size: 14rem;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    background: $surface-raised;
+    color: $ink;
+  }
+}
+
+.foldLabel {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+// The editor for one parked idea: its line, its longer text, and its colour.
+//
+// Beside the panel, not over it. Editing is usually a small correction - a typo, a word - and
+// losing sight of the list you picked the idea from to make one is the worse trade. Anchored to
+// this mod's own panel rather than to anything the game owns, so it cannot land on a vanilla
+// control the way the fold button managed to three times.
+.ideaEditor {
+  position: absolute;
+  top: 42rem;
+  left: 380rem;
+  width: 360rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  padding: 10rem 12rem 12rem;
+  border-radius: 6rem;
+  color: $ink;
+  pointer-events: auto;
+}
+
+.ideaEditorHeader {
+  display: flex;
+  align-items: center;
+  gap: 8rem;
+}
+
+// A text field and the hint that shows through it while it is empty.
+//
+// The hint is a real element because this renderer ignores the `placeholder` attribute - see
+// theme/text-field.tsx. `pointer-events: none` keeps it from swallowing the click that would put
+// the caret in the field underneath it, which is the one thing it must never do.
+.field {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+}
+
+.fieldHint {
+  position: absolute;
+  left: 4rem;
+  top: 0;
+  bottom: 0;
+  right: 4rem;
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.35);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+// The idea's own name, edited where it is read rather than in a box below a heading that repeats
+// it. Sized and coloured like a title, with nothing around it: it only looks like a field when
+// the pointer is on it or the caret is in it.
+.ideaTitleInput {
+  width: 100%;
+  height: 26rem;
+  padding: 0 4rem;
+  border: none;
+  border-radius: 3rem;
+  background: transparent;
+  color: $ink;
+  font-size: 16rem;
+
+  &:focus {
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Hovering anywhere over a field shows where it is - including the blank stretch to the right of
+// the words, which is part of the field and not the dead space it looks like.
+//
+// Driven from the wrapper rather than from `input:hover`. The wrapper is a plain span covering
+// exactly the same box, and a span's hover is a shape this renderer is used everywhere for, while
+// hover on an input is not something the game's own stylesheet ever asks for.
+.field:hover .ideaTitleInput,
+.field:hover .ideaNoteInput,
+.field:hover .justParkedInput {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+// Sized to the field it covers, so the hint reads at the same size as the text that will replace
+// it. Addressed as the input's next sibling rather than through a class on some ancestor, which
+// would have to be remembered at every call site.
+.ideaTitleInput + .fieldHint {
+  font-size: 16rem;
+}
+
+.ideaNoteInput + .fieldHint {
+  font-size: 14rem;
+}
+
+.justParkedInput + .fieldHint {
+  font-size: 15rem;
+}
+
+// The notes under an idea: a list, one line each, every line with a coloured dot.
+//
+// A list rather than a block of prose, because the dots only mean anything if there is something
+// for them to sit beside. It scrolls at about eight lines - further than that and this has stopped
+// being a note on an idea and started being a document, which belongs somewhere that is not a city
+// builder.
+.ideaNotes {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  max-height: 220rem;
+  overflow-y: auto;
+}
+
+.ideaNote {
+  display: flex;
+  align-items: center;
+  gap: 8rem;
+}
+
+// The bullet: a target with a dot inside it, rather than a dot that is itself the target.
+//
+// Twelve pixels is a small thing to ask anybody to hit, and it is the control that opens the
+// colours - so the button is wider than the mark it carries, and lights up under the pointer. That
+// halo is the whole reason for the extra element: a dot cannot show a hover state around itself
+// without changing size, and a control that grows when you approach it is a control that moves
+// away from your cursor.
+//
+// It keeps its place in the row when the line has no colour, because the words of every line have
+// to start in the same place - a list whose text shuffles left and right depending on whether each
+// line has a dot is harder to read than one with no dots at all. And because the empty space is
+// still the button, giving a line a colour and taking one away are the same gesture in the same
+// spot.
+.ideaBullet {
+  width: 20rem;
+  height: 20rem;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10rem;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.14);
+  }
+}
+
+// The mark itself. Transparent on a line the player left unmarked, which is the one case where
+// the halo above is doing all the work of saying "there is something here to click".
+.ideaBulletDot {
+  width: 12rem;
+  height: 12rem;
+  border-radius: 6rem;
+}
+
+// The words, in the panel's ordinary ink and never in the bullet's colour. That is the whole point
+// of the dot: a list where every line is a different colour of prose spends the eye's budget
+// before a word has been read.
+//
+// No box around it. A stack of bordered fields reads as a form to fill in, which is the last thing
+// this mod should ever look like - these are notes under a thought, so they are typed straight
+// onto the panel and only show an edge when the pointer is over one or the caret is in it.
+.ideaNoteInput {
+  width: 100%;
+  height: 26rem;
+  padding: 0 4rem;
+  border: none;
+  border-radius: 3rem;
+  background: transparent;
+  color: $ink;
+  font-size: 14rem;
+
+  &:focus {
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
+
+.ideaNoteRemove {
+  width: 20rem;
+  height: 20rem;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10rem;
+  background: transparent;
+  color: $ink-quiet;
+  font-size: 12rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+
+  &:hover {
+    background: rgb(214, 78, 68);
+    color: $ink;
+  }
+}
+
+// Shown on the line the pointer is over, like the actions on an alert row. Eight little crosses
+// down the side of a list of notes is a column of ways to lose something.
+.ideaNote:hover .ideaNoteRemove {
+  opacity: 1;
+}
+
+.ideaNoteAdd {
+  align-self: flex-start;
+  margin-top: 2rem;
+  padding: 3rem 6rem 3rem 28rem;
+  border: none;
+  border-radius: 3rem;
+  background: transparent;
+  color: $ink-quiet;
+  font-size: 14rem;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    background: $surface-raised;
+    color: $ink;
+  }
+}
+
+// The colours for one line, shown only while that line's bullet has asked for them.
+//
+// Indented to start under the words rather than under the bullet, so the row of choices reads as
+// belonging to the line above it rather than as a tenth line of its own.
+.ideaBulletPicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5rem;
+  padding: 2rem 0 4rem 28rem;
+}
+
+.ideaSwatch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26rem;
+  height: 26rem;
+  flex: 0 0 auto;
+  border: none;
+  border-radius: 13rem;
+  cursor: pointer;
+}
+
+// "No dot", as an empty outline. It has to be visible to be clicked, and it must not look like a
+// ninth colour - an outline is the one shape that says "nothing" without drawing something.
+.ideaSwatchNone {
+  border: 2rem solid rgba(255, 255, 255, 0.3);
+}
+
+// The one in use. A ring inside the swatch rather than a tick: a tick would need to be dark on
+// the pale colours and pale on the dark ones, and a ring reads on all nine.
+.ideaSwatchRing {
+  width: 12rem;
+  height: 12rem;
+  border: 2rem solid rgba(0, 0, 0, 0.55);
+  border-radius: 6rem;
 }
 
 // While the tool is live. One line, bottom centre, out of the way of what is being pointed at.
@@ -335,9 +785,11 @@ $radius: 4rem;
 }
 
 // The Welcome Back card. Top centre, out of the vanilla button row, gone the moment it is closed.
+// Clear of the vanilla button row rather than tucked under it - at 50rem the card sat against
+// the icons and read as part of them.
 .welcomeCard {
   position: absolute;
-  top: 50rem;
+  top: 88rem;
   left: 50%;
   transform: translateX(-50%);
   width: 280rem;
@@ -403,53 +855,6 @@ $radius: 4rem;
   pointer-events: none;
 }
 
-// The fold control, floating just above the status strip.
-//
-// It is positioned by hand, on the full-screen anchor, rather than dropped into one of the
-// anchors beside the toolbar - because both of those are *inside* the part that folds. Put there,
-// the control vanished along with everything else and left no way back: the toolbar stayed folded
-// across a restart with nothing on screen to unfold it. A control that can hide itself is not a
-// fold, it is a trapdoor.
-//
-// `--toolbarHeight` is the game's own variable for the status strip (it lives on :root, and is
-// already multiplied by --toolbarScale), so this sits above it whatever UI scale is set.
-//
-// No fallback value in that var(). Coherent Gameface is not a browser: the two-argument form
-// `var(--x, fallback)` appears nowhere in the game's own 460KB of CSS, while `calc(var(--x))`
-// appears 376 times. Using the fallback form crashed the UI renderer outright - a native crash
-// in cohtml Library_ExecuteWork, before the main menu drew.
-.toolbarFold {
-  position: absolute;
-
-  // Left, and 64rem in rather than flush against the edge. The game hangs a vertical column off
-  // each end of the toolbar - `.left-side-menu` and its mirror image on the right - anchored at
-  // the toolbar's top edge and growing upward, 46rem wide starting at 10rem. Both hold a mod
-  // anchor, so both can fill up with other people's buttons. The right one is what this control
-  // was covering; clearing the left one horizontally is the only way not to repeat that.
-  left: 64rem;
-  // Clear of the toolbar in both states, and in the same place in both. The toolbar is two rows
-  // of `--toolbarHeight` - the build tools and the status strip - so clearing twice that height
-  // never covers a vanilla button. Sitting where the build row would be when folded was the
-  // alternative, and it meant the control jumped every time it was used: a fold you have to
-  // re-find is worse than one slightly further from what it folds.
-  bottom: calc(var(--toolbarHeight) * 2 + 10rem);
-  display: flex;
-  align-items: center;
-  pointer-events: auto;
-}
-
-// Folded, the build row is gone and the toolbar is one strip tall - so the control drops with it
-// and stays tucked against the toolbar's top edge.
-//
-// It was fixed in place at first, on the reasoning that a control which moves is a control you
-// have to re-find. Folded, that left it hovering alone over the map with nothing beneath it, and
-// a player who folded the toolbar and looked away read the result as the interface having broken.
-// It only ever moves at the moment you are looking straight at it, which is the moment it costs
-// nothing.
-.toolbarFoldTucked {
-  bottom: calc(var(--toolbarHeight) + 10rem);
-}
-
 // What folding actually removes, beyond what the game already does for us.
 //
 // Vanilla's `onlyStatusVisible` slides away the toolbar's first child - the side menus - and in
@@ -477,7 +882,14 @@ $radius: 4rem;
 }
 
 // The way back, stated plainly. Reassurance, not an errand: nothing here counts or expires loudly.
-.safetyNetHave {
+//
+// Both states of this section - one to offer a checkpoint, one to say there is one - are laid out
+// the same way: a sentence, then the action under it, full width. The offer state used to borrow
+// `.panelFooter`, which is a row, so "Save a way back" was squeezed into a narrow column with its
+// own explanation jammed against its right-hand side, wrapped to two words a line. Nothing about
+// it was readable, and the section it belongs to was impossible to pick out at a glance.
+.safetyNetHave,
+.safetyNetEmpty {
   display: flex;
   flex-direction: column;
   gap: 4rem;
@@ -512,11 +924,13 @@ $radius: 4rem;
   }
 }
 
+// The line that explains the button below it. Above the action, not beside it: it is read once,
+// and then never again.
 .safetyNetHint {
-  margin-top: 6rem;
-  font-size: 14rem;
+  margin-bottom: 4rem;
+  font-size: 15rem;
   line-height: 1.35;
-  color: $ink-quiet;
+  color: $ink-soft;
 }
 
 // The card that offers to say a little more about the thought that was just parked.
@@ -585,6 +999,7 @@ $radius: 4rem;
 }
 
 .justParkedInput {
+  width: 100%;
   height: 30rem;
   padding: 0 8rem;
   border: 1rem solid $hairline;
@@ -605,11 +1020,6 @@ $radius: 4rem;
 // it never covers a vanilla button and never has to move. Small, quiet, and gone in one click.
 .hyperfocusCard {
   position: absolute;
-
-  // Stacked above the fold control, and clear of the same vanilla column - see .toolbarFold.
-  // The control is 40rem tall, so this starts above where it ends.
-  left: 64rem;
-  bottom: calc(var(--toolbarHeight) * 2 + 58rem);
   width: 264rem;
   display: flex;
   flex-direction: column;
@@ -648,4 +1058,31 @@ $radius: 4rem;
   justify-content: flex-end;
   gap: 4rem;
   margin-top: 6rem;
+}
+
+// The three corners the clock card rotates between, and every number in them is a clearance.
+//
+// 64rem in from either side rather than flush against it: the game hangs a vertical column off
+// each end of the toolbar - `.left-side-menu` and its mirror - anchored to the toolbar's top edge
+// and 46rem wide from 10rem. This passes beside them, not over them.
+//
+// The bottom pair clear both toolbar rows. The top one uses 88rem, which is the offset the
+// welcome-back card already proved is below the vanilla button row rather than tucked under it.
+//
+// There is no top-left. That is where this mod's own panel opens, and a card landing on the
+// player's open panel would be the fourth time something floating in this mod has been put
+// somewhere it collides - see the note in calm/toolbar-fold.tsx for the other three.
+.hyperfocusBottomLeft {
+  left: 64rem;
+  bottom: calc(var(--toolbarHeight) * 2 + 10rem);
+}
+
+.hyperfocusBottomRight {
+  right: 64rem;
+  bottom: calc(var(--toolbarHeight) * 2 + 10rem);
+}
+
+.hyperfocusTopRight {
+  right: 64rem;
+  top: 88rem;
 }

@@ -6,6 +6,7 @@ import { AlertCounts } from "../alerts/alerts-panel";
 import { PlaceGlyph } from "theme/glyphs";
 import { Status } from "theme/tokens";
 import { useSurface } from "theme/surface";
+import { useDismissOnGameClose } from "theme/use-dismiss";
 import { K } from "theme/l10n";
 import { useText } from "theme/use-text";
 import styles from "../panel.module.scss";
@@ -25,6 +26,8 @@ export const WelcomeBack = () => {
   const alerts = useValue(alerts$);
   const text = useText();
   const surface = useSurface();
+
+  useDismissOnGameClose(visible, dismissWelcomeBack);
 
   if (!visible) {
     return null;

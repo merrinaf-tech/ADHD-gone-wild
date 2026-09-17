@@ -57,13 +57,13 @@ ADHD Gone Wild clears the noise, remembers the loose ends, and lets your brain w
 * **Welcome back** - where you were, and what you left there.
 * **A calmer screen** - map icons stop pulsing, and the build toolbar folds away.
 * **Reminds you to drink water** - while you are hyperfocusing. It never suggests stopping.
+* **Where was I?** - an optional, session-only trail of places where you spent time.
 
-Everything can be switched off on its own. Nothing is written into your save games. English,
-French and Italian.
+Everything can be switched off on its own. Nothing is written into your save games.
 
 ## Early days
 
-This is a first release and the mod is nowhere near finished. Plenty is still planned, some of
+This is a young mod and it is nowhere near finished. Plenty is still planned, some of
 what is here will change, and a few things are certainly rough.
 
 **Please leave a comment.** What helps, what gets in the way, what you wish it did. And if you
@@ -72,7 +72,10 @@ because it is the part I cannot work out on my own.
 
 ## Thanks
 
-To my girlfriend, and to her ADHD. Between them they shaped this mod far more than I did.
+To Sumarra, who played it, found a bug I had missed, and then took the screenshots on this
+page and offered them unasked.
+
+And to my girlfriend, and to her ADHD. Between them they shaped this mod far more than I did.
 	</LongDescription>
 
 	<!--
@@ -83,11 +86,29 @@ To my girlfriend, and to her ADHD. Between them they shaped this mod far more th
 
 	  So: always publish with the working directory set to ADHDGoneWild, e.g.
 	    cd ADHDGoneWild
-	    ModPublisher.exe Update PropertiesPublishConfiguration.xml -c <deployed mods folder> -v
+	    ModPublisher.exe Update Properties/PublishConfiguration.xml -c <deployed mods folder> -v
 
 	  Check the line it prints back - "Thumbnail: <full path>" - and make sure that file exists.
 	-->
 	<Thumbnail Value="Properties/Thumbnail.png" />
+
+	<!--
+	     Screenshots are the one field the publisher does NOT wipe when it finds none, but the
+	     moment one is declared here this file governs them: remove a line and the next publish
+	     removes the picture from the listing.
+
+	     All four taken by a player, Sumarra, and offered unasked.
+
+	     Two of them show the mod as it was: the panel shot has the "Keep" button clipped off the
+	     right-hand edge, fixed in 0.1.1, and the folded-toolbar shot is built around the floating
+	     fold control that 0.1.2 moves into the panel. They go up anyway, by the author's decision,
+	     to be replaced once there are shots of the current build. Worth redoing, not worth holding
+	     the page empty for.
+	-->
+	<Screenshot Value="Properties/Screenshots/adhd-park-an-idea.png" />
+	<Screenshot Value="Properties/Screenshots/adhd-clock.png" />
+	<Screenshot Value="Properties/Screenshots/adhd-panel.png" />
+	<Screenshot Value="Properties/Screenshots/adhd-folded-toolbar.png" />
 
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/mod-adhd-gone-wild.1941134/" />
 
@@ -99,24 +120,23 @@ To my girlfriend, and to her ADHD. Between them they shaped this mod far more th
 
 	<Tag Value="Code Mod" />
 
-	<ModVersion Value="0.1.1" />
+	<ModVersion Value="0.1.4" />
 	<GameVersion Value="1.6.*" />
 
 	<!-- This version's changes only. Never an accumulated history. -->
 	<ChangeLog>
-Fixes, mostly from what the first players ran into. Thank you for the reports.
-
-- **Fixed: the build toolbar could come back folded after using the safety net**, with the demand
-  bars, zoning, services and bulldozer gone and no obvious way to bring them back. Every city now
-  opens with the toolbar out, and while it is folded the fold button sits tucked against it instead
-  of floating alone over the map.
-- **Fixed: "Keep what I did" was pushed outside the panel**, so there was no way to let a
-  checkpoint go.
-- **Fixed: the mod's own icons drew black** on the dark panel and were nearly invisible. They now
-  take their colour directly instead of inheriting it.
-- **New: you can choose the colour of the mod's panels** - Options, Appearance. Only the shade
-  changes, so they stay dark enough to read wherever you put the slider.
-- Removed the colour-blind palette option and the small shapes beside each row. The palette only
-  ever repainted a 4px bar, and what a row means is in its words, not its colour.
+- **You can edit a parked idea now.** Click one in the list and its card opens: rename it, and
+  write as many notes under it as you like. Marcaliseth asked for this - to fix typos - and it
+  turned into the whole card.
+- **Notes are a coloured list.** Every line has a dot, and clicking the dot offers eight colours
+  or none at all. The words themselves stay white: colour is for sorting your own lines at a
+  glance, not for making a list you have to squint at.
+- **Clicking an idea shows it without moving you.** "View" beside it is the one that takes you to
+  the spot, and clicking its ring on the map opens the card too.
+- Fixed: the hint text inside every text box was invisible. It has been since the first release -
+  the box that asks "anything to add?" after you park something looked simply empty.
+- **"Park an idea" has moved under Parked ideas**, where it belongs. It used to sit pinned at the
+  very bottom of the panel, under the trail, looking like the button for "Where was I?".
+- The "Right now" rows are smaller, so a busy city fits in one look.
 	</ChangeLog>
 </Publish>

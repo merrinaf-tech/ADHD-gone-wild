@@ -62,7 +62,7 @@ export const AlertsPanel = () => {
     return (
       <div
         key={alert.id}
-        className={styles.row}
+        className={`${styles.row} ${styles.alertRow}`}
         style={{ background: token.wash }}
         onClick={() => alert.canView && viewAlert(alert.id)}
       >

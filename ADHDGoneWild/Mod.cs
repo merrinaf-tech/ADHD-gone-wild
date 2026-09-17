@@ -6,6 +6,7 @@ using ADHDGoneWild.Creativity;
 using ADHDGoneWild.Localization;
 using ADHDGoneWild.Memory;
 using ADHDGoneWild.Settings;
+using ADHDGoneWild.Trail;
 using ADHDGoneWild.UI;
 using ADHDGoneWild.Wellbeing;
 using Colossal.IO.AssetDatabase;
@@ -32,7 +33,7 @@ namespace ADHDGoneWild
     {
         public const string Id = "ADHDGoneWild";
         public const string Name = "ADHD gone wild";
-        public const string Version = "0.1.0";
+        public const string Version = "0.1.3";
 
         /// <summary>
         /// English is the source language: every key exists here first, and the others are checked
@@ -54,6 +55,7 @@ namespace ADHDGoneWild
         private static CalmToolbarUISystem _calmToolbar;
         private static CheckpointSystem _checkpoints;
         private static HyperfocusSystem _hyperfocus;
+        private static TrailUISystem _trail;
         private static ThemeUISystem _theme;
         private static LocaleEN _locale;
         private static LocaleIT _localeIT;
@@ -101,6 +103,7 @@ namespace ADHDGoneWild
             updateSystem.UpdateAt<CheckpointSystem>(SystemUpdatePhase.UIUpdate);
             updateSystem.UpdateAt<HyperfocusSystem>(SystemUpdatePhase.UIUpdate);
             updateSystem.UpdateAt<ThemeUISystem>(SystemUpdatePhase.UIUpdate);
+            updateSystem.UpdateAt<TrailUISystem>(SystemUpdatePhase.UIUpdate);
 
             // CityMemorySystem is deliberately not registered in a phase: it has no per-frame
             // work. The systems above create it, and it wakes on the game's own load callbacks.
@@ -120,6 +123,8 @@ namespace ADHDGoneWild
             _calm = null;
             _calmToolbar = null;
             _checkpoints = null;
+            _hyperfocus = null;
+            _trail = null;
             _theme = null;
 
             if (_locale != null)
@@ -208,6 +213,11 @@ namespace ADHDGoneWild
             _hyperfocus = system;
         }
 
+        internal static void RegisterTrail(TrailUISystem system)
+        {
+            _trail = system;
+        }
+
         internal static void OnBrainParkingSettingsChanged()
         {
             if (_brainParking != null)
@@ -266,6 +276,14 @@ namespace ADHDGoneWild
             if (_hyperfocus != null)
             {
                 _hyperfocus.ApplySettings();
+            }
+        }
+
+        internal static void OnTrailSettingsChanged()
+        {
+            if (_trail != null)
+            {
+                _trail.ApplySettings();
             }
         }
 

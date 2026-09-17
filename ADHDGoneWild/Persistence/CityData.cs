@@ -59,6 +59,16 @@ namespace ADHDGoneWild.Persistence
         /// <summary>Optional. Most ideas never get one, and that is the point.</summary>
         public string Note = string.Empty;
 
+        /// <summary>
+        /// The long version, also optional. Absent from files written before it existed, which
+        /// reads back as empty - exactly right, and why this needed no schema bump.
+        ///
+        /// One item per line, each carrying the colour of its bullet - see the encoding in
+        /// UI/src/mods/brain-parking/description.ts. Stored as one string because that is all it
+        /// has to be: nothing on the C# side ever reads inside it.
+        /// </summary>
+        public string Description = string.Empty;
+
         public float X;
         public float Y;
         public float Z;

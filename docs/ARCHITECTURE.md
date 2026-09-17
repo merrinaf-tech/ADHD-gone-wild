@@ -89,7 +89,9 @@ One binding group, `"adhd"`, over the game's own `Colossal.UI.Binding`. No Harmo
 | `forgetIdea(id)` | trigger | UI → C# |
 | `jumpToIdea(id)` | trigger | UI → C# |
 | `setIdeaCategory(id, category)` | trigger | UI → C# |
-| `setIdeaNote(id, note)` | trigger | UI → C#. Exists; no UI uses it yet — see ROADMAP. |
+| `setIdeaNote(id, note)` | trigger | UI → C#. The line on the row, set at parking time or in the editor. |
+| `setIdeaDescription(id, text)` | trigger | UI → C#. The long version, written in the editor. |
+| `setIdeaColour(id, colour)` | trigger | UI → C#. The player's own colour, independent of the category. |
 | `alerts` | raw value | C# → UI. Counts per status, plus the visible rows. |
 | `smartAlertsEnabled` | bool | C# → UI. |
 | `setAlertsOpen(open)` | trigger | UI → C#. Lets the collector slow down when nobody is looking. |

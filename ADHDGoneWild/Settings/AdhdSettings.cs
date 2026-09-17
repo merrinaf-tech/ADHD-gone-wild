@@ -48,6 +48,15 @@ namespace ADHDGoneWild.Settings
         private bool _creativeSafetyNetEnabled = true;
         private bool _welcomeBackEnabled = true;
         private AwayLength _welcomeBackAfter = AwayLength.ThirtyMinutes;
+
+        // Off until the player asks for it. Every other feature here defaults on, and this one
+        // does not on purpose: it is the only thing in the mod that watches where the player goes,
+        // and something that watches you should be something you switched on yourself.
+        private bool _attentionTrailEnabled;
+
+        // Off. An age on a parked thought is the one thing that can turn it into a debt,
+        // so it is offered rather than assumed.
+        private bool _showIdeaAge;
         private bool _hyperfocusRemindersEnabled = true;
         private FocusLength _hyperfocusAfter = FocusLength.TwoHours;
         private bool _hyperfocusBodyNotes = true;
@@ -268,6 +277,35 @@ namespace ADHDGoneWild.Settings
         /// Whether a parked idea leaves a visible ring on the map. On by default: the place is
         /// half of what the player saved, and a list alone throws that half away.
         /// </summary>
+        /// <summary>
+        /// Whether a parked idea says how long ago it was parked.
+        ///
+        /// Off by default, and that is the whole point of it existing as an option at all. "4 days
+        /// ago" under a thought is a small accusation: nothing else about an idea in this mod
+        /// changes with time, nothing expires, nothing is chased - and then a number sitting there
+        /// counting upwards quietly turns a note into something that has been waiting for you.
+        ///
+        /// Some people want it anyway, and for a good reason: it tells you which thoughts are from
+        /// this session and which are from a city you barely remember. So it is here, and it is a
+        /// choice rather than a default.
+        /// </summary>
+        [SettingsUISection(MainSection, MemoryGroup)]
+        [SettingsUIHideByCondition(typeof(AdhdSettings), nameof(BrainParkingOff))]
+        public bool ShowIdeaAge
+        {
+            get { return _showIdeaAge; }
+            set
+            {
+                if (_showIdeaAge == value)
+                {
+                    return;
+                }
+
+                _showIdeaAge = value;
+                Mod.OnBrainParkingSettingsChanged();
+            }
+        }
+
         [SettingsUISection(MainSection, MemoryGroup)]
         [SettingsUIHideByCondition(typeof(AdhdSettings), nameof(BrainParkingOff))]
         public bool ShowIdeaMarkers
@@ -307,6 +345,31 @@ namespace ADHDGoneWild.Settings
         public int WelcomeBackAfterMinutes()
         {
             return (int)_welcomeBackAfter;
+        }
+
+        /// <summary>
+        /// "Where was I?" - the places the player spent time in this session, in the order they
+        /// were last at them.
+        ///
+        /// Off by default, which is the deliberate exception in this mod. Nothing is written to
+        /// disk, nothing survives closing the city and no entity is ever read - but it is still
+        /// the one feature that notices where somebody goes, and that is a thing to be offered
+        /// rather than assumed.
+        /// </summary>
+        [SettingsUISection(MainSection, MemoryGroup)]
+        public bool AttentionTrailEnabled
+        {
+            get { return _attentionTrailEnabled; }
+            set
+            {
+                if (_attentionTrailEnabled == value)
+                {
+                    return;
+                }
+
+                _attentionTrailEnabled = value;
+                Mod.OnTrailSettingsChanged();
+            }
         }
 
         // ---- Creativity ---------------------------------------------------------------------
@@ -479,6 +542,8 @@ namespace ADHDGoneWild.Settings
             _creativeSafetyNetEnabled = true;
             _welcomeBackEnabled = true;
             _welcomeBackAfter = AwayLength.ThirtyMinutes;
+            _attentionTrailEnabled = false;
+            _showIdeaAge = false;
             _interfaceHue = UI.InterfaceColour.DefaultHue;
         }
     }

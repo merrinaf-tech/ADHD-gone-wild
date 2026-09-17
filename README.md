@@ -13,8 +13,8 @@ It is not a productivity tool, and it never will be — see
 
 ## What works today
 
-One small owl joins the vanilla row in the top-left. It shows what is wrong right now and
-how many thoughts you have parked here, and nothing else until you click it.
+One small owl joins the vanilla row in the top-left. It shows a count of alerts that need
+attention; everything else is behind one click.
 
 **Smart alerts.** Cities: Skylines II will put the same warning over forty buildings. This gathers
 them into one short list: one row per kind, worst first, with the count beside it. It also watches
@@ -32,13 +32,12 @@ The same panel lists what you have parked in this city. Click one to fly to it, 
 of thing it was, or forget it. Ideas are memories, not tasks: nothing here has a state, a
 percentage, or a due date.
 
-> ⚠️ **Nothing has been played yet.** Both halves compile and deploy cleanly, and the logic that
-> decides what counts as a problem passes 61 tests. That is all that has been proven so far. Treat
-> this as a build to try, not a build that works.
+Players have confirmed that the released Go Back flow, reminders and toolbar control help them
+play. Changes in the current source still need an in-game check before a new version is published.
 
 ## Building
 
-Two halves: a C# code mod and a React UI module. One command builds both, in the right order.
+Two halves: a C# code mod and a React UI module. Build the UI first, then the code mod.
 
 **The game must be closed** — deploying overwrites the mod folder, and a running game holds it.
 
@@ -77,8 +76,7 @@ Pure logic only — anything needing the game is kept thin and tested by playing
 dotnet test tests/ADHDGoneWild.Tests
 ```
 
-The thresholds that decide when the mod is allowed to interrupt you live in one class and are
-tested there — `AlertClassifierTests` is the file to read if you want to argue with them.
+The rules for alerts, reminders and the attention trail are tested separately from the game UI.
 
 ## Options
 
@@ -89,6 +87,8 @@ Under **Options → Mods → ADHD gone wild**:
 - **Brain parking** — the feature's own switch
 - **Park an idea** — the shortcut, rebindable
 - **New ideas are filed as** — what a freshly parked idea starts out as
+- **Toolbar fold, Welcome Back, safety net and hyperfocus reminders** — independent switches
+- **Attention trail** — an optional, session-only list of places you spent time in
 - **Colour palette** — standard, or colour-blind friendly
 
 Every feature the mod grows will get its own switch. There is no single correct ADHD experience,
@@ -105,7 +105,8 @@ so nothing here is load-bearing: switch something off and the game is exactly as
 
 Local, always. No accounts, no telemetry, no external services, no analytics. The mod's notes
 live in a plain JSON file beside the game's user data, and never inside a save — a city saved
-with this mod installed opens perfectly well without it.
+with this mod installed opens perfectly well without it. The optional attention trail stays in
+memory for the current city session and is not written to the log or the city file.
 
 ## Licence
 

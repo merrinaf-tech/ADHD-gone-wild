@@ -52,7 +52,7 @@ namespace ADHDGoneWild.Localization
                 },
                 {
                     _settings.GetOptionDescLocaleID(nameof(AdhdSettings.ShowToolbarCollapseButton)),
-                    "A small control beside the build toolbar that folds it away and brings it back. The buttons are always one click from returning."
+                    "A row in this mod's own panel that folds the build toolbar away and brings it back. It lives there rather than floating over the game, where no resolution or other mod can put it somewhere unreachable."
                 },
 
                 {
@@ -116,6 +116,15 @@ namespace ADHDGoneWild.Localization
                 },
 
                 {
+                    _settings.GetOptionLabelLocaleID(nameof(AdhdSettings.ShowIdeaAge)),
+                    "Show when an idea was parked"
+                },
+                {
+                    _settings.GetOptionDescLocaleID(nameof(AdhdSettings.ShowIdeaAge)),
+                    "Puts \"4 days ago\" under each one. Off by default: nothing about a parked idea changes with time, nothing expires and nothing is ever chased - and a number counting upwards is the one thing that can make a note feel like something waiting for you. Useful anyway if you want to tell this session's thoughts from an older city's."
+                },
+
+                {
                     _settings.GetOptionLabelLocaleID(nameof(AdhdSettings.ShowIdeaMarkers)),
                     "Show ideas on the map"
                 },
@@ -147,6 +156,15 @@ namespace ADHDGoneWild.Localization
                 { _settings.GetEnumValueLocaleID(AdhdSettings.AwayLength.OneHour), "1 hour" },
                 { _settings.GetEnumValueLocaleID(AdhdSettings.AwayLength.ThreeHours), "3 hours" },
                 { _settings.GetEnumValueLocaleID(AdhdSettings.AwayLength.OneDay), "A day or more" },
+
+                {
+                    _settings.GetOptionLabelLocaleID(nameof(AdhdSettings.AttentionTrailEnabled)),
+                    "Where was I?"
+                },
+                {
+                    _settings.GetOptionDescLocaleID(nameof(AdhdSettings.AttentionTrailEnabled)),
+                    "A short trail of the places you spent time in, this session, most recent first. Open one to go back to the view you had. Nothing is saved, nothing survives closing the city, and nothing here is ever called unfinished."
+                },
 
                 {
                     _settings.GetOptionLabelLocaleID(nameof(AdhdSettings.CreativeSafetyNetEnabled)),
@@ -242,7 +260,7 @@ namespace ADHDGoneWild.Localization
                 { L10n.SafetyNetHint, "So you can try something and change your mind." },
                 { L10n.SafetyNetHave, "You can come back to this" },
                 { L10n.SafetyNetRestore, "Go back" },
-                { L10n.SafetyNetKeep, "Keep what I did" },
+                { L10n.SafetyNetKeep, "Keep" },
                 { L10n.SafetyNetWorking, "Working..." },
                 { L10n.SafetyNetSaveMarker, "safety net" },
 
@@ -334,6 +352,24 @@ namespace ADHDGoneWild.Localization
                     AlertTitles.KeyFor(AlertSubject.Sewage, Core.Status.Monitor),
                     "Sewage treatment is close to capacity."
                 },
+
+                { L10n.IdeaDescriptionPlaceholder, "Anything worth remembering" },
+                { L10n.HasDescription, "has notes" },
+                { L10n.IdeaAddNote, "Add a line" },
+
+                { L10n.TrailTitle, "Where was I?" },
+                { L10n.TrailEmpty, "Nowhere else yet" },
+                { L10n.TrailEmptyHint, "Places you leave behind show up here." },
+                { L10n.TrailBack, "Take me back" },
+                { L10n.TrailActivity[0], "Looking around" },
+                { L10n.TrailActivity[1], "Drawing" },
+                { L10n.TrailActivity[2], "Placing things" },
+                { L10n.TrailActivity[3], "Zoning" },
+                { L10n.TrailActivity[4], "Demolishing" },
+                { L10n.TrailActivity[5], "Landscaping" },
+                { L10n.TrailActivity[6], "Areas" },
+                { L10n.TrailActivity[7], "Transport lines" },
+                { L10n.TrailActivity[8], "Upgrading" },
 
                 { L10n.CategoryIdea, "Idea" },
                 { L10n.CategoryBuild, "Build something" },

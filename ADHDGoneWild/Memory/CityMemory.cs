@@ -76,6 +76,7 @@ namespace ADHDGoneWild.Memory
                     string.IsNullOrEmpty(stored.Id) ? Guid.NewGuid().ToString("N") : stored.Id,
                     (IdeaCategory)stored.Category,
                     stored.Note,
+                    stored.Description,
                     new WorldPoint(stored.X, stored.Y, stored.Z),
                     FromUnix(stored.CreatedUnixUtc)));
             }
@@ -156,6 +157,23 @@ namespace ADHDGoneWild.Memory
             }
 
             idea.Note = note ?? string.Empty;
+            Flush();
+            return true;
+        }
+
+        /// <summary>
+        /// The long version. Empty is a perfectly good value and clears it - a player who deletes
+        /// what they wrote has decided the idea says enough on its own, which is not an error.
+        /// </summary>
+        public bool SetDescription(string id, string description)
+        {
+            var idea = FindIdea(id);
+            if (idea == null)
+            {
+                return false;
+            }
+
+            idea.Description = description ?? string.Empty;
             Flush();
             return true;
         }
@@ -284,6 +302,7 @@ namespace ADHDGoneWild.Memory
                     Id = idea.Id,
                     Category = (int)idea.Category,
                     Note = idea.Note,
+                    Description = idea.Description,
                     X = idea.Position.X,
                     Y = idea.Position.Y,
                     Z = idea.Position.Z,

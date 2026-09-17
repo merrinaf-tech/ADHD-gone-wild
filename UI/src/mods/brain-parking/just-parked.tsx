@@ -10,8 +10,10 @@ import {
 import { CategoryGlyph } from "theme/glyphs";
 import { IDEA_CATEGORIES, Status, ideaColour, statusToken } from "theme/tokens";
 import { useSurface } from "theme/surface";
+import { useDismissOnGameClose } from "theme/use-dismiss";
 import { K } from "theme/l10n";
 import { useText } from "theme/use-text";
+import { TextField } from "theme/text-field";
 import styles from "../panel.module.scss";
 
 /**
@@ -37,6 +39,8 @@ export const JustParked = () => {
   // A fresh idea starts with an empty title; reset when a different one is parked so the previous
   // one's half-typed words never leak into it.
   useEffect(() => setTitle(idea ? idea.note : ""), [id]);
+
+  useDismissOnGameClose(Boolean(id && idea), dismissJustParked);
 
   if (!id || !idea) {
     return null;
@@ -80,17 +84,16 @@ export const JustParked = () => {
       </div>
 
       {/*
-        stopPropagation on every key is what keeps typing out of the game: without it the letters
-        reach the world as shortcuts and the city starts building things. Enter accepts, Escape
-        walks away - and walking away still leaves the idea exactly where it was parked.
+        Enter accepts, Escape walks away - and walking away still leaves the idea exactly where it
+        was parked. The guard that keeps these keystrokes out of the game lives in TextField, along
+        with the placeholder this renderer will not draw on its own.
       */}
-      <input
+      <TextField
         className={styles.justParkedInput}
         value={title}
         placeholder={text(K.notePlaceholder)}
-        onChange={(e) => setTitle(e.currentTarget.value)}
+        onChange={setTitle}
         onKeyDown={(e) => {
-          e.stopPropagation();
           if (e.key === "Enter") {
             commit(e.currentTarget.value);
           }

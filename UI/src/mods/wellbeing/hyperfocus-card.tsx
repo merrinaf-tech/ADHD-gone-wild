@@ -1,8 +1,14 @@
 import React from "react";
 import { useValue } from "cs2/api";
-import { dismissHyperfocus, hyperfocus$, snoozeHyperfocus } from "./bindings";
+import {
+  dismissHyperfocus,
+  hyperfocus$,
+  HyperfocusCorner,
+  snoozeHyperfocus,
+} from "./bindings";
 import { useLocalization } from "cs2/l10n";
 import { useSurface } from "theme/surface";
+import { useDismissOnGameClose } from "theme/use-dismiss";
 import { K } from "theme/l10n";
 import { useText } from "theme/use-text";
 import styles from "../panel.module.scss";
@@ -28,6 +34,10 @@ export const HyperfocusCard = () => {
   const surface = useSurface();
   const { translate } = useLocalization();
 
+  // Snoozed rather than acknowledged. A Close press aimed at clearing the screen is not the same
+  // as having read the card, so the time comes back shortly instead of after the full gap.
+  useDismissOnGameClose(state.visible, snoozeHyperfocus);
+
   if (!state.visible) {
     return null;
   }
@@ -38,7 +48,10 @@ export const HyperfocusCard = () => {
   const note = state.noteKey ? translate(state.noteKey, null) : null;
 
   return (
-    <div className={styles.hyperfocusCard} style={{ background: surface }}>
+    <div
+      className={`${styles.hyperfocusCard} ${corner(state.corner)}`}
+      style={{ background: surface }}
+    >
       {/* The one fact worth being large. */}
       <div className={styles.hyperfocusClock}>{state.clock}</div>
 
@@ -64,6 +77,29 @@ export const HyperfocusCard = () => {
       </div>
     </div>
   );
+};
+
+/**
+ * The corner, as a class.
+ *
+ * A switch rather than a lookup by index: an unrecognised value - a newer C# side sending a
+ * corner this bundle has never heard of - then lands bottom left, where the card has always
+ * been, instead of on an undefined className. A className of `undefined` is not a harmless
+ * no-op in this renderer: it drops the element out of absolute positioning and into the normal
+ * flow, which once pushed the entire game HUD out of shape.
+ */
+const corner = (which: HyperfocusCorner): string => {
+  switch (which) {
+    case HyperfocusCorner.TopRight:
+      return styles.hyperfocusTopRight;
+
+    case HyperfocusCorner.BottomRight:
+      return styles.hyperfocusBottomRight;
+
+    case HyperfocusCorner.BottomLeft:
+    default:
+      return styles.hyperfocusBottomLeft;
+  }
 };
 
 /**
