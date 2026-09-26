@@ -27,3 +27,6 @@ Pic/*.psd
 # the README links to it, the second is an ordinary engineering overview.
 docs/ROADMAP.md
 docs/TECHNICAL_FINDINGS.md
+
+# Development workbench: notes, player feedback, backups, logs. Never published.
+_dev/
