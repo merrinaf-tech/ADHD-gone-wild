@@ -61,19 +61,13 @@ ADHD Gone Wild clears the noise, remembers the loose ends, and lets your brain w
 
 Everything can be switched off on its own. Nothing is written into your save games.
 
-## Early days
-
-This is a young mod and it is nowhere near finished. Plenty is still planned, some of
-what is here will change, and a few things are certainly rough.
-
 **Please leave a comment.** What helps, what gets in the way, what you wish it did. And if you
 have ADHD, how any of this actually lands for you - that is worth more to me than a bug report,
 because it is the part I cannot work out on my own.
 
 ## Thanks
 
-To Sumarra, who played it, found a bug I had missed, and then took the screenshots on this
-page and offered them unasked.
+To Sumarra who took the screenshots on this page.
 
 And to my girlfriend, and to her ADHD. Between them they shaped this mod far more than I did.
 	</LongDescription>
@@ -125,8 +119,10 @@ And to my girlfriend, and to her ADHD. Between them they shaped this mod far mor
 
 	<!-- This version's changes only. Never an accumulated history. -->
 	<ChangeLog>
-- **"Park an idea" has moved under Parked ideas**, where it belongs. It used to sit pinned at the
-  very bottom of the panel, under the trail, looking like the button for "Where was I?".
-- The "Right now" rows are smaller, so a busy city fits in one look.
+- Detail options wait behind the game's Show Advanced switch.
+- Ideas and trail use the same compact rows as "Right now".
+- Adding a line to an idea is a + button.
+- Your Cancel mouse button closes the mod's panels and cards.
+- The options page shows the right version.
 	</ChangeLog>
 </Publish>
