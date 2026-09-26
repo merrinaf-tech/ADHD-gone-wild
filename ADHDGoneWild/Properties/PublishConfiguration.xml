@@ -114,17 +114,17 @@ And to my girlfriend, and to her ADHD. Between them they shaped this mod far mor
 
 	<Tag Value="Code Mod" />
 
-	<ModVersion Value="0.1.5" />
+	<ModVersion Value="0.2.0" />
 	<GameVersion Value="1.6.*" />
 
 	<!-- This version's changes only. Never an accumulated history. -->
 	<ChangeLog>
+- The panel is split into clearer sections.
+- Going back to a safety net asks first.
 - Detail options wait behind the game's Show Advanced switch.
 - Ideas and trail use the same compact rows as "Right now".
 - Adding a line to an idea is a + button.
 - Your Cancel mouse button closes the mod's panels and cards.
 - The options page shows the right version.
-- The panel is split into clearer sections.
-- Going back to a safety net asks first.
 	</ChangeLog>
 </Publish>
