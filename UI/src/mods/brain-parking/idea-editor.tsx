@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Tooltip } from "cs2/ui";
 import { Idea, setIdeaDescription, setIdeaNote } from "./bindings";
 import { DescriptionLine, formatDescription, parseDescription } from "./description";
 import { CategoryGlyph } from "theme/glyphs";
@@ -197,9 +198,20 @@ export const IdeaEditor = ({ idea, onClose }: { idea: Idea; onClose: () => void 
           </React.Fragment>
         ))}
 
-        <button className={styles.ideaNoteAdd} onClick={() => addLine(lines.length - 1)}>
-          {text(K.ideaAddNote)}
-        </button>
+        {/*
+          A plus where the next bullet would be, rather than the words "Add a line" indented under
+          the text. It is the one control here that does not need saying: it sits at the bottom of
+          a column of bullets, in that column, shaped like them - the next one, not written yet.
+
+          The words are not thrown away, they move into the tooltip. A bare glyph with no way to
+          find out what it does is what went wrong with the toolbar fold (see calm/toolbar-fold),
+          and the sentence is already translated into three languages.
+        */}
+        <Tooltip tooltip={text(K.ideaAddNote)}>
+          <button className={styles.ideaNoteAdd} onClick={() => addLine(lines.length - 1)}>
+            +
+          </button>
+        </Tooltip>
       </div>
 
     </div>
