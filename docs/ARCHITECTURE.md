@@ -109,8 +109,9 @@ appended to and never renumbered.
 ## Persistence
 
 `<EnvPath.kUserDataPath>/ModsData/ADHDGoneWild/cities/<key>.json`, one file per city, schema
-versioned from v1. Nothing is written into a save game. Full reasoning, and the city-key
-limitation, in [TECHNICAL_FINDINGS.md](TECHNICAL_FINDINGS.md).
+versioned from v1. Nothing is written into a save game. The key is the city name, so renaming a
+city starts a fresh, empty file (the old one is left in place), and two cities with the same name
+share one.
 
 Failure is always survivable: a missing or corrupt file yields empty data plus a log line; a
 failed write logs and returns false. Neither ever throws at the player.
@@ -153,8 +154,7 @@ carry the exception.
 
 ## Known API dependencies
 
-Listed with their verification status in [TECHNICAL_FINDINGS.md](TECHNICAL_FINDINGS.md). The
-short version: `ToolBaseSystem`, `ToolRaycastSystem`, `CameraUpdateSystem`, `CitySystem`,
+`ToolBaseSystem`, `ToolRaycastSystem`, `CameraUpdateSystem`, `CitySystem`,
 `NameSystem`, `PrefabSystem`, `ElectricityStatisticsSystem`, `WaterStatisticsSystem`,
 `Game.Notifications.Icon`, `ModSetting` + `ProxyAction`, `EnvPath`. No Harmony. No patched
 methods.

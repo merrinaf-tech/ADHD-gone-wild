@@ -60,13 +60,8 @@ dotnet build ADHDGoneWild.sln -c Release
 That deploys to `%LOCALAPPDATA%Low\Colossal Order\Cities Skylines II\Mods\ADHDGoneWild`. Start
 the game and enable the mod.
 
-### On this machine specifically
-
-`dotnet` is not on PATH, and the toolchain's post-processor needs a roll-forward. In PowerShell:
-
-```bash
-$env:PATH="C:\Users\merri\.dotnet;$env:PATH"; $env:DOTNET_ROLL_FORWARD="Major"; dotnet build "ADHDGoneWild.sln" -c Release
-```
+The toolchain's post-processor targets .NET 6. With only a newer SDK installed, set
+`DOTNET_ROLL_FORWARD=Major` before building.
 
 ## Tests
 
