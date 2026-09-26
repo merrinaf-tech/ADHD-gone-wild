@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useValue } from "cs2/api";
 import { Button, Tooltip } from "cs2/ui";
 import { AlertCounts, AlertsPanel } from "./alerts/alerts-panel";
-import { alerts$, setAlertsOpen, smartAlertsEnabled$ } from "./alerts/bindings";
+import { alerts$, smartAlertsEnabled$ } from "./alerts/bindings";
 import { IdeasSection } from "./brain-parking/ideas-panel";
 import { IdeaEditor } from "./brain-parking/idea-editor";
 import { SafetyNet } from "./creativity/safety-net";
@@ -59,13 +59,6 @@ export const BrainEntry = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const allIdeas = useValue(ideas$);
   const editing = editingId ? allIdeas.find((idea) => idea.id === editingId) : undefined;
-
-  // The C# side collects less often when nobody is looking. Telling it either way is the whole
-  // reason that optimisation is safe.
-  useEffect(() => {
-    setAlertsOpen(open);
-    return () => setAlertsOpen(false);
-  }, [open]);
 
   // Clicking an idea's ring on the map opens the panel on it, and the card with what was written
   // there. The C# side decides whether a click landed on a ring; all this does is answer.

@@ -20,20 +20,16 @@ namespace ADHDGoneWild.Alerts
     /// reading the numbers, and reading the in-world notification icons.
     ///
     /// Cost is the design constraint. Counting icons means walking a query that can hold
-    /// thousands of entries in a busy city, so it happens on a timer rather than per frame, and
-    /// the timer slows down when nobody has the panel open. If this ever shows up in a profile,
-    /// <see cref="OpenInterval"/> and <see cref="ClosedInterval"/> are the two numbers to raise.
+    /// thousands of entries in a busy city, so it happens on a five-second timer rather than per
+    /// frame. Opening the panel uses the last collected snapshot and never forces another walk.
     /// </summary>
     public partial class AlertsUISystem : UISystemBase
     {
         private const string Group = "adhd";
         private const string LogPrefix = "[Alerts] ";
 
-        /// <summary>Refresh rate while the player is looking at the list.</summary>
-        private const float OpenInterval = 1.5f;
-
-        /// <summary>And while they are not. The compact badge does not need to be live.</summary>
-        private const float ClosedInterval = 5f;
+        /// <summary>The list and compact badge share one deliberately unhurried refresh rate.</summary>
+        private const float RefreshInterval = 5f;
 
         private CityMemorySystem _memory;
         private CameraUpdateSystem _camera;
@@ -57,7 +53,6 @@ namespace ADHDGoneWild.Alerts
         private RawValueBinding _alertsBinding;
         private ValueBinding<bool> _enabledBinding;
 
-        private bool _panelOpen;
         private float _nextRefresh;
 
         protected override void OnCreate()
@@ -95,7 +90,6 @@ namespace ADHDGoneWild.Alerts
             _enabledBinding = new ValueBinding<bool>(Group, "smartAlertsEnabled", true);
             AddBinding(_enabledBinding);
 
-            AddBinding(new TriggerBinding<bool>(Group, "setAlertsOpen", SetPanelOpen));
             AddBinding(new TriggerBinding<string>(Group, "viewAlert", ViewAlert));
             AddBinding(new TriggerBinding<string, bool>(Group, "muteAlert", MuteAlert));
 
@@ -147,7 +141,7 @@ namespace ADHDGoneWild.Alerts
                 return;
             }
 
-            _nextRefresh = now + (_panelOpen ? OpenInterval : ClosedInterval);
+            _nextRefresh = now + RefreshInterval;
 
             try
             {
@@ -264,17 +258,6 @@ namespace ADHDGoneWild.Alerts
             return name;
         }
 
-        private void SetPanelOpen(bool open)
-        {
-            _panelOpen = open;
-
-            if (open)
-            {
-                // Looking at it should show the city as it is now, not as it was five seconds ago.
-                _nextRefresh = 0f;
-            }
-        }
-
         /// <summary>
         /// Takes the player to one of the places this alert is about, and remembers where it left
         /// them so pressing it again moves on to the next rather than showing the same building
@@ -313,7 +296,7 @@ namespace ADHDGoneWild.Alerts
                     // Rebuild now: silencing something should take effect on the click, not on the
                     // next tick. Push the timer out too, or the next frame would redo this work.
                     Refresh();
-                    _nextRefresh = UnityEngine.Time.time + (_panelOpen ? OpenInterval : ClosedInterval);
+                    _nextRefresh = UnityEngine.Time.time + RefreshInterval;
                 }
             }
             catch (Exception e)

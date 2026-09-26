@@ -49,11 +49,5 @@ export const EMPTY_ALERTS: AlertsSnapshot = {
 export const alerts$ = bindValue<AlertsSnapshot>(GROUP, "alerts", EMPTY_ALERTS);
 export const smartAlertsEnabled$ = bindValue<boolean>(GROUP, "smartAlertsEnabled", true);
 
-/**
- * Tells the C# side whether anyone is looking. It collects less often when nobody is - see
- * AlertsUISystem.
- */
-export const setAlertsOpen = (open: boolean) => trigger(GROUP, "setAlertsOpen", open);
-
 export const viewAlert = (id: string) => trigger(GROUP, "viewAlert", id);
 export const muteAlert = (id: string, muted: boolean) => trigger(GROUP, "muteAlert", id, muted);

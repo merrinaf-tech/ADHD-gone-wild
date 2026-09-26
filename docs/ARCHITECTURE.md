@@ -121,8 +121,8 @@ The city is large and the simulation is already expensive, so:
 
 - Brain Parking reads one input action per UI frame and nothing else. The idea list is pushed on
   change, not polled.
-- Alert collection is the one expensive thing in the mod, and it runs on a timer rather than per
-  frame: 1.5s while the panel is open, 5s while it is not. The UI tells the C# side which it is.
+- Alert collection is the one expensive thing in the mod, and it runs every 5s rather than per
+  frame. Opening the panel displays the cached snapshot and does not force an immediate scan.
 - Utility readings are three property reads on systems the game already maintains. Nothing is
   summed or sampled.
 - Counting notification icons walks a query that can hold thousands of entries. Both native arrays
@@ -132,8 +132,8 @@ The city is large and the simulation is already expensive, so:
 - Relative times are computed on render, not by a ticking timer.
 - The placing tool exists but is disabled until the player activates it.
 
-Still to watch: whether the icon walk is cheap enough in a large city. If not, `OpenInterval` and
-`ClosedInterval` in `AlertsUISystem` are the two numbers to raise. Abandoned-project detection,
+Still to watch: whether the icon walk is cheap enough in a large city. If not, `RefreshInterval`
+in `AlertsUISystem` is the number to raise. Abandoned-project detection,
 when it comes, must be event-driven or scheduled from the start.
 
 ## Logging
