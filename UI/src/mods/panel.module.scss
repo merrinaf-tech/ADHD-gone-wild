@@ -161,12 +161,24 @@ $radius: 4rem;
 // sections instead of one long list - the hairline that used to divide them was too faint to do
 // that on its own. Margins rather than gap: the renderer's support for gap is not proven.
 .section {
+  position: relative;
   flex: 0 0 auto;
   margin-bottom: 6rem;
   padding-bottom: 2rem;
   border-radius: $radius;
   background: rgba(255, 255, 255, 0.04);
   overflow: hidden;
+}
+
+// The section's status, down its right edge. Thin and slightly faded: it separates sections at a
+// glance without competing with the severity bars on the rows. See Section in section.tsx.
+.sectionStripe {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 3rem;
+  opacity: 0.8;
 }
 
 // A section's heading: subject icon, title, and whatever the section counts, at the right.

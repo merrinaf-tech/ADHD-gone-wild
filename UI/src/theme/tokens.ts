@@ -61,6 +61,13 @@ export function statusToken(status: Status): StatusToken {
 }
 
 /**
+ * The stripe on the right edge of a panel section, for when the section has no status to show: a
+ * quiet city, no way back saved. Not Muted - muted means "the player asked not to hear this",
+ * and an empty section has asked nothing.
+ */
+export const SECTION_STRIPE_NEUTRAL = "rgba(255, 255, 255, 0.16)";
+
+/**
  * The subject icons. Matches ADHDGoneWild.BrainParking.IdeaCategory; the numbers are written to
  * disk on the C# side, so append here rather than renumbering.
  */

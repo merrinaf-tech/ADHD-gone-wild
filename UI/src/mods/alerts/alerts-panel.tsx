@@ -4,7 +4,7 @@ import { useLocalization } from "cs2/l10n";
 import { Tooltip } from "cs2/ui";
 import { Alert, alerts$, muteAlert, smartAlertsEnabled$, viewAlert } from "./bindings";
 import { PulseGlyph, StatusShapeGlyph } from "theme/glyphs";
-import { Status, statusToken } from "theme/tokens";
+import { SECTION_STRIPE_NEUTRAL, Status, statusToken } from "theme/tokens";
 import { K } from "theme/l10n";
 import { useText } from "theme/use-text";
 import styles from "../panel.module.scss";
@@ -32,7 +32,11 @@ export const AlertsPanel = () => {
 
   if (!enabled) {
     return (
-      <Section icon={<PulseGlyph size={18} />} title={text(K.alertsTitle)}>
+      <Section
+        icon={<PulseGlyph size={18} />}
+        title={text(K.alertsTitle)}
+        stripe={SECTION_STRIPE_NEUTRAL}
+      >
         <EmptyLine>{text(K.alertsDisabled)}</EmptyLine>
       </Section>
     );
@@ -117,10 +121,21 @@ export const AlertsPanel = () => {
     </button>
   );
 
+  // The worst status present. Muted alerts do not count: the player asked for quiet.
+  const stripe =
+    snapshot.immediate > 0
+      ? statusToken(Status.Immediate).color
+      : snapshot.important > 0
+      ? statusToken(Status.Important).color
+      : snapshot.monitor > 0
+      ? statusToken(Status.Monitor).color
+      : SECTION_STRIPE_NEUTRAL;
+
   return (
     <Section
       icon={<PulseGlyph size={18} />}
       title={text(K.alertsTitle)}
+      stripe={stripe}
       trailing={<AlertCounts snapshot={snapshot} />}
     >
       {snapshot.items.length === 0 ? (

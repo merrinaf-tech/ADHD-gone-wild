@@ -43,7 +43,7 @@ export const TrailSection = () => {
   const token = statusToken(Status.Personal);
 
   return (
-    <Section icon={<TrailGlyph size={18} />} title={text(K.trailTitle)}>
+    <Section icon={<TrailGlyph size={18} />} title={text(K.trailTitle)} stripe={token.color}>
       {places.length === 0 ? (
         <EmptyLine>
           <Tooltip tooltip={text(K.trailEmptyHint)}>

@@ -11,20 +11,30 @@ import styles from "./panel.module.scss";
  * of the section is visible before a word of it is read.
  *
  * The icon is a subject, never a status: colour stays where theme/tokens.ts puts it.
+ *
+ * The stripe on the right edge does carry colour, and it is a status like every other colour
+ * here: the worst thing in "Right now", the personal purple on what the player made, green when a
+ * way back exists, neutral when there is nothing to say. It sits on the right because the rows
+ * already use the left edge for their own severity bar, and two coloured edges on one side would
+ * read as one.
  */
 export const Section = ({
   icon,
   title,
+  stripe,
   trailing,
   children,
 }: {
   icon: React.ReactNode;
   title: string;
+  /** The section's status colour, from theme/tokens.ts. */
+  stripe: string;
   /** Counts or a compact action, right-aligned in the heading. */
   trailing?: React.ReactNode;
   children?: React.ReactNode;
 }) => (
   <div className={styles.section}>
+    <span className={styles.sectionStripe} style={{ background: stripe }} />
     <div className={styles.sectionHeader}>
       <span className={styles.sectionIcon}>{icon}</span>
       <span className={styles.sectionTitle}>{title}</span>

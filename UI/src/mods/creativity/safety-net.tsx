@@ -8,6 +8,7 @@ import {
   safetyNetEnabled$,
 } from "./bindings";
 import { ReturnGlyph } from "theme/glyphs";
+import { SECTION_STRIPE_NEUTRAL, Status, statusToken } from "theme/tokens";
 import { K } from "theme/l10n";
 import { timeAgo, useText } from "theme/use-text";
 import styles from "../panel.module.scss";
@@ -52,7 +53,16 @@ export const SafetyNet = () => {
   const now = Date.now();
 
   return (
-    <Section icon={<ReturnGlyph size={18} />} title={text(K.safetyNetTitle)}>
+    <Section
+      icon={<ReturnGlyph size={18} />}
+      title={text(K.safetyNetTitle)}
+      // Green only while a way back actually exists; nothing is wrong when it does not.
+      stripe={
+        checkpoint.exists && !checkpoint.busy
+          ? statusToken(Status.Resolved).color
+          : SECTION_STRIPE_NEUTRAL
+      }
+    >
       {checkpoint.busy ? (
         <EmptyLine>{text(K.safetyNetWorking)}</EmptyLine>
       ) : checkpoint.exists && confirming ? (

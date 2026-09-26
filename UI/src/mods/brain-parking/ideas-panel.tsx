@@ -60,6 +60,7 @@ export const IdeasSection = ({
     <Section
       icon={<CategoryGlyph category={IdeaCategory.Idea} size={18} />}
       title={text(K.panelTitle)}
+      stripe={token.color}
       trailing={ideas.length > 0 && <span className={styles.count}>{ideas.length}</span>}
     >
 
