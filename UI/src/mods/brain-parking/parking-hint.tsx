@@ -64,7 +64,7 @@ export const ParkingHint = () => {
     };
   }, [parking]);
 
-  // Use the game's own Close action, including the player's mouse rebinding.
+  // The shared dismiss bridge follows the game's Tool / Cancel mouse binding and UI Back.
   useDismissOnGameClose(parking, cancelParking, DismissPriority.Parking);
 
   if (!parking) {

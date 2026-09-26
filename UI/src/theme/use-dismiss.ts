@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
 
 /**
- * One dismissal per press of the game's Close or Back action. The UI action bindings belong to
- * Cities: Skylines II, so a player who rebinds Close does not need to configure this mod too.
+ * One dismissal per press of the game's Tool / Cancel mouse binding or UI Back action. The mouse
+ * path reads the game's resolved binding in C#, so a player who rebinds Cancel does not need to
+ * configure this mod too.
  *
  * Surfaces register only while visible. The active interaction wins; among cards, the most
  * recently shown wins. There is no separate DOM mouse binding to keep in sync.
@@ -34,7 +35,7 @@ export const subscribeDismissEntries = (listener: () => void) => {
 
 const notify = () => listeners.forEach((listener) => listener());
 
-/** Called once by the game's input-action consumer, not once by each visible surface. */
+/** Called by the shared game-input bridge, not once by each visible surface. */
 export const dismissTop = (): boolean => {
   let chosenId = -1;
   let chosen: DismissEntry | undefined;

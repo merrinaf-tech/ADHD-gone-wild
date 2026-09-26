@@ -103,6 +103,7 @@ namespace ADHDGoneWild
             updateSystem.UpdateAt<CheckpointSystem>(SystemUpdatePhase.UIUpdate);
             updateSystem.UpdateAt<HyperfocusSystem>(SystemUpdatePhase.UIUpdate);
             updateSystem.UpdateAt<ThemeUISystem>(SystemUpdatePhase.UIUpdate);
+            updateSystem.UpdateAt<GameDismissUISystem>(SystemUpdatePhase.UIUpdate);
             updateSystem.UpdateAt<TrailUISystem>(SystemUpdatePhase.UIUpdate);
 
             // CityMemorySystem is deliberately not registered in a phase: it has no per-frame

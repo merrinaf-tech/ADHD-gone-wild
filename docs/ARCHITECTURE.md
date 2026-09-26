@@ -94,9 +94,9 @@ One binding group, `"adhd"`, over the game's own `Colossal.UI.Binding`. No Harmo
 | `setIdeaColour(id, colour)` | trigger | UI → C#. The player's own colour, independent of the category. |
 | `alerts` | raw value | C# → UI. Counts per status, plus the visible rows. |
 | `smartAlertsEnabled` | bool | C# → UI. |
-| `setAlertsOpen(open)` | trigger | UI → C#. Lets the collector slow down when nobody is looking. |
 | `viewAlert(id)` | trigger | UI → C#. Visits the affected places one at a time. |
 | `muteAlert(id, muted)` | trigger | UI → C#. |
+| `gameCancelRevision` | int | C# → UI. Increments when the player's vanilla Tool / Cancel action is pressed. |
 
 The UI holds no state about ideas. The repository is the only copy, so a marker cannot exist on
 screen without existing on disk.
