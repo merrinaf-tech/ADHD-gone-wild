@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useValue } from "cs2/api";
+import { Tooltip } from "cs2/ui";
 import { forgetTrailPlace, jumpToTrailPlace, trail$, trailEnabled$, TrailPlace } from "./bindings";
 import { TrailGlyph } from "theme/glyphs";
 import { Status, statusToken } from "theme/tokens";
 import { K } from "theme/l10n";
 import { timeAgo, useText } from "theme/use-text";
 import styles from "../panel.module.scss";
+import { EmptyLine, Section } from "../section";
 
 /**
  * "Where was I?" - a short trail of places this session went, most recent first. The place the
@@ -41,16 +43,13 @@ export const TrailSection = () => {
   const token = statusToken(Status.Personal);
 
   return (
-    <>
-      <div className={styles.sectionHeader}>
-        <span className={styles.sectionTitle}>{text(K.trailTitle)}</span>
-      </div>
-
+    <Section icon={<TrailGlyph size={18} />} title={text(K.trailTitle)}>
       {places.length === 0 ? (
-        <div className={styles.empty}>
-          <span>{text(K.trailEmpty)}</span>
-          <span className={styles.emptyHint}>{text(K.trailEmptyHint)}</span>
-        </div>
+        <EmptyLine>
+          <Tooltip tooltip={text(K.trailEmptyHint)}>
+            <span>{text(K.trailEmpty)}</span>
+          </Tooltip>
+        </EmptyLine>
       ) : (
         <div className={styles.list}>
           {places.map((place) => (
@@ -64,7 +63,7 @@ export const TrailSection = () => {
           ))}
         </div>
       )}
-    </>
+    </Section>
   );
 };
 

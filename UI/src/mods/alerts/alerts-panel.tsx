@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useValue } from "cs2/api";
 import { useLocalization } from "cs2/l10n";
+import { Tooltip } from "cs2/ui";
 import { Alert, alerts$, muteAlert, smartAlertsEnabled$, viewAlert } from "./bindings";
-import { StatusShapeGlyph } from "theme/glyphs";
+import { PulseGlyph, StatusShapeGlyph } from "theme/glyphs";
 import { Status, statusToken } from "theme/tokens";
 import { K } from "theme/l10n";
 import { useText } from "theme/use-text";
 import styles from "../panel.module.scss";
+import { EmptyLine, Section } from "../section";
 
 /**
  * What is true about the city, in as few rows as it can honestly be said.
@@ -30,9 +32,9 @@ export const AlertsPanel = () => {
 
   if (!enabled) {
     return (
-      <div className={styles.empty}>
-        <span className={styles.emptyHint}>{text(K.alertsDisabled)}</span>
-      </div>
+      <Section icon={<PulseGlyph size={18} />} title={text(K.alertsTitle)}>
+        <EmptyLine>{text(K.alertsDisabled)}</EmptyLine>
+      </Section>
     );
   }
 
@@ -108,18 +110,27 @@ export const AlertsPanel = () => {
     );
   };
 
-  return (
-    <>
-      <div className={styles.sectionHeader}>
-        <span className={styles.sectionTitle}>{text(K.alertsTitle)}</span>
-        <AlertCounts snapshot={snapshot} />
-      </div>
+  // One text node, for the reason given on the muted note below.
+  const mutedButton = snapshot.muted > 0 && (
+    <button className={styles.mutedNote} onClick={() => setShowMuted(!showMuted)}>
+      {`${snapshot.muted} ${text(K.alertsMutedCount)}`}
+    </button>
+  );
 
+  return (
+    <Section
+      icon={<PulseGlyph size={18} />}
+      title={text(K.alertsTitle)}
+      trailing={<AlertCounts snapshot={snapshot} />}
+    >
       {snapshot.items.length === 0 ? (
-        <div className={styles.empty}>
-          <span>{text(K.alertsQuiet)}</span>
-          <span className={styles.emptyHint}>{text(K.alertsQuietHint)}</span>
-        </div>
+        // A quiet city is one line, with the muted count beside it rather than floating below.
+        <EmptyLine>
+          <Tooltip tooltip={text(K.alertsQuietHint)}>
+            <span>{text(K.alertsQuiet)}</span>
+          </Tooltip>
+          {mutedButton}
+        </EmptyLine>
       ) : (
         <div className={styles.list}>{snapshot.items.map((alert) => row(alert, false))}</div>
       )}
@@ -132,16 +143,12 @@ export const AlertsPanel = () => {
         It is a button because muting has to be undoable. A silence the player cannot lift is not
         a preference they expressed, it is information the mod decided to keep from them.
       */}
-      {snapshot.muted > 0 && (
-        <button className={styles.mutedNote} onClick={() => setShowMuted(!showMuted)}>
-          {`${snapshot.muted} ${text(K.alertsMutedCount)}`}
-        </button>
-      )}
+      {snapshot.items.length > 0 && mutedButton}
 
       {showMuted && snapshot.mutedItems.length > 0 && (
         <div className={styles.list}>{snapshot.mutedItems.map((alert) => row(alert, true))}</div>
       )}
-    </>
+    </Section>
   );
 };
 

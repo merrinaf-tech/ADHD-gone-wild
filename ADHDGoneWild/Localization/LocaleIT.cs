@@ -271,6 +271,9 @@ namespace ADHDGoneWild.Localization
                 { L10n.SafetyNetHave, "Puoi tornare a questo punto" },
                 { L10n.SafetyNetRestore, "Torna indietro" },
                 { L10n.SafetyNetKeep, "Tengo" },
+                { L10n.SafetyNetConfirm, "Tornare indietro? Quello che hai fatto dopo andrà perso." },
+                { L10n.SafetyNetConfirmYes, "Sì, torna indietro" },
+                { L10n.SafetyNetConfirmNo, "Resto qui" },
                 { L10n.SafetyNetWorking, "Un momento..." },
                 { L10n.SafetyNetSaveMarker, "rete di sicurezza" },
 

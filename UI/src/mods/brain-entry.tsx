@@ -141,6 +141,9 @@ export const BrainEntry = () => {
           <div className={styles.panelHeader}>
             <span className={styles.panelName}>{text(K.toolbarTooltip)}</span>
 
+            {/* A control for the panel itself, so it lives with the other one. */}
+            {foldVisible && <ToolbarFold />}
+
             <button className={styles.panelClose} onClick={closePanel}>
               X
             </button>
@@ -179,23 +182,6 @@ export const BrainEntry = () => {
             <TrailSection />
           </div>
 
-          {/*
-            Pinned, not scrolled with the rest, and now the fold alone.
-
-            "Park an idea" used to be the loud row above it, kept here so a busy city could never
-            push it out of reach. That guarantee cost it its heading: last in the panel, it sat
-            under the trail and read as something you did to "Where was I?". It has moved into the
-            section it belongs to, under the heading that names it.
-
-            What is left is the quiet one, and the footer still suits it: folding the toolbar has
-            nothing to do with any section above, and it is reached perhaps twice a session, so a
-            fixed place at the bottom is exactly where it should wait.
-          */}
-          {foldVisible && (
-            <div className={styles.panelFooter}>
-              <ToolbarFold />
-            </div>
-          )}
         </div>
       )}
 

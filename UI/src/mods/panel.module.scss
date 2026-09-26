@@ -154,37 +154,44 @@ $radius: 4rem;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  padding: 6rem 6rem 0;
 }
 
-// One panel, three sections: what is true about the city, the way back, and what the player
-// parked in it.
+// One section, one card. More space between cards than inside them is what lets the eye see four
+// sections instead of one long list - the hairline that used to divide them was too faint to do
+// that on its own. Margins rather than gap: the renderer's support for gap is not proven.
+.section {
+  flex: 0 0 auto;
+  margin-bottom: 6rem;
+  padding-bottom: 2rem;
+  border-radius: $radius;
+  background: rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+}
+
+// A section's heading: subject icon, title, and whatever the section counts, at the right.
 //
-// The hairline sits on TOP of each header rather than under it, because its job is to divide one
-// section from the one before - underlining the title instead left the sections running into each
-// other, which is what made the panel read as one undifferentiated list. `:first-child` drops it
-// at the top of the list, where there is nothing to divide from: a class-qualified `:first-child`
-// is a shape the game's own stylesheet uses in dozens of places, unlike the chained bare
-// pseudo-classes that once crashed the renderer.
-//
-// Every section is a fragment, so its header really is a direct child of `.panelBody` - whichever
-// section happens to be first with the current settings is the one that loses the line.
+// Full ink, larger and heavier than the rows under it. It used to be small uppercase at 72% ink -
+// barely louder than the content - which is why the panel read as one undifferentiated list.
+// Sentence case rather than capitals: a capitalised word is read letter by letter, a heading
+// should be taken in at a glance.
 .sectionHeader {
   display: flex;
   align-items: center;
-  gap: 8rem;
-  padding: 14rem 12rem 8rem;
-  border-top: 1rem solid $hairline;
-  // Not $ink-quiet: a header is small and uppercase already, and at 0.55 alpha this mod had
-  // exactly the legibility complaint once before. Softer than the content, still readable.
-  color: $ink-soft;
-  font-size: 14rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  padding: 9rem 10rem 7rem;
+  color: $ink;
+  font-size: 15rem;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
-.sectionHeader:first-child {
-  border-top: none;
-  padding-top: 10rem;
+// Subject, not status: drawn in the ordinary ink, never in a status colour.
+.sectionIcon {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  margin-right: 8rem;
+  opacity: 0.85;
 }
 
 .sectionTitle {
@@ -399,36 +406,22 @@ $radius: 4rem;
   color: $ink;
 }
 
-.empty {
-  padding: 18rem 14rem;
+// A section with nothing to show says so in one quiet line. The explanation that used to follow it
+// is a tooltip now; see EmptyLine in section.tsx.
+.emptyLine {
   display: flex;
-  flex-direction: column;
-  gap: 5rem;
-  color: $ink;
-  font-size: 16rem;
-}
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 12rem 9rem;
+  color: $ink-soft;
+  font-size: 14rem;
+  line-height: 1.3;
 
-.emptyHint {
-  color: $ink-quiet;
-  font-size: 15rem;
-  line-height: 1.35;
-}
-
-// Pinned below the scrolling body, never part of it.
-//
-// It held two actions once, stacked, and "Park an idea" was the loud one. Pinning kept that button
-// reachable however busy the city got, but it also parked it under the trail, where it looked like
-// the button for "Where was I?". It now sits under its own heading, in the ideas section.
-//
-// What is left is the fold, which belongs to no section and is wanted perhaps twice a session.
-// A fixed place at the bottom of the panel is the right home for exactly that kind of control.
-.panelFooter {
-  flex: 0 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
-  padding: 8rem;
-  border-top: 1rem solid $hairline;
+  .mutedNote {
+    width: auto;
+    padding: 0 0 0 8rem;
+    text-align: right;
+  }
 }
 
 // The action a section is for: "Park an idea" under the ideas heading, "Save a way back" under the
@@ -453,39 +446,24 @@ $radius: 4rem;
   }
 }
 
-// The toolbar fold, as a row rather than a floating chevron.
-//
-// Same geometry as .parkButton so the two line up exactly, and no background so that the eye can
-// tell in one pass which of them is the thing this panel is for. The label is spelled out - inside
-// a panel a bare chevron says nothing, and this is a control a player meets perhaps twice a
-// session.
-//
-// Left-aligned, with the chevron first: it is a setting being toggled, not a button being aimed
-// at, and centring it would make it look like a second primary action.
-.foldButton {
-  width: 100%;
+// A control for the panel itself, in its header beside the close button: the toolbar fold. Same
+// size and shape as the close button, without the fill, so the X stays the obvious way out.
+.headerButton {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
-  gap: 8rem;
-  height: 30rem;
-  padding: 0 8rem;
+  justify-content: center;
+  width: 22rem;
+  height: 22rem;
+  padding: 0;
   border: none;
-  border-radius: $radius;
+  border-radius: 11rem;
   background: transparent;
-  color: $ink-soft;
-  font-size: 14rem;
-  text-align: left;
   cursor: pointer;
 
   &:hover {
-    background: $surface-raised;
-    color: $ink;
+    background: rgba(255, 255, 255, 0.16);
   }
-}
-
-.foldLabel {
-  flex: 1 1 auto;
-  min-width: 0;
 }
 
 // The editor for one parked idea: its line, its longer text, and its colour.
@@ -886,12 +864,25 @@ $radius: 4rem;
 // `.panelFooter`, which is a row, so "Save a way back" was squeezed into a narrow column with its
 // own explanation jammed against its right-hand side, wrapped to two words a line. Nothing about
 // it was readable, and the section it belongs to was impossible to pick out at a glance.
-.safetyNetHave,
-.safetyNetEmpty {
+// A checkpoint exists: one row, the sentence and its age on the left, two quiet actions on the
+// right. Neither is a filled button - going back is irreversible and must not be the loudest thing
+// in the panel, and keeping is doing nothing.
+.safetyNetHave {
+  display: flex;
+  align-items: center;
+  padding: 1rem 8rem 8rem 12rem;
+
+  .textButton {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+}
+
+.safetyNetEmpty,
+.safetyNetConfirm {
   display: flex;
   flex-direction: column;
-  gap: 4rem;
-  padding: 10rem 12rem 12rem;
+  padding: 1rem 12rem 10rem;
 }
 
 .safetyNetLine {

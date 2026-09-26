@@ -197,6 +197,28 @@ export function StatusShapeGlyph({
   }
 }
 
+/**
+ * A pulse line, for "Right now": what the city is doing at this moment. Not a warning sign - the
+ * section is usually quiet, and its heading must not look alarmed when it is.
+ */
+export const PulseGlyph = ({ size = 16, className, color }: GlyphProps) =>
+  svg(size, className, <path d="M3 12h4l2.5-6 5 12 2.5-6H21" />, color);
+
+/**
+ * An arrow curling back, for the safety net: a way back to an earlier moment. Drawn as undo rather
+ * than as a shield or a lock - it is an option, not a protection anybody has to maintain.
+ */
+export const ReturnGlyph = ({ size = 16, className, color }: GlyphProps) =>
+  svg(
+    size,
+    className,
+    <>
+      <path d="M9 7 5 11l4 4" />
+      <path d="M5 11h9a5 5 0 0 1 0 10h-3" />
+    </>,
+    color
+  );
+
 /** A place on the map. Used only by Welcome Back, to say "you were around here". */
 export const PlaceGlyph = ({ size = 16, className, color }: GlyphProps) =>
   svg(

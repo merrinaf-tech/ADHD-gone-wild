@@ -1,5 +1,6 @@
 import React from "react";
 import { useValue } from "cs2/api";
+import { Tooltip } from "cs2/ui";
 import { setToolbarCollapsed, toolbarButtonVisible$, toolbarCollapsed$ } from "./bindings";
 import { ChevronGlyph } from "theme/glyphs";
 import { K } from "theme/l10n";
@@ -24,10 +25,10 @@ import styles from "../panel.module.scss";
  * Inside the panel there is nothing to collide with, ever. It costs a click to reach, which is the
  * honest price of a control that cannot be in the wrong place.
  *
- * It is a labelled row rather than an icon, and it is not the game's `Button`. Beside "Park an
- * idea" it was a round floating chevron next to a wide labelled button: two controls that have
- * nothing to do with each other, sharing a line, in two different visual languages. Now it is a
- * quiet row under the loud one - same width, same alignment, plainly a different kind of thing.
+ * It sits in the panel's own header, beside the close button, as a small chevron with its label
+ * in a tooltip. As a labelled row pinned at the bottom it sat directly under "Where was I?" and
+ * read as part of that section, which it has nothing to do with. The header is where controls
+ * for the panel itself live; the tooltip keeps it from being a bare glyph nobody can decode.
  *
  * The way back is still guaranteed: the panel opens from the owl in the top-left row, which sits
  * outside the part of the screen that folds.
@@ -42,11 +43,10 @@ export const ToolbarFold = () => {
   }
 
   return (
-    <button className={styles.foldButton} onClick={() => setToolbarCollapsed(!collapsed)}>
-      <ChevronGlyph size={16} up={collapsed} />
-      <span className={styles.foldLabel}>
-        {text(collapsed ? K.toolbarUnfold : K.toolbarFold)}
-      </span>
-    </button>
+    <Tooltip tooltip={text(collapsed ? K.toolbarUnfold : K.toolbarFold)}>
+      <button className={styles.headerButton} onClick={() => setToolbarCollapsed(!collapsed)}>
+        <ChevronGlyph size={16} up={collapsed} />
+      </button>
+    </Tooltip>
   );
 };

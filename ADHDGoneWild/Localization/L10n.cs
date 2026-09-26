@@ -42,6 +42,9 @@ namespace ADHDGoneWild.Localization
         public const string SafetyNetHave = Prefix + "SafetyNetHave";
         public const string SafetyNetRestore = Prefix + "SafetyNetRestore";
         public const string SafetyNetKeep = Prefix + "SafetyNetKeep";
+        public const string SafetyNetConfirm = Prefix + "SafetyNetConfirm";
+        public const string SafetyNetConfirmYes = Prefix + "SafetyNetConfirmYes";
+        public const string SafetyNetConfirmNo = Prefix + "SafetyNetConfirmNo";
         public const string SafetyNetWorking = Prefix + "SafetyNetWorking";
 
         /// <summary>

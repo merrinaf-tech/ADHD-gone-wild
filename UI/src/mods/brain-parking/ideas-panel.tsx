@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useValue } from "cs2/api";
+import { Tooltip } from "cs2/ui";
 import {
   Idea,
   forgetIdea,
@@ -13,6 +14,7 @@ import { IDEA_CATEGORIES, IdeaCategory, Status, ideaColour, statusToken } from "
 import { K } from "theme/l10n";
 import { timeAgo, useText } from "theme/use-text";
 import styles from "../panel.module.scss";
+import { EmptyLine, Section } from "../section";
 
 /**
  * The thoughts the player left lying around this city.
@@ -55,11 +57,11 @@ export const IdeasSection = ({
   const token = statusToken(Status.Personal);
 
   return (
-    <>
-      <div className={styles.sectionHeader}>
-        <span className={styles.sectionTitle}>{text(K.panelTitle)}</span>
-        {ideas.length > 0 && <span className={styles.count}>{ideas.length}</span>}
-      </div>
+    <Section
+      icon={<CategoryGlyph category={IdeaCategory.Idea} size={18} />}
+      title={text(K.panelTitle)}
+      trailing={ideas.length > 0 && <span className={styles.count}>{ideas.length}</span>}
+    >
 
       {/*
         Directly under the heading, above the list, and both halves of that are deliberate.
@@ -74,17 +76,17 @@ export const IdeasSection = ({
         fault as the footer, just wearing the right heading.
       */}
       <div className={styles.sectionAction}>
-        <button className={styles.parkButton} onClick={onPark}>
-          <CategoryGlyph category={IdeaCategory.Idea} size={18} color={token.color} />
-          {text(K.parkIdea)}
-        </button>
+        {/* How it works, one hover away, on the control it explains. */}
+        <Tooltip tooltip={text(K.emptyHint)}>
+          <button className={styles.parkButton} onClick={onPark}>
+            <CategoryGlyph category={IdeaCategory.Idea} size={18} color={token.color} />
+            {text(K.parkIdea)}
+          </button>
+        </Tooltip>
       </div>
 
       {ideas.length === 0 ? (
-        <div className={styles.empty}>
-          <span>{text(K.empty)}</span>
-          <span className={styles.emptyHint}>{text(K.emptyHint)}</span>
-        </div>
+        <EmptyLine>{text(K.empty)}</EmptyLine>
       ) : (
         <div className={styles.list}>
           {ideas.map((idea) => (
@@ -103,7 +105,7 @@ export const IdeasSection = ({
           ))}
         </div>
       )}
-    </>
+    </Section>
   );
 };
 
