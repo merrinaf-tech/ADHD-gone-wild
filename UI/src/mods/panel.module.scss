@@ -170,12 +170,12 @@ $radius: 4rem;
   overflow: hidden;
 }
 
-// The section's status, down its right edge. Thin and slightly faded: it separates sections at a
+// The section's status, down its left edge. Thin and slightly faded: it separates sections at a
 // glance without competing with the severity bars on the rows. See Section in section.tsx.
 .sectionStripe {
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
   bottom: 0;
   width: 3rem;
   opacity: 0.8;

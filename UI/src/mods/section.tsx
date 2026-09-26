@@ -12,11 +12,10 @@ import styles from "./panel.module.scss";
  *
  * The icon is a subject, never a status: colour stays where theme/tokens.ts puts it.
  *
- * The stripe on the right edge does carry colour, and it is a status like every other colour
+ * The stripe on the left edge does carry colour, and it is a status like every other colour
  * here: the worst thing in "Right now", the personal purple on what the player made, green when a
- * way back exists, neutral when there is nothing to say. It sits on the right because the rows
- * already use the left edge for their own severity bar, and two coloured edges on one side would
- * read as one.
+ * way back exists, neutral when there is nothing to say. Left, where the eye starts each section;
+ * the rows inside keep their own severity bars, inset from it by the card's padding.
  */
 export const Section = ({
   icon,
