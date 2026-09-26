@@ -80,7 +80,8 @@ The rules for alerts, reminders and the attention trail are tested separately fr
 
 ## Options
 
-Under **Options → Mods → ADHD gone wild**:
+Under **Options → Mods → ADHD gone wild**. The finer settings of each feature appear once the
+game's **Show Advanced** switch is on.
 
 - **Smart alerts** — the feature's own switch
 - **Tell me about** — only what is immediate, immediate and important, or everything

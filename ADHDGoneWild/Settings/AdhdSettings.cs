@@ -17,6 +17,20 @@ namespace ADHDGoneWild.Settings
     /// Groups mirror the product's own categories (Information, Memory, Creativity, Wellbeing,
     /// Accessibility) so later features have an obvious home. Only the groups with something in
     /// them are declared today.
+    ///
+    /// <para>
+    /// One row per feature in plain sight; everything that only matters once you have decided you
+    /// want that feature is marked <c>[SettingsUIAdvanced]</c> and waits behind the game's own
+    /// "advanced" switch. Nineteen rows became eleven without a single option being taken away.
+    /// </para>
+    ///
+    /// <para>
+    /// That switch, and tabs, are the only two ways this page can be reorganised at all: it is
+    /// drawn by the game, and a mod contributes attributes rather than markup. Tabs were the
+    /// obvious reach and the wrong one - six of them over nineteen rows does not order anything,
+    /// it hides five sixths of the page behind a click each. The advanced switch is a control
+    /// players already know from the vanilla options, and it hides only detail.
+    /// </para>
     /// </summary>
     [FileLocation("ModsSettings/ADHDGoneWild/ADHDGoneWild")]
     [SettingsUIGroupOrder(InformationGroup, MemoryGroup, CreativityGroup, WellbeingGroup, AppearanceGroup, AboutGroup)]
@@ -189,6 +203,7 @@ namespace ADHDGoneWild.Settings
             }
         }
 
+        [SettingsUIAdvanced]
         [SettingsUISection(MainSection, InformationGroup)]
         [SettingsUIHideByCondition(typeof(AdhdSettings), nameof(SmartAlertsOff))]
         public Verbosity AlertVerbosity
@@ -250,6 +265,7 @@ namespace ADHDGoneWild.Settings
         /// What a freshly parked idea is filed as. It can be changed afterwards, and most players
         /// will never touch it - the point of a default is that nobody has to choose in the moment.
         /// </summary>
+        [SettingsUIAdvanced]
         [SettingsUISection(MainSection, MemoryGroup)]
         [SettingsUIHideByCondition(typeof(AdhdSettings), nameof(BrainParkingOff))]
         public IdeaCategory DefaultIdeaCategory
@@ -265,6 +281,7 @@ namespace ADHDGoneWild.Settings
         /// offer is made. Switch it off and parking goes back to its shortest form: shortcut,
         /// click, straight back to what you were doing.
         /// </summary>
+        [SettingsUIAdvanced]
         [SettingsUISection(MainSection, MemoryGroup)]
         [SettingsUIHideByCondition(typeof(AdhdSettings), nameof(BrainParkingOff))]
         public bool AskAfterParking
@@ -289,6 +306,7 @@ namespace ADHDGoneWild.Settings
         /// this session and which are from a city you barely remember. So it is here, and it is a
         /// choice rather than a default.
         /// </summary>
+        [SettingsUIAdvanced]
         [SettingsUISection(MainSection, MemoryGroup)]
         [SettingsUIHideByCondition(typeof(AdhdSettings), nameof(BrainParkingOff))]
         public bool ShowIdeaAge
@@ -306,6 +324,7 @@ namespace ADHDGoneWild.Settings
             }
         }
 
+        [SettingsUIAdvanced]
         [SettingsUISection(MainSection, MemoryGroup)]
         [SettingsUIHideByCondition(typeof(AdhdSettings), nameof(BrainParkingOff))]
         public bool ShowIdeaMarkers
@@ -334,6 +353,7 @@ namespace ADHDGoneWild.Settings
         /// How long the player has to have been away before the mod says anything about it. A
         /// five-minute alt-tab is not a homecoming; this exists so it is never treated like one.
         /// </summary>
+        [SettingsUIAdvanced]
         [SettingsUISection(MainSection, MemoryGroup)]
         [SettingsUIHideByCondition(typeof(AdhdSettings), nameof(WelcomeBackOff))]
         public AwayLength WelcomeBackAfter
@@ -425,6 +445,7 @@ namespace ADHDGoneWild.Settings
         /// How much play goes by between mentions. Spacing, not a limit: nothing in the mod knows
         /// or cares how long a session ought to be.
         /// </summary>
+        [SettingsUIAdvanced]
         [SettingsUISection(MainSection, WellbeingGroup)]
         [SettingsUIHideByCondition(typeof(AdhdSettings), nameof(HyperfocusOff))]
         public FocusLength HyperfocusAfter
@@ -453,6 +474,7 @@ namespace ADHDGoneWild.Settings
         /// anything, and does not count what was ignored. The moment it could, it would be a
         /// habit tracker.
         /// </summary>
+        [SettingsUIAdvanced]
         [SettingsUISection(MainSection, WellbeingGroup)]
         [SettingsUIHideByCondition(typeof(AdhdSettings), nameof(HyperfocusOff))]
         public bool HyperfocusBodyNotes
