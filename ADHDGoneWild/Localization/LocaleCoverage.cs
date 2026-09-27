@@ -13,9 +13,8 @@ namespace ADHDGoneWild.Localization
     /// like a sloppy one to whoever plays it. Nothing throws, nothing turns red, and the only way
     /// to find out is to read every panel in every language.
     ///
-    /// This is the check the test suite cannot do. The locale sources need <c>AdhdSettings</c>,
-    /// which needs the game, so they cannot be linked into a project that runs outside it - see
-    /// tests/ADHDGoneWild.Tests. One line at load is the next best thing.
+    /// The locale sources need <c>AdhdSettings</c>, which needs the game, so they cannot be
+    /// checked by a project that runs outside it. One line at load is the next best thing.
     ///
     /// English is the source language and therefore the reference. A key present in a translation
     /// but not in English is reported too: it means a key was renamed and one file was missed,

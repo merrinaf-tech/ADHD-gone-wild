@@ -30,3 +30,6 @@ docs/TECHNICAL_FINDINGS.md
 
 # Development workbench: notes, player feedback, backups, logs. Never published.
 _dev/
+
+# Local test suite; retained for development, excluded from the public repository.
+tests/

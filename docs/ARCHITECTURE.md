@@ -46,7 +46,6 @@ UI/                            the React side (official CS:II UI template)
   src/mods/alerts/             what is true about the city, in as few rows as possible
   src/mods/brain-parking/      parked ideas, and the placing hint
 
-tests/ADHDGoneWild.Tests/      pure logic only, net8.0 + xunit
 docs/                          this, and the rest
 ```
 

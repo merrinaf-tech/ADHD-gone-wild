@@ -63,16 +63,6 @@ the game and enable the mod.
 The toolchain's post-processor targets .NET 6. With only a newer SDK installed, set
 `DOTNET_ROLL_FORWARD=Major` before building.
 
-## Tests
-
-Pure logic only — anything needing the game is kept thin and tested by playing it.
-
-```bash
-dotnet test tests/ADHDGoneWild.Tests
-```
-
-The rules for alerts, reminders and the attention trail are tested separately from the game UI.
-
 ## Options
 
 Under **Options → Mods → ADHD gone wild**. The finer settings of each feature appear once the
