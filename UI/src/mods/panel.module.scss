@@ -9,8 +9,7 @@ $ink-quiet: rgba(255, 255, 255, 0.55);
 // #223141 is --commonDarkBlue, a real root-level custom property in the game's own stylesheet,
 // defined for exactly this. The previous value here was a neutral rgba(20, 24, 28) picked by eye:
 // dark enough, but missing the blue the vanilla panels actually carry, which is what made these
-// windows read as foreign next to them. Seety reached the same colour independently - keeping the
-// two mods on one surface is the whole reason to write it down rather than guess again.
+// windows read as foreign next to them.
 //
 // Not read through var(): combining a var() with a separate alpha needs color-mix(), and this
 // renderer's CSS gaps make that too risky to trust without testing in game.
@@ -115,7 +114,7 @@ $radius: 4rem;
 
 // A plain capital X, as text - never an SVG, and never the multiplication sign.
 //
-// Both were tried in Seety and both failed in this renderer: the game's font has no glyph for
+// Both fail in this renderer: the game's font has no glyph for
 // the multiplication sign, so it came out as an empty rectangle, and the drawn path that replaced
 // it stayed black through two attempts at colouring it. Text renders and `color` applies, which
 // every other word in this file already proves.
