@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace ADHDGoneWild.Alerts
 {
     /// <summary>
@@ -22,46 +20,18 @@ namespace ADHDGoneWild.Alerts
         public const string Fallback = "Media/Game/Icons/Notifications.svg";
 
         private const string IconRoot = "Media/Game/Icons/";
-        private const string NotificationRoot = "Media/Game/Notifications/";
 
         /// <summary>
-        /// Notification prefabs whose icon file is not simply the prefab name without spaces.
-        /// Established by inspecting the shipped UI media - see the note in docs/TECHNICAL_FINDINGS.md.
+        /// The icon for a notification, as the game resolved it from the notification's prefab.
+        ///
+        /// This used to be guessed from the prefab name ("Fire Notification" became
+        /// FireNotification.svg), with a table of exceptions. Every wrong guess made the game log
+        /// a failed asset load each time the panel drew the row. The prefab already carries the
+        /// path the game's own info panel uses, so that is taken instead and nothing is guessed.
         /// </summary>
-        private static readonly Dictionary<string, string> FileAliases = new Dictionary<string, string>
+        public static string ForNotification(string resolvedIcon)
         {
-            { "ElectricityNotification", "NotEnoughElectricity" },
-            { "WaterNotification", "NoRunningWater" },
-            { "SewageNotification", "Sewage" },
-            { "GarbageNotification", "TooMuchGarbage" },
-            { "TelecomNotification", "NoTelecomCoverage" },
-            { "HearseNotification", "HearseServiceNeeded" },
-            { "TrafficBottleneckNotification", "TrafficBottleneck" },
-            { "MissingEducatedWorkers", "NoEducatedWorkers" },
-            { "MissingUneducatedWorkers", "NoWorkers" },
-            { "NoRoadAccess", "RoadNotConnected" }
-        };
-
-        /// <summary>
-        /// The icon the game itself puts over the affected buildings, so the row in the panel and
-        /// the marker on the map are recognisably the same thing.
-        /// </summary>
-        public static string ForNotification(string prefabName)
-        {
-            if (string.IsNullOrEmpty(prefabName))
-            {
-                return Fallback;
-            }
-
-            var file = prefabName.Replace(" ", string.Empty);
-
-            string alias;
-            if (FileAliases.TryGetValue(file, out alias))
-            {
-                file = alias;
-            }
-
-            return NotificationRoot + file + ".svg";
+            return string.IsNullOrEmpty(resolvedIcon) ? Fallback : resolvedIcon;
         }
 
         /// <summary>

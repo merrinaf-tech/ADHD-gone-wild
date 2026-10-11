@@ -44,6 +44,7 @@ namespace ADHDGoneWild.Alerts
 
         /// <summary>Prefab entity to name. Names never change, so this is filled once and kept.</summary>
         private readonly Dictionary<Entity, string> _prefabNames = new Dictionary<Entity, string>();
+        private readonly Dictionary<Entity, string> _prefabIcons = new Dictionary<Entity, string>();
 
         /// <summary>Which location the next "view" on an alert should visit. See ViewAlert.</summary>
         private readonly Dictionary<string, int> _viewCursor = new Dictionary<string, int>();
@@ -219,7 +220,8 @@ namespace ADHDGoneWild.Alerts
                     _tally.Add(
                         NameOf(refs[i].m_Prefab),
                         (int)icon.m_Priority,
-                        new WorldPoint(icon.m_Location.x, icon.m_Location.y, icon.m_Location.z));
+                        new WorldPoint(icon.m_Location.x, icon.m_Location.y, icon.m_Location.z),
+                        IconOf(refs[i].m_Prefab));
                 }
             }
             finally
@@ -256,6 +258,37 @@ namespace ADHDGoneWild.Alerts
 
             _prefabNames[prefab] = name;
             return name;
+        }
+
+        /// <summary>
+        /// The notification's icon exactly as the game's own info panel gets it: the prefab's
+        /// UIObject icon, resolved by ImageSystem. Null when the prefab has none.
+        /// </summary>
+        private string IconOf(Entity prefab)
+        {
+            if (prefab == Entity.Null)
+            {
+                return null;
+            }
+
+            string icon;
+            if (_prefabIcons.TryGetValue(prefab, out icon))
+            {
+                return icon;
+            }
+
+            try
+            {
+                PrefabBase prefabBase;
+                icon = _prefabs.TryGetPrefab(prefab, out prefabBase) ? ImageSystem.GetIcon(prefabBase) : null;
+            }
+            catch
+            {
+                icon = null;
+            }
+
+            _prefabIcons[prefab] = icon;
+            return icon;
         }
 
         /// <summary>

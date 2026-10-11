@@ -22,6 +22,7 @@ namespace ADHDGoneWild.Alerts
         private class Entry
         {
             public string Name;
+            public string Icon;
             public int Count;
             public int Priority;
             public readonly List<WorldPoint> Locations = new List<WorldPoint>();
@@ -39,9 +40,10 @@ namespace ADHDGoneWild.Alerts
 
         /// <summary>
         /// One icon seen in the world. <paramref name="priority"/> is the game's own
-        /// Game.Notifications.IconPriority value.
+        /// Game.Notifications.IconPriority value. <paramref name="icon"/> is the path the game
+        /// resolved for the notification's prefab, or null when it has none.
         /// </summary>
-        public void Add(string prefabName, int priority, WorldPoint location)
+        public void Add(string prefabName, int priority, WorldPoint location, string icon = null)
         {
             if (string.IsNullOrEmpty(prefabName))
             {
@@ -55,6 +57,11 @@ namespace ADHDGoneWild.Alerts
             {
                 entry = new Entry { Name = prefabName, Priority = priority };
                 _byName.Add(prefabName, entry);
+            }
+
+            if (entry.Icon == null)
+            {
+                entry.Icon = icon;
             }
 
             entry.Count++;
@@ -88,7 +95,7 @@ namespace ADHDGoneWild.Alerts
                     RawName = Readable(entry.Name),
                     // The game's own marker for this notification, so the panel row and the icons
                     // over the buildings read as the same thing.
-                    Icon = AlertIcons.ForNotification(entry.Name),
+                    Icon = AlertIcons.ForNotification(entry.Icon),
                     AffectedCount = entry.Count
                 };
 
