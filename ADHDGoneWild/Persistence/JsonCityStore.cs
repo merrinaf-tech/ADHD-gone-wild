@@ -14,8 +14,8 @@ namespace ADHDGoneWild.Persistence
     /// cost is that copying a save elsewhere leaves the notes behind, which is recorded in
     /// docs/TECHNICAL_FINDINGS.md as an accepted trade.
     ///
-    /// Writes go to a temporary file first and are then moved into place, so an interrupted save
-    /// leaves the previous file intact rather than a half-written one.
+    /// Writes go to a temporary file first. Existing files are replaced atomically, keeping the
+    /// previous version as a backup, so a failed write cannot leave a gap without a city file.
     /// </summary>
     public class JsonCityStore : ICityStore
     {
@@ -81,12 +81,7 @@ namespace ADHDGoneWild.Persistence
                 data.SchemaVersion = CityData.CurrentSchemaVersion;
                 File.WriteAllText(temp, JsonConvert.SerializeObject(data, Formatting.Indented));
 
-                if (File.Exists(path))
-                {
-                    File.Delete(path);
-                }
-
-                File.Move(temp, path);
+                CityFileCommit.Commit(temp, path);
                 return true;
             }
             catch (Exception e)
