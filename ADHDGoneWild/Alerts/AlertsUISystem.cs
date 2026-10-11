@@ -39,6 +39,12 @@ namespace ADHDGoneWild.Alerts
 
         private EntityQuery _iconQuery;
 
+        // Read-only lookups for what an icon stands on. See KindOf.
+        private ComponentLookup<Game.Common.Owner> _ownerLookup;
+        private ComponentLookup<Game.Vehicles.Vehicle> _vehicleLookup;
+        private ComponentLookup<Game.Buildings.Building> _buildingLookup;
+        private ComponentLookup<Game.Net.Road> _roadLookup;
+
         private readonly NotificationTally _tally = new NotificationTally();
         private readonly List<Alert> _collected = new List<Alert>();
 
@@ -84,6 +90,11 @@ namespace ADHDGoneWild.Alerts
                     ComponentType.ReadOnly<Game.Tools.Temp>()
                 }
             });
+
+            _ownerLookup = GetComponentLookup<Game.Common.Owner>(true);
+            _vehicleLookup = GetComponentLookup<Game.Vehicles.Vehicle>(true);
+            _buildingLookup = GetComponentLookup<Game.Buildings.Building>(true);
+            _roadLookup = GetComponentLookup<Game.Net.Road>(true);
 
             _alertsBinding = new RawValueBinding(Group, "alerts", WriteAlerts);
             AddBinding(_alertsBinding);
@@ -210,10 +221,16 @@ namespace ADHDGoneWild.Alerts
 
             var icons = _iconQuery.ToComponentDataArray<Game.Notifications.Icon>(Allocator.TempJob);
             var refs = _iconQuery.ToComponentDataArray<PrefabRef>(Allocator.TempJob);
+            var entities = _iconQuery.ToEntityArray(Allocator.TempJob);
+
+            _ownerLookup.Update(this);
+            _vehicleLookup.Update(this);
+            _buildingLookup.Update(this);
+            _roadLookup.Update(this);
 
             try
             {
-                var count = Math.Min(icons.Length, refs.Length);
+                var count = Math.Min(Math.Min(icons.Length, refs.Length), entities.Length);
                 for (var i = 0; i < count; i++)
                 {
                     var icon = icons[i];
@@ -221,6 +238,7 @@ namespace ADHDGoneWild.Alerts
                         NameOf(refs[i].m_Prefab),
                         (int)icon.m_Priority,
                         new WorldPoint(icon.m_Location.x, icon.m_Location.y, icon.m_Location.z),
+                        KindOf(entities[i]),
                         IconOf(refs[i].m_Prefab));
                 }
             }
@@ -228,9 +246,54 @@ namespace ADHDGoneWild.Alerts
             {
                 icons.Dispose();
                 refs.Dispose();
+                entities.Dispose();
             }
 
             _tally.Fill(_collected);
+        }
+
+        /// <summary>
+        /// What an icon stands on. The icon's Owner is the thing it was raised for; when that is a
+        /// part of something (a building's sub-object, a lane), its own Owner is followed a few
+        /// steps up. Vehicle is checked before Owner is followed because a vehicle is itself owned
+        /// by its depot or household, and a stuck car is not a building.
+        /// </summary>
+        private CaseKind KindOf(Entity icon)
+        {
+            const int MaxSteps = 4;
+
+            if (!_ownerLookup.HasComponent(icon))
+            {
+                return CaseKind.Other;
+            }
+
+            var entity = _ownerLookup[icon].m_Owner;
+            for (var step = 0; step < MaxSteps && entity != Entity.Null; step++)
+            {
+                if (_vehicleLookup.HasComponent(entity))
+                {
+                    return CaseKind.Vehicle;
+                }
+
+                if (_buildingLookup.HasComponent(entity))
+                {
+                    return CaseKind.Building;
+                }
+
+                if (_roadLookup.HasComponent(entity))
+                {
+                    return CaseKind.Road;
+                }
+
+                if (!_ownerLookup.HasComponent(entity))
+                {
+                    break;
+                }
+
+                entity = _ownerLookup[entity].m_Owner;
+            }
+
+            return CaseKind.Other;
         }
 
         private string NameOf(Entity prefab)
@@ -293,7 +356,7 @@ namespace ADHDGoneWild.Alerts
 
         /// <summary>
         /// Takes the player to one of the places this alert is about, and remembers where it left
-        /// them so pressing it again moves on to the next rather than showing the same building
+        /// them so pressing it again moves on to the next rather than showing the same place
         /// over and over.
         /// </summary>
         private void ViewAlert(string id)
@@ -410,6 +473,16 @@ namespace ADHDGoneWild.Alerts
 
                 writer.PropertyName("affected");
                 writer.Write(alert.AffectedCount);
+
+                // Indexed by CaseKind; see casesOf in alerts-panel.tsx.
+                writer.PropertyName("byKind");
+                writer.ArrayBegin((uint)CaseKinds.Count);
+                for (var i = 0; i < CaseKinds.Count; i++)
+                {
+                    writer.Write(alert.CasesByKind[i]);
+                }
+
+                writer.ArrayEnd();
 
                 writer.PropertyName("canView");
                 writer.Write(alert.Locations.Count > 0);

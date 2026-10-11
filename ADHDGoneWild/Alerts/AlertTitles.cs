@@ -25,7 +25,7 @@ namespace ADHDGoneWild.Alerts
         /// The key for one of the game's own notification types.
         ///
         /// Deliberately its own namespace rather than the subject/status key above. A notification
-        /// says something specific about specific buildings - "garbage not collected here" - and
+        /// says something specific about particular places - "garbage not collected here" - and
         /// must never inherit the city-wide sentence for the same subject, which would be a
         /// different and possibly untrue claim.
         ///

@@ -13,7 +13,7 @@ import { EmptyLine, Section } from "../section";
 /**
  * What is true about the city, in as few rows as it can honestly be said.
  *
- * The game will happily put the same warning over forty buildings. Aggregation happens on the C#
+ * The game will happily put the same warning in forty places. Aggregation happens on the C#
  * side, so what arrives here is already one row per kind, ordered worst first, with the count
  * beside it. This component's only job is to make that readable without making it loud.
  *
@@ -51,19 +51,33 @@ export const AlertsPanel = () => {
   const titleOf = (alert: Alert) =>
     translate(alert.titleKey, null) ?? alert.rawName ?? text(K.alertsTitle);
 
-  const affectedOf = (alert: Alert) => {
+  /** In CaseKind order: building, vehicle, road, other. */
+  const kindWords: [string, string][] = [
+    [K.buildingsOne, K.buildingsMany],
+    [K.vehiclesOne, K.vehiclesMany],
+    [K.roadsOne, K.roadsMany],
+    [K.casesOne, K.casesMany],
+  ];
+
+  const countOf = (count: number, [one, many]: [string, string]) =>
+    count === 1 ? text(one) : `${count} ${text(many)}`;
+
+  const casesOf = (alert: Alert) => {
     if (alert.affected <= 0) {
       return null;
     }
 
-    return alert.affected === 1
-      ? text(K.affectedOne)
-      : `${alert.affected} ${text(K.affectedMany)}`;
+    const parts = (alert.byKind ?? [])
+      .map((count, kind) => (count > 0 && kindWords[kind] ? countOf(count, kindWords[kind]) : null))
+      .filter((part): part is string => part !== null);
+
+    // An older C# side sends no split; the total still says something true.
+    return parts.length > 0 ? parts.join(" · ") : countOf(alert.affected, kindWords[3]);
   };
 
   const row = (alert: Alert, muted: boolean) => {
     const token = statusToken(muted ? Status.Muted : alert.status);
-    const affected = affectedOf(alert);
+    const affected = casesOf(alert);
 
     return (
       <div
@@ -171,7 +185,7 @@ export const AlertsPanel = () => {
 const FALLBACK_ICON = "Media/Game/Icons/Notifications.svg";
 
 /**
- * The game's own icon for this alert - the same one it draws over the affected buildings.
+ * The game's own icon for this alert - the same one it draws in the affected places.
  *
  * Not every notification type ships a file under the name we derive, so a failed load falls back
  * to the generic marker rather than leaving a hole and a ragged column.

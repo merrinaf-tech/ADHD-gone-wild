@@ -14,8 +14,10 @@ export interface Alert {
   rawName: string;
   /** Path to the game's own icon for this, relative to the UI root. See AlertIcons.cs. */
   icon: string;
-  /** Buildings in this state. Zero means the alert is about the city as a whole. */
+  /** Notification cases of this kind. Zero means the alert is about the city as a whole. */
   affected: number;
+  /** `affected` split by what each icon stands on: building, vehicle, road, other. See CaseKind.cs. */
+  byKind: number[];
   /** Whether there is somewhere to fly to. City-wide alerts have nowhere. */
   canView: boolean;
 }

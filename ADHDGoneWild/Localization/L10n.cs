@@ -72,8 +72,14 @@ namespace ADHDGoneWild.Localization
         public const string AlertsMute = Prefix + "AlertsMute";
         public const string AlertsUnmute = Prefix + "AlertsUnmute";
         public const string AlertsMutedCount = Prefix + "AlertsMutedCount";
-        public const string AffectedOne = Prefix + "AffectedOne";
-        public const string AffectedMany = Prefix + "AffectedMany";
+        public const string CasesOne = Prefix + "CasesOne";
+        public const string CasesMany = Prefix + "CasesMany";
+        public const string BuildingsOne = Prefix + "BuildingsOne";
+        public const string BuildingsMany = Prefix + "BuildingsMany";
+        public const string VehiclesOne = Prefix + "VehiclesOne";
+        public const string VehiclesMany = Prefix + "VehiclesMany";
+        public const string RoadsOne = Prefix + "RoadsOne";
+        public const string RoadsMany = Prefix + "RoadsMany";
 
         /// <summary>
         /// The body notes, in the order of <see cref="Wellbeing.BodyNote"/>. Direct, warm and a

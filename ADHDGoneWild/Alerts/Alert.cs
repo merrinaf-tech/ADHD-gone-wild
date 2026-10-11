@@ -38,10 +38,16 @@ namespace ADHDGoneWild.Alerts
         public string Icon { get; set; }
 
         /// <summary>
-        /// How many buildings are in this state. Zero means the alert is about the city as a
-        /// whole and there is nothing to count - not that nothing is affected.
+        /// How many notification icons of this kind were counted. They may belong to buildings,
+        /// trees, vehicles or other things. Zero means this is a city-wide alert.
         /// </summary>
         public int AffectedCount { get; set; }
+
+        /// <summary>
+        /// <see cref="AffectedCount"/> split by what each icon stands on, indexed by
+        /// <see cref="CaseKind"/>. All zero for a city-wide alert.
+        /// </summary>
+        public int[] CasesByKind { get; private set; }
 
         /// <summary>
         /// Places the player can be taken to. Bounded by the collector: a list of six thousand
@@ -58,6 +64,7 @@ namespace ADHDGoneWild.Alerts
             RawName = string.Empty;
             Icon = AlertIcons.ForSubject(subject);
             Locations = new List<WorldPoint>();
+            CasesByKind = new int[CaseKinds.Count];
         }
 
         public override string ToString()

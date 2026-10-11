@@ -7,7 +7,7 @@ namespace ADHDGoneWild.Alerts
     /// Counts the game's own in-world notification icons and turns each kind into one alert.
     ///
     /// This is the noise reduction the mod exists for, in its plainest form. The game will put a
-    /// bin icon over forty buildings; forty rows is not information. One row saying "40 buildings"
+    /// bin icon in forty places; forty rows is not information. One row saying "40 cases"
     /// carries the same fact and can be read without scrolling.
     ///
     /// Pure and reusable: the caller feeds it a name, a priority and a place. Getting those out
@@ -25,6 +25,7 @@ namespace ADHDGoneWild.Alerts
             public string Icon;
             public int Count;
             public int Priority;
+            public readonly int[] ByKind = new int[CaseKinds.Count];
             public readonly List<WorldPoint> Locations = new List<WorldPoint>();
         }
 
@@ -40,10 +41,12 @@ namespace ADHDGoneWild.Alerts
 
         /// <summary>
         /// One icon seen in the world. <paramref name="priority"/> is the game's own
-        /// Game.Notifications.IconPriority value. <paramref name="icon"/> is the path the game
-        /// resolved for the notification's prefab, or null when it has none.
+        /// Game.Notifications.IconPriority value. <paramref name="kind"/> is what the icon stands
+        /// on, so the row can say "2 vehicles" rather than calling every case a building.
+        /// <paramref name="icon"/> is the path the game resolved for the notification's prefab,
+        /// or null when it has none.
         /// </summary>
-        public void Add(string prefabName, int priority, WorldPoint location, string icon = null)
+        public void Add(string prefabName, int priority, WorldPoint location, CaseKind kind = CaseKind.Other, string icon = null)
         {
             if (string.IsNullOrEmpty(prefabName))
             {
@@ -65,9 +68,10 @@ namespace ADHDGoneWild.Alerts
             }
 
             entry.Count++;
+            entry.ByKind[(int)kind]++;
 
-            // The worst instance sets the tone for the group. One building actually on fire is
-            // not made less urgent by nine that are merely at risk.
+            // The worst instance sets the tone for the group. One serious case is not made less
+            // urgent by nine less serious ones.
             if (priority > entry.Priority)
             {
                 entry.Priority = priority;
@@ -93,13 +97,14 @@ namespace ADHDGoneWild.Alerts
                     AlertTitles.KeyForNotification(entry.Name))
                 {
                     RawName = Readable(entry.Name),
-                    // The game's own marker for this notification, so the panel row and the icons
-                    // over the buildings read as the same thing.
+                    // The game's own marker for this notification, so the panel row and its
+                    // in-world icons read as the same thing.
                     Icon = AlertIcons.ForNotification(entry.Icon),
                     AffectedCount = entry.Count
                 };
 
                 alert.Locations.AddRange(entry.Locations);
+                entry.ByKind.CopyTo(alert.CasesByKind, 0);
                 into.Add(alert);
             }
         }

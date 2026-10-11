@@ -52,7 +52,7 @@ namespace ADHDGoneWild.Localization
                 },
                 {
                     _settings.GetOptionDescLocaleID(nameof(AdhdSettings.CalmNotificationIcons)),
-                    "Le icone di avviso del gioco pulsano, e l'occhio ci va che tu voglia o no. Questo ferma il movimento. Non nasconde niente: restano dove sono, della stessa dimensione, a dire la stessa cosa."
+                    "Impedisce alle icone di avviso del gioco di pulsare. Restano dove sono."
                 },
 
                 {
@@ -61,7 +61,7 @@ namespace ADHDGoneWild.Localization
                 },
                 {
                     _settings.GetOptionDescLocaleID(nameof(AdhdSettings.ShowToolbarCollapseButton)),
-                    "Una riga nel pannello di questo mod che chiude la barra di costruzione e la riapre. Sta lì invece di fluttuare sul gioco, dove nessuna risoluzione o altro mod può metterla in un punto irraggiungibile."
+                    "Una riga nel pannello di questo mod che chiude la barra di costruzione e la riapre."
                 },
 
                 {
@@ -79,7 +79,7 @@ namespace ADHDGoneWild.Localization
                 },
                 {
                     _settings.GetOptionDescLocaleID(nameof(AdhdSettings.AlertVerbosity)),
-                    "Quanto arriva all'elenco. Quello che resta fuori sta comunque accadendo: semplicemente non è a schermo."
+                    "Quanto arriva all'elenco."
                 },
 
                 { _settings.GetEnumValueLocaleID(AdhdSettings.Verbosity.OnlyImmediate), "Solo ciò che è immediato" },
@@ -101,7 +101,7 @@ namespace ADHDGoneWild.Localization
                 },
                 {
                     _settings.GetOptionDescLocaleID(nameof(AdhdSettings.ParkIdeaKey)),
-                    "Premi questo, poi clicca dove il pensiero appartiene. Premilo di nuovo per lasciar perdere."
+                    "Premi questo, poi clicca dove il pensiero appartiene. Premilo di nuovo per annullare."
                 },
                 { _settings.GetBindingKeyLocaleID(AdhdSettings.ParkIdeaActionName), "Parcheggia un'idea" },
                 { _settings.GetBindingMapLocaleID(), Mod.Name },
@@ -121,7 +121,7 @@ namespace ADHDGoneWild.Localization
                 },
                 {
                     _settings.GetOptionDescLocaleID(nameof(AdhdSettings.AskAfterParking)),
-                    "Dopo aver parcheggiato un pensiero, propone di scegliere il tipo e aggiungere un titolo. Il pensiero è già salvato in ogni caso: spegnilo per avere scorciatoia, clic, fatto."
+                    "Dopo aver parcheggiato un pensiero, propone di scegliere il tipo e aggiungere un titolo. Il pensiero è salvato in ogni caso."
                 },
 
                 {
@@ -130,7 +130,7 @@ namespace ADHDGoneWild.Localization
                 },
                 {
                     _settings.GetOptionDescLocaleID(nameof(AdhdSettings.ShowIdeaAge)),
-                    "Aggiunge \"4 giorni fa\" sotto ognuna. Spenta di default: di un'idea parcheggiata non cambia niente col tempo, niente scade e niente viene mai sollecitato - e un numero che sale è l'unica cosa capace di far sembrare una nota qualcosa che ti aspetta. Utile lo stesso se vuoi distinguere i pensieri di oggi da quelli di una città vecchia."
+                    "Aggiunge \"4 giorni fa\" sotto ogni idea."
                 },
 
                 {
@@ -148,7 +148,7 @@ namespace ADHDGoneWild.Localization
                 },
                 {
                     _settings.GetOptionDescLocaleID(nameof(AdhdSettings.WelcomeBackEnabled)),
-                    "Un piccolo saluto quando torni in una città dopo una pausa vera, con abbastanza contesto da non doverlo ricostruire da solo."
+                    "Un breve promemoria di dov'eri quando torni in una città dopo una pausa."
                 },
 
                 {
@@ -157,7 +157,7 @@ namespace ADHDGoneWild.Localization
                 },
                 {
                     _settings.GetOptionDescLocaleID(nameof(AdhdSettings.WelcomeBackAfter)),
-                    "Un alt-tab breve non merita un saluto. Questa è la durata minima della pausa."
+                    "Quanto deve durare una pausa prima che compaia il saluto."
                 },
 
                 { _settings.GetEnumValueLocaleID(AdhdSettings.AwayLength.TenMinutes), "10 minuti" },
@@ -172,7 +172,7 @@ namespace ADHDGoneWild.Localization
                 },
                 {
                     _settings.GetOptionDescLocaleID(nameof(AdhdSettings.AttentionTrailEnabled)),
-                    "Una breve scia dei posti in cui hai passato del tempo in questa sessione, dal più recente. Aprine uno per tornare all'inquadratura che avevi. Non viene salvato nulla, non sopravvive alla chiusura della città, e niente qui viene mai definito incompiuto."
+                    "I posti in cui hai passato del tempo in questa sessione, dal più recente. Cliccane uno per tornarci. Non viene salvato."
                 },
 
                 {
@@ -181,7 +181,7 @@ namespace ADHDGoneWild.Localization
                 },
                 {
                     _settings.GetOptionDescLocaleID(nameof(AdhdSettings.CreativeSafetyNetEnabled)),
-                    "Un modo per tornare indietro da un esperimento, con un clic. Salva la partita al posto tuo, separatamente dai tuoi salvataggi, così puoi provare qualcosa e cambiare idea senza dare nomi né cercare niente."
+                    "Un modo per tornare indietro da un esperimento, con un clic. Salva una copia a parte, separata dai tuoi salvataggi."
                 },
 
                 {
@@ -190,7 +190,7 @@ namespace ADHDGoneWild.Localization
                 },
                 {
                     _settings.GetOptionDescLocaleID(nameof(AdhdSettings.HyperfocusRemindersEnabled)),
-                    "Una piccola scheda dice che ore sono e da quanto sei qui, poi se ne va. Non suggerisce mai di smettere: guardarla e continuare a costruire è un esito perfettamente buono."
+                    "Una piccola scheda mostra l'ora e da quanto stai giocando, poi se ne va."
                 },
 
                 {
@@ -208,7 +208,7 @@ namespace ADHDGoneWild.Localization
                 },
                 {
                     _settings.GetOptionDescLocaleID(nameof(AdhdSettings.HyperfocusBodyNotes)),
-                    "Una seconda riga breve sotto l'orologio: acqua, spalle, alzarsi. Non c'è mai un seguito e non viene contato niente. Spenta, ti resta solo l'ora."
+                    "Una seconda riga breve sotto l'orologio: acqua, spalle, alzarsi."
                 },
 
                 { _settings.GetEnumValueLocaleID(AdhdSettings.FocusLength.TwoMinutes), "Ogni 2 minuti (per vedere com'è fatta)" },
@@ -226,7 +226,7 @@ namespace ADHDGoneWild.Localization
                 },
                 {
                     _settings.GetOptionDescLocaleID(nameof(AdhdSettings.InterfaceHue)),
-                    "Il colore dei pannelli di questo mod. Cambia solo la tinta: restano comunque abbastanza scuri da leggerci sopra, ovunque tu metta il cursore. Il valore predefinito è quello dei pannelli del gioco."
+                    "Il colore dei pannelli di questo mod. Il valore predefinito è quello dei pannelli del gioco."
                 },
 
                 {
@@ -250,7 +250,7 @@ namespace ADHDGoneWild.Localization
                 { L10n.ParkingCancel, "Lascia stare" },
 
                 { L10n.Empty, "Qui non c'è ancora niente." },
-                { L10n.EmptyHint, "Premi la scorciatoia, clicca la mappa. È tutto qui." },
+                { L10n.EmptyHint, "Premi la scorciatoia, poi clicca sulla mappa." },
 
                 { L10n.View, "Vai" },
                 { L10n.Forget, "Dimentica" },
@@ -291,7 +291,7 @@ namespace ADHDGoneWild.Localization
                 // persona. Se c'è una battuta, il bersaglio è una schiena o una città, mai chi legge.
                 { L10n.BodyNote[0], "Acqua. Vai pure, alla città ci penso io." },
                 { L10n.BodyNote[1], "Mangia qualcosa. Costruire città mette appetito." },
-                { L10n.BodyNote[2], "Alzati e muoviti un minuto. Non chiedo altro." },
+                { L10n.BodyNote[2], "Alzati e muoviti un minuto." },
                 { L10n.BodyNote[3], "Guarda qualcosa di lontano. I tuoi occhi ringraziano." },
                 { L10n.BodyNote[4], "Rilassa la mascella. Abbassa le spalle. Apri le mani." },
                 { L10n.BodyNote[5], "Vai a dormire. Quella strada domani è ancora lì." },
@@ -313,8 +313,14 @@ namespace ADHDGoneWild.Localization
                 { L10n.AlertsMute, "Silenzia" },
                 { L10n.AlertsUnmute, "Riattiva" },
                 { L10n.AlertsMutedCount, "silenziati" },
-                { L10n.AffectedOne, "1 edificio" },
-                { L10n.AffectedMany, "edifici" },
+                { L10n.CasesOne, "1 caso" },
+                { L10n.CasesMany, "casi" },
+                { L10n.BuildingsOne, "1 edificio" },
+                { L10n.BuildingsMany, "edifici" },
+                { L10n.VehiclesOne, "1 veicolo" },
+                { L10n.VehiclesMany, "veicoli" },
+                { L10n.RoadsOne, "1 strada" },
+                { L10n.RoadsMany, "strade" },
 
                 {
                     AlertTitles.KeyFor(AlertSubject.Electricity, Core.Status.Immediate),

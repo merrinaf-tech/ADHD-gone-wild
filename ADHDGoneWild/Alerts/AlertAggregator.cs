@@ -106,6 +106,11 @@ namespace ADHDGoneWild.Alerts
 
             into.AffectedCount += other.AffectedCount;
 
+            for (var i = 0; i < CaseKinds.Count; i++)
+            {
+                into.CasesByKind[i] += other.CasesByKind[i];
+            }
+
             foreach (var location in other.Locations)
             {
                 if (into.Locations.Count >= MaxLocationsPerAlert)
