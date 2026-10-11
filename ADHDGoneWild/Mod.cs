@@ -33,7 +33,7 @@ namespace ADHDGoneWild
     {
         public const string Id = "ADHDGoneWild";
         public const string Name = "ADHD gone wild";
-        public const string Version = "0.2.0";
+        public const string Version = "0.2.1";
 
         /// <summary>
         /// English is the source language: every key exists here first, and the others are checked
